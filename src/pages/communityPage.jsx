@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/Board.css"; // CSS 파일 연결
 
-const API_URL = "http://localhost:8088/api/posts";
+const API_URL = "http://localhost:8088/api/communities";
 
 const Board = () => {
   const [posts, setPosts] = useState([]);
