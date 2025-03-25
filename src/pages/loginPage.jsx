@@ -4,7 +4,7 @@ import "../css/loginPage.css";
 // import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
 
 const LoginPage = () => {
-  const API_USER_URL = "http://localhost:8088/api/users"; 
+  const API_USER_URL = "http://localhost:8088/api/users";
 
   const [loginData, setLoginData] = useState({
     user_id: "",
@@ -13,10 +13,10 @@ const LoginPage = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
-    // 뒤로가기 버튼
-    const onBack = () => {
-      navigate("/"); 
-    };
+  // 뒤로가기 버튼
+  const onBack = () => {
+    navigate("/");
+  };
 
   //  로그인
   const handleLogin = async (e) => {

@@ -1,4 +1,5 @@
 import DefaultLayout from "../layouts/DefaultLayout";
+import "../css/DefaultLayout.css";
 
 const MainHome = () => {
   return (
@@ -6,6 +7,7 @@ const MainHome = () => {
       headerProps={{
         title: "하이펜타",
         showLogo: true,
+        showIcons: { search: true },
       }}
     >
       <div classNmae="main-container">

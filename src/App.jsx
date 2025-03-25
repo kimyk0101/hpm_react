@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainHome from "../src/pages/mainPage";
 import LoginPage from "../src/pages/loginPage";
 import JoinPage from "../src/pages/joinPage";
+import "./css/reset.css";
 // import Board from "../src/components/Board";
 
 function App() {
