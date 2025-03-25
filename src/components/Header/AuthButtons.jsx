@@ -13,6 +13,7 @@ const AuthButtons = () => {
       });
 
       if (response.ok) {
+        console.log("로그아웃 성공");
         setIsLoggedIn(false);
         setUser(null);
         navigate("/"); // 홈으로 이동
