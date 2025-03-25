@@ -77,7 +77,9 @@
   .auth-buttons {
     gap: 20px;
     display: flex;
+    /* min-width: 170px; */
   }
+
 
   .back-button {
     background: none;

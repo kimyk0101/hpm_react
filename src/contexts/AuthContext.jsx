@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null); // 유저 정보 상태
 
   useEffect(() => {
@@ -13,13 +14,17 @@ export const AuthProvider = ({ children }) => {
           credentials: "include",
         });
 
+        console.log("세션 상태 응답, res");
+
         if (res.ok) {
           const data = await res.json();
-          if (data?.user_id) {
+          console.log("세션 유저 데이터", data);
+          if (data) {
             setIsLoggedIn(true);
             setUser(data); // 유저 정보 저장
           }
         } else {
+          console.log("세션 응답이 ok가 아님");
           setIsLoggedIn(false);
           setUser(null);
         }
@@ -27,6 +32,8 @@ export const AuthProvider = ({ children }) => {
         console.error("세션 확인 실패", error);
         setIsLoggedIn(false);
         setUser(null);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -34,7 +41,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, user, setUser, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

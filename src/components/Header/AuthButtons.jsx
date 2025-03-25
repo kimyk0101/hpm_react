@@ -3,11 +3,11 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const AuthButtons = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn, setUser } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, setUser, isLoading } = useAuth();
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8088/api/hpmuser/logout", {
+      const response = await fetch("http://localhost:8088/api/users/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -24,10 +24,17 @@ const AuthButtons = () => {
     }
   };
 
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <div className="auth-buttons">
       {isLoggedIn ? (
-        <button onClick={handleLogout}>로그아웃</button>
+        <>
+          <button onClick={handleLogout}>로그아웃</button>
+          <button onClick={() => navigate("/mypage")}>마이페이지</button>
+        </>
       ) : (
         <>
           <button onClick={() => navigate("/login")}>로그인</button>
