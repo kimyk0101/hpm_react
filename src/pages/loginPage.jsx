@@ -4,11 +4,11 @@ import { useAuth } from "../contexts/AuthContext";
 import DefaultLayout from "../layouts/DefaultLayout";
 import "../css/LoginPage.css";
 
-const API_URL = "http://localhost:8088/api/users/login"; // Spring Boot 로그인 엔드포인트
+const API_URL = "http://localhost:8088/api/users/login";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
-    user_id: "",
+    userId: "",
     password: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
@@ -19,31 +19,36 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    //  // 로그인 데이터를 서버에 전송할 형식으로 변환
+     const { userId, ...formDataToSend } = loginData;
+     const formDataToSendWithUserId = { ...formDataToSend, user_id: userId }; // userId를 user_id로 변환
+ 
+
     try {
       const response = await fetch(API_URL, {
         //  사용자 로그인 정보를 JSON 형식으로 전송
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", //  서버로 요청을 보낼 때 세션 쿠키 자동 포함
-        body: JSON.stringify(loginData),
+        body: JSON.stringify(formDataToSendWithUserId), // 변환된 데이터를 서버로 전송
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMsg(errorData.message || "로그인 실패");
-        return;
-      }
-
-      const data = await response.json();
-      setIsLoggedIn(true);
-      console.log("data", data);
-      setUser(data);
-      navigate("/");
-    } catch (error) {
-      console.error("로그인 에러:", error);
-      setErrorMsg("서버 오류 또는 네트워크 에러");
+      // 응답이 JSON인지 확인
+    if (!response.ok) {
+      const errorText = await response.text();  // 응답 본문을 텍스트로 받음
+      setErrorMsg("서버 오류: " + errorText);
+      return;
     }
-  };
+
+    const data = await response.json();
+    setIsLoggedIn(true);
+    setUser(data);
+    navigate("/");
+  } catch (error) {
+    console.error("로그인 에러:", error);
+    setErrorMsg("서버 오류 또는 네트워크 에러");
+  }
+};
 
   return (
     <DefaultLayout
@@ -60,9 +65,9 @@ const Login = () => {
             className="login-input"
             type="text"
             placeholder="아이디"
-            value={loginData.user_id}
+            value={loginData.userId}
             onChange={(e) =>
-              setLoginData({ ...loginData, user_id: e.target.value })
+              setLoginData({ ...loginData, userId: e.target.value })
             }
           />
           <input
