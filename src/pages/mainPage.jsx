@@ -1,4 +1,7 @@
 import DefaultLayout from "../layouts/DefaultLayout";
+import DefaultSlider from "../components/slider/DefaultSlider";
+import TrailCard from "../components/Cards/trail/TrailCard";
+import trailData from "../data/trailData";
 import "../css/DefaultLayout.css";
 
 const MainHome = () => {
@@ -10,9 +13,17 @@ const MainHome = () => {
         showIcons: { search: true },
       }}
     >
-      <div classNmae="main-container">
-        <h1>메인 홈페이지</h1>
-      </div>
+      <h2>🏔 추천 산행 코스</h2>
+      <DefaultSlider visibleCount={3}>
+        {trailData.map((trail) => (
+          <TrailCard
+            key={trail.id}
+            image={trail.image}
+            mountainName={trail.mountainName}
+            cardInfo={trail.cardInfo}
+          />
+        ))}
+      </DefaultSlider>
     </DefaultLayout>
   );
 };

@@ -1,0 +1,49 @@
+/* GenericSlider.css */
+
+.slider-wrapper {
+    position: relative;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .slider-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 0 1rem;
+    scrollbar-width: none;
+    box-sizing: border-box;
+  }
+
+  .slider-track > div {
+    box-sizing: border-box; /* ✅ 카드도 */
+    padding: 0.25rem;       /* 카드 간 간격을 여기서 설정 */
+  }
+  
+  .slider-track::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .slider-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slider-btn.left {
+    margin-right: 0.5rem;
+  }
+  
+  .slider-btn.right {
+    margin-left: 0.5rem;
+  }
