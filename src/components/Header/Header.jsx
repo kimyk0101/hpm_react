@@ -13,7 +13,7 @@ const Header = ({
   showIcons = {},
 }) => {
   return (
-    <header className="header-container">
+    <div className="header-inner">
       <div className="header-left">
         {showLogo && <Logo />}
         {showBack && <BackButton />}
@@ -26,7 +26,7 @@ const Header = ({
         <Icons showIcons={showIcons} />
         <AuthButtons />
       </div>
-    </header>
+    </div>
   );
 };
 

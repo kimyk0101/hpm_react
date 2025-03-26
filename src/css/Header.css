@@ -2,23 +2,36 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: 64px;
+    /* height: 64px; */
     /* background-color: lightgreen; */
-    display: flex;
+    /* display: flex; */
     align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem; 
+    /* justify-content: center; */
+    /* padding: 0 2rem;  */
     z-index: 1000;
+    background-color: #fff;
     border-bottom: 1px solid gray;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  /* border: 1px solid red; */
+  min-height: 64px;
+  padding: 0 20px;
 }
 
 .header-left,
 .header-center,
 .header-right {
-    flex: 1;
+    /* flex: 1; */
+    /* min-width: 300px; */
     display:flex;
     align-items: center;
+    /* gap: 40px; */
 }
 
 .header-left {
