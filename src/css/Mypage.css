@@ -1,0 +1,125 @@
+/* ===== MYPAGE 전체 레이아웃 ===== */
+.mypage-layout {
+    /* max-width: 800px; */
+    border-radius: 10px;
+    /* margin: 0 auto; */
+    padding: 2rem 1.5rem;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  /* ===== HEADER ===== */
+  .mypage-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+  }
+  
+  .mypage-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .header-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .header-actions button {
+    padding: 0.5rem 1rem;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .header-actions button:hover {
+    background-color: #1565c0;
+  }
+  
+  /* ===== CONTENT ===== */
+  .mypage-content {
+    margin-bottom: 2.5rem;
+  }
+  
+  .mypage-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .mypage-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .mypage-content li {
+    padding: 0.9rem 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .mypage-content li:hover {
+    background-color: #f0f8ff;
+  }
+  
+  /* ===== FOOTER ===== */
+  .mypage-footer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ccc;
+    font-size: 0.95rem;
+  }
+  
+  .mypage-footer > div {
+    /* margin-bottom: 1rem; */
+  }
+
+  .mypage-footer h4 {
+    margin-bottom: 2rem;
+    font-weight: bold;
+  }
+  
+  .mypage-footer ul {
+    list-style: none;
+    padding: 0;
+    margin:0;
+  }
+  
+  .mypage-footer li {
+    margin-bottom: 2rem;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.2s;
+  }
+  
+  .mypage-footer li:hover {
+    color: #1976d2;
+    text-decoration: underline;
+  }
+  
+  /* ===== RESPONSIVE ===== */
+  /* @media screen and (max-width: 600px) {
+    .header-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .mypage-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+   */
