@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
+import DefaultLayout from "../../layouts/DefaultLayout";
+import "../../css/DefaultLayout.css";
 
-function CommunityDetailPage() {
+function CommunityDetail() {
   const { id } = useParams();
   const communityId = parseInt(id, 10); // String -> Long 타입으로 변환
   const API_URL = `http://localhost:8088/api/communities/${communityId}`;
@@ -129,62 +131,70 @@ function CommunityDetailPage() {
 
   return (
     <div>
-      <h2>게시글 상세보기</h2>
-      <div className="detail-product-detail">
-        {/* 뒤로가기 버튼 */}
-        <button onClick={onBack} className="detail-back-button">
-          <MdOutlineBackspace />
-        </button>
-        {post ? (
-          <div>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-            <p>작성자: {post.nickname}</p>
-            <p>작성일: {post.updateDate.toLocaleString()}</p>
-          </div>
-        ) : (
-          <p>게시글을 불러오는 중...</p>
-        )}
-        {/* 게시글 수정 폼 */}
-        {editPost && (
-          <div>
-            <h3>게시글 수정</h3>
-            <form onSubmit={handleEditPost}>
-              <input
-                type="text"
-                value={editPost.title}
-                onChange={(e) =>
-                  setEditPost({ ...editPost, title: e.target.value })
-                }
-                placeholder="제목"
-                required
-              />
-              <textarea
-                value={editPost.content}
-                onChange={(e) =>
-                  setEditPost({ ...editPost, content: e.target.value })
-                }
-                placeholder="내용"
-                required
-              />
-              <button type="submit">수정 완료</button>
-              <button type="button" onClick={() => setEditPost(null)}>
-                취소
-              </button>
-            </form>
-          </div>
-        )}
-        {/* 로그인된 사용자와 게시글 작성자가 일치할 경우에만 삭제 버튼 표시 */}
-        {isLoggedIn && user.id === post?.usersId && (
-          <button onClick={handleDeletePost}>삭제</button>
-        )}
-        {/* 로그인된 사용자와 게시글 작성자가 일치할 경우에만 수정 버튼 표시 */}
-        {isLoggedIn && user.id === post?.usersId && (
-          <button onClick={handleEditClick}>수정</button>
-        )}
-      </div>
+      <DefaultLayout
+        headerProps={{
+          title: "하이펜타",
+          showLogo: true,
+          showIcons: { search: true },
+        }}
+      >
+        <h2>게시글 상세보기</h2>
+        <div className="communityPage-detail">
+          {/* 뒤로가기 버튼 */}
+          <button onClick={onBack} className="c-detail-back-button">
+            <MdOutlineBackspace />
+          </button>
+          {post ? (
+            <div>
+              <h3>{post.title}</h3>
+              <p>{post.content}</p>
+              <p>작성자: {post.nickname}</p>
+              <p>작성일: {post.updateDate.toLocaleString()}</p>
+            </div>
+          ) : (
+            <p>게시글을 불러오는 중...</p>
+          )}
+          {/* 게시글 수정 폼 */}
+          {editPost && (
+            <div>
+              <h3>게시글 수정</h3>
+              <form onSubmit={handleEditPost}>
+                <input
+                  type="text"
+                  value={editPost.title}
+                  onChange={(e) =>
+                    setEditPost({ ...editPost, title: e.target.value })
+                  }
+                  placeholder="제목"
+                  required
+                />
+                <textarea
+                  value={editPost.content}
+                  onChange={(e) =>
+                    setEditPost({ ...editPost, content: e.target.value })
+                  }
+                  placeholder="내용"
+                  required
+                />
+                <button type="submit">수정 완료</button>
+                <button type="button" onClick={() => setEditPost(null)}>
+                  취소
+                </button>
+              </form>
+            </div>
+          )}
+          {/* 로그인된 사용자와 게시글 작성자가 일치할 경우에만 삭제 버튼 표시 */}
+          {isLoggedIn && user.id === post?.usersId && (
+            <button onClick={handleDeletePost}>삭제</button>
+          )}
+          {/* 로그인된 사용자와 게시글 작성자가 일치할 경우에만 수정 버튼 표시 */}
+          {isLoggedIn && user.id === post?.usersId && (
+            <button onClick={handleEditClick}>수정</button>
+          )}
+        </div>
+      </DefaultLayout>
     </div>
   );
 }
 
-export default CommunityDetailPage;
+export default CommunityDetail;

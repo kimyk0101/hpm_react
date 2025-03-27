@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
+import DefaultLayout from "../../layouts/DefaultLayout";
+import "../../css/DefaultLayout.css";
 
-const CommunityPage = () => {
+const CommunityList = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState([]); //  login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
 
-   // 로그인 상태 확인 함수
-   const checkLoginStatus = async () => {
+  // 로그인 상태 확인 함수
+  const checkLoginStatus = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8088/api/users/session",
-        {
-          method: "GET",
-          credentials: "include", // 쿠키를 포함하여 요청
-        }
-      );
+      const response = await fetch("http://localhost:8088/api/users/session", {
+        method: "GET",
+        credentials: "include", // 쿠키를 포함하여 요청
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -77,42 +76,55 @@ const CommunityPage = () => {
 
   // 게시글 작성 페이지로 이동
   const goToPostCreate = () => {
-    navigate("/create-community-post");
+    navigate("/communities/new");
   };
 
   return (
     <div>
-      <h2>자유게시판</h2>
-      <div className="communityPage">
-        {/* 뒤로가기 버튼을 상단에 위치시킴 */}
-        <button onClick={onBack} className="communityPage-back-button">
-          <MdOutlineBackspace />
-        </button>
+      <DefaultLayout
+        headerProps={{
+          title: "하이펜타",
+          showLogo: true,
+          showIcons: { search: true },
+        }}
+      >
+        <h2>자유게시판</h2>
+        <div className="communityPage">
+          {/* 뒤로가기 버튼을 상단에 위치시킴 */}
+          <button onClick={onBack} className="community-back-button">
+            <MdOutlineBackspace />
+          </button>
 
-        {/* 게시글 목록 표시 */}
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id}>
-              <div
-                className="product-card"
-                onClick={() => goToDetail(post.id)} // post.id를 전달
-                style={{ cursor: "pointer" }}
-              >
-                <h3>{post.title}</h3>
-                <p>{post.content}</p>
-                <p>작성자: {post.nickname}</p>
-                <p>작성일: {new Date(post.updateDate).toLocaleDateString()}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        {/* 게시글 등록 */}
-        <button onClick={goToPostCreate} className="communityPage-create-post">
-          작성하기
-        </button>
-      </div>
+          {/* 게시글 목록 표시 */}
+          <ul>
+            {posts.map((post) => (
+              <li key={post.id}>
+                <div
+                  className="community-card"
+                  onClick={() => goToDetail(post.id)} // post.id를 전달
+                  style={{ cursor: "pointer" }}
+                >
+                  <h3>{post.title}</h3>
+                  <p>{post.content}</p>
+                  <p>작성자: {post.nickname}</p>
+                  <p>
+                    작성일: {new Date(post.updateDate).toLocaleDateString()}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {/* 게시글 등록 */}
+          <button
+            onClick={goToPostCreate}
+            className="create-community-post"
+          >
+            작성하기
+          </button>
+        </div>
+      </DefaultLayout>
     </div>
   );
 };
 
-export default CommunityPage;
+export default CommunityList;

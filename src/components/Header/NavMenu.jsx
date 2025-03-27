@@ -12,7 +12,7 @@ const NavMenu = () => {
         <span>커뮤니티</span>
       </NavLink>
       <NavLink
-        to="/reviews"
+        to="/mountain-reviews"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FiStar />
