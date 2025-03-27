@@ -5,21 +5,21 @@ const NavMenu = () => {
   return (
     <nav className="nav-menu">
       <NavLink
-        to="/community"
+        to="/communities"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FiUsers />
         <span>커뮤니티</span>
       </NavLink>
       <NavLink
-        to="/review"
+        to="/reviews"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FiStar />
         <span>후기</span>
       </NavLink>
       <NavLink
-        to="/group"
+        to="/groups"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FiCalendar />
