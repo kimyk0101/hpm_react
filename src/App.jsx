@@ -4,6 +4,7 @@ import LoginPage from "../src/pages/loginPage";
 import JoinPage from "../src/pages/joinPage";
 import Mypage from "./pages/MyPage/MyPage";
 import EditProfile from "./pages/Mypage/EditProfile/EditProfile";
+import SearchPage from "./pages/Search/SearchPage";
 import CommunityList from "./pages/community/community";
 import CreateCommunityPost from "./pages/community/createCommunityPost";
 import CommunityDetail from "./pages/community/communityDetail";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/join" element={<JoinPage />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/edit" element={<EditProfile />} />
+        <Route path="/search" element={<SearchPage />} />
         {/* 자유 게시판 */}
         <Route path="/communities" element={<CommunityList />} />{" "}
         {/* 자유 게시판 목록 */}
