@@ -1,0 +1,66 @@
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+.map {
+  width: 1024px;
+  height: 1157px;
+}
+
+.popup {
+  position: absolute;
+  right: 30%;
+  left: 25%;
+  width: 55%;
+  bottom: 0px;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: hidden;
+}
+
+.popup h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.popup p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.popup img {
+  display: block;
+  margin: auto;
+}
+
+.popup button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 3px;
+}
+
+.popup button:hover {
+  background-color: #0056b3;
+}
+
+.popup button:last-child {
+  background-color: #dc3545;
+}
+
+.popup button:last-child:hover {
+  background-color: #a71d2a;
+}
