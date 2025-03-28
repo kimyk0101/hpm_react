@@ -10,6 +10,9 @@ import CommunityDetail from "./pages/community/communityDetail";
 import MountainReviewList from "./pages/mountainReview/mountainReview";
 import CreateMountainReview from "./pages/mountainReview/createMountainReview";
 import MountainReviewDetail from "./pages/mountainReview/mountainReviewDetail";
+import RestaurantReviewList from "./pages/restaurantReview/restaurantReview";
+import CreateRestaurantReview from "./pages/restaurantReview/createRestaurantReview";
+import RestaurantReviewDetail from "./pages/restaurantReview/restaurantReviewDetail";
 import "./css/reset.css";
 // import Board from "../src/components/Board";
 
@@ -34,12 +37,9 @@ function App() {
         <Route path="/mountain-reviews/:id" element={<MountainReviewDetail />} />  {/* 등산 후기 상세 */}
 
         {/* 맛집 후기 */}
-        {/* <Route path="/restaurant-reviews" element={<RestaurantReviewList />} />   */}
-        {/* 맛집 후기 목록 */}
-        {/* <Route path="/restaurant-reviews/new" element={<CreateRestaurantReview />} />   */}
-        {/* 맛집 후기 작성 */}
-        {/* <Route path="/restaurant-reviews/:id" element={<RestaurantReviewDetail />} />   */}
-        {/* 맛집 후기 상세 */}
+        <Route path="/restaurant-reviews" element={<RestaurantReviewList />} />  {/* 맛집 후기 목록 */}
+        <Route path="/restaurant-reviews/new" element={<CreateRestaurantReview />} />  {/* 맛집 후기 작성 */}
+        <Route path="/restaurant-reviews/:id" element={<RestaurantReviewDetail />} />  {/* 맛집 후기 상세 */}
       </Routes>
     </Router>
   );

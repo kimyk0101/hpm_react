@@ -4,8 +4,8 @@ import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 
-const MountainReviewList  = () => {
-  const API_URL = "http://localhost:8088/api/mountain-reviews"; // API URL
+const RestaurantReviewList  = () => {
+  const API_URL = "http://localhost:8088/api/restaurant-reviews"; // API URL
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState([]); //  login 부분
@@ -43,16 +43,15 @@ const MountainReviewList  = () => {
       const response = await fetch(API_URL);
       const data = await response.json();
 
-      const postData = Object.values(data).map((mReview) => ({
-        id: mReview.id,
-        name: mReview.name,
-        nickname: mReview.nickname,
-        location: mReview.location,
-        course: mReview.course,
-        level: mReview.level,
-        title: mReview.title,
-        content: mReview.content,
-        updateDate: mReview.update_date,
+      const postData = Object.values(data).map((rReview) => ({
+        id: rReview.id,
+        name: rReview.name,
+        nickname: rReview.nickname,
+        location: rReview.location,
+        rate: rReview.rate,
+        title: rReview.title,
+        content: rReview.content,
+        updateDate: rReview.update_date,
       }));
 
       setPosts(postData); // 상태 업데이트
@@ -70,7 +69,7 @@ const MountainReviewList  = () => {
 
   //  상세 페이지로 이동
   const goToDetail = (postId) => {
-    navigate(`/mountain-reviews/${postId}`);
+    navigate(`/restaurant-reviews/${postId}`);
   };
 
   //  뒤로가기 (메인 페이지로 이동)
@@ -80,7 +79,7 @@ const MountainReviewList  = () => {
 
   // 게시글 작성 페이지로 이동
   const goToPostCreate = () => {
-    navigate("/mountain-reviews/new");
+    navigate("/restaurant-reviews/new");
   };
 
   return (
@@ -93,9 +92,9 @@ const MountainReviewList  = () => {
         }}
       >
         <h2>자유게시판</h2>
-        <div className="mountainReviewPage">
+        <div className="restaurantReviewPage">
           {/* 뒤로가기 버튼을 상단에 위치시킴 */}
-          <button onClick={onBack} className="mReview-back-button">
+          <button onClick={onBack} className="rReview-back-button">
             <MdOutlineBackspace />
           </button>
 
@@ -105,7 +104,7 @@ const MountainReviewList  = () => {
             {posts.map((post) => (
               <li key={post.id}>
                 <div
-                  className="mReview-card"
+                  className="rReview-card"
                   onClick={() => goToDetail(post.id)} // post.id를 전달
                   style={{ cursor: "pointer" }}
                 >
@@ -122,7 +121,7 @@ const MountainReviewList  = () => {
           {/* 게시글 등록 */}
           <button
             onClick={goToPostCreate}
-            className="mReview-create-post"
+            className="rReview-create-post"
           >
             작성하기
           </button>
@@ -132,5 +131,5 @@ const MountainReviewList  = () => {
   );
 };
 
-export default MountainReviewList ;
+export default RestaurantReviewList ;
 
