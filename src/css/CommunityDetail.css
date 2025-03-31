@@ -1,0 +1,300 @@
+/* 뒤로가기 버튼 기본 스타일 */
+.c-detail-back-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 42px;
+  font-weight: bold;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 검정색 화살표 */
+.c-detail-back-button::before {
+  content: "←";
+  position: absolute;
+  color: black;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* 초록색 화살표 (처음에는 안 보임) */
+.c-detail-back-button::after {
+  content: "←";
+  position: absolute;
+  color: #8caa63;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* 호버 시, 검정 화살표 왼쪽으로 사라짐 */
+.c-detail-back-button:hover::before {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* 호버 시, 초록 화살표 오른쪽에서 등장 */
+.c-detail-back-button:hover::after {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* 상세페이지 스타일 */
+.communityPage-detail h2 {
+  font-size: 24px;
+  margin-bottom: 50px;
+  border-bottom: 3px solid black;
+  padding-bottom: 20px;
+}
+
+.c-detail-post {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.c-detail-post h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.c-detail-nickname {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.c-detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.c-detail-date {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.c-detail-views {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.c-detail-content {
+  font-size: 18px;
+  line-height: 1.6;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+  min-height: 500px;
+}
+
+/* 수정, 삭제 버튼 스타일 */
+.c-detail-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.c-detail-edit-delete-button {
+  width: 100px;
+  overflow: hidden;
+  position: relative;
+  border: 3px solid black;
+  padding: 1em 2em;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: none;
+  color: black;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.c-detail-edit-delete-button > span {
+  position: relative;
+  z-index: 2;
+  display: block;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.c-detail-edit-delete-button:hover > span {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.c-detail-edit-delete-button:hover {
+  border-color: #8caa63;
+}
+
+.c-detail-edit-delete-button::after {
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: #8caa63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.c-detail-edit-delete-button:hover::after {
+  transform: translateY(0); /* 버튼의 중앙에 고정 */
+  opacity: 1;
+}
+
+/* 수정 폼 스타일 */
+.c-edit-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-left: 8px;
+}
+
+/* 입력 컨테이너 */
+.c-detail-input-container {
+    position: relative; 
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+/* 제목 스타일 */
+.c-detail-edit-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  width: 100%;
+  background: transparent;
+  padding: 5px;
+  outline: none;
+  transition: all 0.1s ease;
+}
+
+/* 제목 포커스 시 부드러운 테두리 */
+.c-detail-edit-title:focus {
+  border-bottom: 2px solid #8caa63;
+}
+
+/* 내용 입력 박스 (기존 본문 스타일 유지) */
+.c-detail-edit-content {
+  width: 100%;
+  min-height: 150px;
+  border: none;
+  font-size: 1rem;
+  background: transparent;
+  outline: none;
+  padding: 10px;
+  transition: all 0.1s ease;
+}
+
+/* 내용 입력 시 테두리 강조 */
+.c-detail-edit-content:focus {
+  border: 2px solid #8caa63;
+  background: #f8f9fa;
+  border-radius: 5px;
+}
+
+/* 툴팁 스타일 */
+.c-detail-tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: -30px;
+  left: 0;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  width: max-content;
+}
+
+.c-detail-input-container:hover .c-detail-tooltip {
+  visibility: visible;
+}
+
+/* 버튼 스타일 */
+.c-detail-save,
+.c-detail-cancel {
+  width: 135px;
+  overflow: hidden;
+  position: relative;
+  border: 3px solid black;
+  padding: 1em 2em;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: none;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.c-detail-save > span,
+.c-detail-cancel > span {
+  position: relative;
+  z-index: 3;
+  display: block;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.c-detail-save:hover > span,
+.c-detail-cancel:hover > span {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.c-detail-save:hover,
+.c-detail-cancel:hover {
+  border-color: #8caa63;
+}
+
+.c-detail-save::after,
+.c-detail-cancel::after {
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: #8caa63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.c-detail-save:hover::after,
+.c-detail-cancel:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}

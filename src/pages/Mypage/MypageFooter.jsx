@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import MypageDelete from "./MypageDelete";
 
 const MypageFooter = () => {
   const navigate = useNavigate();
-
-  const handleWithdraw = () => {
-    navigate("/withdraw"); // 탈퇴 페이지로 이동
-  };
 
   return (
     <footer className="mypage-footer">
@@ -24,7 +21,7 @@ const MypageFooter = () => {
           <li onClick={() => navigate("/terms/location")}>
             위치기반서비스 이용약관
           </li>
-          <li onClick={handleWithdraw}>회원 탈퇴</li>
+          <MypageDelete />
         </ul>
       </div>
     </footer>

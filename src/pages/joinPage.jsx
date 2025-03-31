@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import DefaultLayout from "../layouts/DefaultLayout";
+import "../css/joinPage.css";
 
 const JoinPage = () => {
   const API_USER_URL = `http://localhost:8088/api/users`;
@@ -29,11 +31,6 @@ const JoinPage = () => {
     address: "",
     updateDate: new Date().toISOString(), // 현재 날짜로 초기화
   });
-
-  // 뒤로가기 버튼
-  const onBack = () => {
-    navigate("/");
-  };
 
   useEffect(() => {
     // 회원 정보 불러오기

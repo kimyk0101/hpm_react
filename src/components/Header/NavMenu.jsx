@@ -12,11 +12,18 @@ const NavMenu = () => {
         <span>커뮤니티</span>
       </NavLink>
       <NavLink
-        to="/reviews"
+        to="/mountain-reviews"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FiStar />
-        <span>후기</span>
+        <span>등산 후기</span>
+      </NavLink>
+      <NavLink
+        to="/restaurant-reviews"
+        className={({ isActive }) => (isActive ? "active" : "")}
+      >
+        <FiStar />
+        <span>맛집 후기</span>
       </NavLink>
       <NavLink
         to="/groups"
