@@ -12,6 +12,10 @@ const JoinPage = () => {
   const [passwordMatch, setPasswordMatch] = useState(null);
   const navigate = useNavigate();
 
+  const onBack = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1899 }, (_, i) => 1900 + i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -198,147 +202,152 @@ const JoinPage = () => {
     }
   };
 
+  // 회원가입시 : 주소 입력칸 누르면 -> 주소api 불러오기기
+  const handleAddressClick = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        let fullAddress = data.roadAddress; // 도로명 주소
+        if (data.jibunAddress) {
+          fullAddress += ` (${data.jibunAddress})`; // 지번 주소 추가
+        }
+
+        setFormData((prevState) => ({
+          ...prevState,
+          address: fullAddress,
+        }));
+      },
+    }).open();
+  };
+
   return (
-    <DefaultLayout
-      headerProps={{
-        showBack: true,
-        title: "회원가입",
-        showIcons: { search: true },
-      }}
-    >
-      <div className="join-container">
-        <h2 className="join-h2">회원가입</h2>
-        <form className="join-form" onSubmit={handleSignup}>
-          <label>이름:</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="이름"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-          <label>닉네임:</label>
-          <input
-            type="text"
-            name="nickname"
-            placeholder="2~10자 특수문자 제외"
-            value={formData.nickname}
-            onChange={(e) =>
-              setFormData({ ...formData, nickname: e.target.value })
-            }
-          />
-          <label>아이디:</label>
-          <div className="id-check-wrapper">
-            <input
-              type="text"
-              name="userId"
-              placeholder="2~10자 특수문자 제외"
-              value={formData.userId}
-              onChange={(e) =>
-                setFormData({ ...formData, userId: e.target.value })
-              }
-            />
-            <button type="button" onClick={checkUserIdAvailability}>
-              중복 확인
-            </button>
-          </div>
-          {isUsernameAvailable !== null && (
-            <span>{isUsernameAvailable ? "사용 가능" : "사용 불가"}</span>
-          )}
-          <label>비밀번호:</label>
-          <input
-            type="password"
-            placeholder="8~20자 영문, 숫자, 특수문자 조합"
-            value={formData.password}
-            onChange={handlePasswordChange}
-            autoComplete="off"
-          />
-          <span>{passwordStrength}</span>
-          <label>비밀번호 확인:</label>
-          <input
-            type="password"
-            placeholder="비밀번호를 다시 입력하세요"
-            value={formData.confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            autoComplete="off"
-          />
-          {passwordMatch !== null && (
-            <span style={{ color: passwordMatch ? "green" : "red" }}>
-              {passwordMatch ? "비밀번호 일치" : "비밀번호 불일치"}
-            </span>
-          )}
-          <label>생년월일:</label>
-          <div className="birth-select">
-            <select
-              name="birthYear"
-              value={formData.birthYear}
-              onChange={handleDateChange}
-            >
-              <option value="">년</option>
-              {years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-            <select
-              name="birthMonth"
-              value={formData.birthMonth}
-              onChange={handleDateChange}
-            >
-              <option value="">월</option>
-              {months.map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
-            <select
-              name="birthDay"
-              value={formData.birthDay}
-              onChange={handleDateChange}
-            >
-              <option value="">일</option>
-              {days.map((day) => (
-                <option key={day} value={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
-          </div>
-          <label>전화번호:</label>
-          <input
-            type="text"
-            placeholder="전화번호"
-            value={formData.phoneNumber}
-            onChange={(e) =>
-              setFormData({ ...formData, phoneNumber: e.target.value })
-            }
-          />
-          <label>이메일:</label>
-          <input
-            type="email"
-            placeholder="이메일"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-          <label>주소:</label>
-          <input
-            type="text"
-            placeholder="주소"
-            value={formData.address}
-            onChange={(e) =>
-              setFormData({ ...formData, address: e.target.value })
-            }
-          />
-          <button type="submit" className="join-submit-button">
-            가입하기
-          </button>
-        </form>
-      </div>
-    </DefaultLayout>
+    <div className="join-container">
+      <button onClick={onBack} className="join-back-button">
+        {/* <MdOutlineBackspace /> */}뒤로가기
+      </button>
+      <h2 className="join-h2">회원가입</h2>
+      <form className="join-form" onSubmit={handleSignup}>
+        <label>이름:</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="이름"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        />
+        <label>닉네임:</label>
+        <input
+          type="text"
+          name="nickname"
+          placeholder="2~10자 특수문자 제외"
+          value={formData.nickname}
+          onChange={(e) =>
+            setFormData({ ...formData, nickname: e.target.value })
+          }
+        />
+        <label>아이디:</label>
+        <input
+          type="text"
+          name="userId"
+          placeholder="2~10자 특수문자 제외"
+          value={formData.userId}
+          onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
+        />
+        <button type="button" onClick={checkUserIdAvailability}>
+          중복 확인
+        </button>
+        {isUsernameAvailable !== null && (
+          <span>{isUsernameAvailable ? "사용 가능" : "사용 불가"}</span>
+        )}
+        <label>비밀번호:</label>
+        <input
+          type="password"
+          placeholder="8~20자 영문, 숫자, 특수문자 조합"
+          value={formData.password}
+          onChange={handlePasswordChange}
+          autoComplete="off"
+        />
+        <span>{passwordStrength}</span>
+        <label>비밀번호 확인:</label>
+        <input
+          type="password"
+          placeholder="비밀번호를 다시 입력하세요"
+          value={formData.confirmPassword}
+          onChange={handleConfirmPasswordChange}
+          autoComplete="off"
+        />
+        {passwordMatch !== null && (
+          <span style={{ color: passwordMatch ? "green" : "red" }}>
+            {passwordMatch ? "비밀번호 일치" : "비밀번호 불일치"}
+          </span>
+        )}
+        <label>생년월일:</label>
+        <div className="birth-select">
+          <select
+            name="birthYear"
+            value={formData.birthYear}
+            onChange={handleDateChange}
+          >
+            <option value="">년</option>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          <select
+            name="birthMonth"
+            value={formData.birthMonth}
+            onChange={handleDateChange}
+          >
+            <option value="">월</option>
+            {months.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <select
+            name="birthDay"
+            value={formData.birthDay}
+            onChange={handleDateChange}
+          >
+            <option value="">일</option>
+            {days.map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
+        </div>
+        <label>전화번호:</label>
+        <input
+          type="text"
+          placeholder="전화번호"
+          value={formData.phoneNumber}
+          onChange={(e) =>
+            setFormData({ ...formData, phoneNumber: e.target.value })
+          }
+        />
+        <label>이메일:</label>
+        <input
+          type="email"
+          placeholder="이메일"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+        <label>주소:</label>
+        <input
+          type="text"
+          placeholder="주소 검색"
+          value={formData.address}
+          onClick={handleAddressClick} // 클릭 시 주소 검색 실행
+          readOnly // 직접 입력 방지
+        />
+        <button type="submit" className="join-submit-button">
+          가입하기
+        </button>
+      </form>
+    </div>
   );
 };
 
