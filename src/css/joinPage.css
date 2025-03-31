@@ -1,110 +1,144 @@
-/* JoinPage.css */
-
 .join-container {
-    max-width: 700px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .join-h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .join-back-button {
-    background: none;
-    border: none;
-    color: #1976d2;
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
-  
-  .join-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .join-form label {
-    margin-top: 1rem;
-    margin-bottom: 0.4rem;
-    font-weight: bold;
-    color: #444;
-  }
-  
-  .join-form input,
-  .join-form select {
-    padding: 0.6rem;
-    font-size: 1rem;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    border-radius: 0;
-    outline: none;
-    background-color: transparent;
-  }
-  
-  .join-form input:focus,
-  .join-form select:focus {
-    border-color: #1976d2;
-  }
-  
-  .birth-select {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .join-form span {
-    font-size: 0.85rem;
-    margin-top: 0.4rem;
-    color: #888;
-  }
-  
-  .id-check-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .id-check-wrapper input {
-    flex-grow: 1;
-  }
-  
-  .id-check-wrapper button {
-    white-space: nowrap;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #ccc;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .id-check-wrapper button:hover {
-    background-color: #bbb;
-  }
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
 
-  .join-submit-button {
-    margin-top: 2rem;
-    padding: 0.8rem;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .join-submit-button:hover {
-    background-color: #135ba1;
-  }
-  
+.join-container h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 50px;
+  border-bottom: 3px solid black;
+  padding-bottom: 20px;
+}
+
+.join-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.join-form label {
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  color: #444;
+}
+
+.join-form .form-input {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0;
+  outline: none;
+  background-color: transparent;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.join-form .form-input:focus {
+  border-color: #5a7d48; 
+}
+
+.join-form .birth-select {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.join-form .form-span {
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+  color: #888;
+}
+
+.id-check-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.id-check-wrapper > input {
+  flex-grow: 1;
+}
+
+.id-check-button {
+  white-space: nowrap;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  color: #f0f8e0;
+  background-color: #8CAA63;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.id-check-button:hover {
+  background-color: #5a7d48;
+}
+
+.join-submit-button {
+  margin-top: 50px;
+  border-radius: 6px;
+  font-weight: bold;
+  overflow: hidden;
+  position: relative;
+  border: 3px solid black;
+  padding: 1em 2em;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: none;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  justify-content: center;
+}
+
+.join-submit-button > span {
+  position: relative;
+  z-index: 2;
+  display: block;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.join-submit-button:hover > span {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.join-submit-button:hover {
+  border-color: #5a7d48;
+}
+
+.join-submit-button::after {
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: #5a7d48;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.join-submit-button:hover::after {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.join-form-required {
+  color: orange;
+  font-weight: bold;
+}
