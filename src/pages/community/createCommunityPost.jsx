@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { MdArrowBack } from "react-icons/md"; // 아이콘 추가
 import "../../css/DefaultLayout.css";
+import "../../css/CreateCommunityPost.css";
 
 const CreateCommunityPost = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
@@ -35,14 +37,22 @@ const CreateCommunityPost = () => {
     checkLoginStatus(); // 컴포넌트가 마운트될 때 로그인 상태 확인
   }, []);
 
+  // 날짜를 "yyyy-MM-dd HH:mm:ss" 형식으로 변환하는 함수
   const formatDate = (date) => {
-    return new Date(date).toISOString().slice(0, 16).replace("T", " ");
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    const seconds = String(d.getSeconds()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; // 초까지 포함된 형식
   };
 
   const [newPost, setNewPost] = useState({
     title: "",
     content: "",
-    updateDate: formatDate(new Date()),
+    updateDate: new Date(), // 현재 날짜와 시간
   });
 
   const handlePostSubmit = async (e) => {
@@ -89,6 +99,10 @@ const CreateCommunityPost = () => {
     navigate("/communities"); // 취소 시 리스트 페이지로 이동
   };
 
+  const handleLoginRedirect = () => {
+    navigate("/login"); // 로그인 페이지로 이동
+  };
+
   return (
     <div>
       <DefaultLayout
@@ -98,37 +112,68 @@ const CreateCommunityPost = () => {
           showIcons: { search: true },
         }}
       >
-        <h3>새 게시글 작성</h3>
-        {!isLoggedIn && (
-          <div>
-            <p>
-              로그인한 사용자만 게시물을 작성할 수 있습니다. 로그인 해주세요.
-            </p>
-          </div>
-        )}
-        <form onSubmit={handlePostSubmit}>
-          <input
-            type="text"
-            value={newPost.title}
-            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-            placeholder="제목"
-            required
-          />
-          <textarea
-            value={newPost.content}
-            onChange={(e) =>
-              setNewPost({ ...newPost, content: e.target.value })
-            }
-            placeholder="내용"
-            required
-          />
-          <button type="submit" disabled={!isLoggedIn}>
-            게시글 등록
-          </button>
-          <button type="button" onClick={handleCancel}>
-            취소
-          </button>
-        </form>
+        <div className="communityPage-create">
+          {/* 뒤로가기 버튼 */}
+          <button
+            onClick={() => navigate("/communities")}
+            className="c-create-back-button"
+          ></button>
+          <h2>새 게시글 작성</h2>
+          {!isLoggedIn ? (
+            <div className="c-login-container">
+              <p className="c-login-redirect-message">
+                로그인한 사용자만 게시물을 작성할 수 있습니다. 로그인 해주세요.
+              </p>
+              <button
+                onClick={handleLoginRedirect}
+                className="c-login-redirect-button"
+                data-text="로그인 하러 가기"
+              >
+                <span>로그인 하러 가기</span>
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handlePostSubmit} className="c-post-form">
+              <input
+                type="text"
+                value={newPost.title}
+                onChange={(e) =>
+                  setNewPost({ ...newPost, title: e.target.value })
+                }
+                placeholder="제목을 입력하세요"
+                required
+                className="c-post-title"
+              />
+              <textarea
+                value={newPost.content}
+                onChange={(e) =>
+                  setNewPost({ ...newPost, content: e.target.value })
+                }
+                placeholder="내용을 입력하세요"
+                required
+                className="c-post-content"
+              />
+              <div className="c-post-button-container">
+                <button
+                  type="submit"
+                  className="c-post-save"
+                  disabled={!isLoggedIn}
+                  data-text="게시글 등록"
+                >
+                  <span>게시글 등록</span>
+                </button>
+                <button
+                  type="button"
+                  className="c-post-cancel"
+                  onClick={handleCancel}
+                  data-text="취소"
+                >
+                  <span>취소</span>
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </DefaultLayout>
     </div>
   );

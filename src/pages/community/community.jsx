@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
+import {
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+} from "date-fns"; //  상대적 시간 계산 라이브러리
 import { useNavigate } from "react-router-dom";
-import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
+import { MdArrowBack } from "react-icons/md"; // 아이콘 추가
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
+import "../../css/Community.css";
 
 const CommunityList = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
 
   const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState([]); //  login 부분
+  const [user, setUser] = useState([]); // login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const postsPerPage = 15; // 한 페이지에 표시할 게시글 수
 
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
@@ -49,6 +57,7 @@ const CommunityList = () => {
         title: community.title,
         content: community.content,
         updateDate: community.update_date,
+        views: community.views,
       }));
 
       setPosts(postData); // 상태 업데이트
@@ -62,14 +71,56 @@ const CommunityList = () => {
     fetchPosts();
   }, []);
 
-  const navigate = useNavigate();
+  // 날짜를 상대적 시간으로 변환하는 함수
+  const formatRelativeDate = (date) => {
+    const now = new Date();
+    const parsedDate = new Date(date.replace(" ", "T"));
+    const minutesAgo = differenceInMinutes(now, parsedDate);
+    const hoursAgo = differenceInHours(now, parsedDate);
+    const daysAgo = differenceInDays(now, parsedDate);
 
-  //  상세 페이지로 이동
-  const goToDetail = (postId) => {
-    navigate(`/communities/${postId}`);
+    if (minutesAgo < 60) {
+      return `${minutesAgo}분 전`;
+    } else if (hoursAgo < 24) {
+      return `${hoursAgo}시간 전`;
+    } else if (daysAgo < 7) {
+      return `${daysAgo}일 전`;
+    } else if (daysAgo < 30) {
+      return `${Math.floor(daysAgo / 7)}주 전`;
+    } else {
+      return `${Math.floor(daysAgo / 30)}개월 전`;
+    }
   };
 
-  //  뒤로가기 (메인 페이지로 이동)
+  const navigate = useNavigate();
+
+  // 상세 페이지로 이동
+  // const goToDetail = (postId) => {
+  //   navigate(`/communities/${postId}`);
+  // };
+
+  const goToDetail = async (postId) => {
+    try {
+      // 조회수 증가 요청 보내기
+      const response = await fetch(
+        `http://localhost:8088/api/communities/${postId}/increment-views`,
+        {
+          method: "PUT", // PUT 요청으로 조회수 증가
+        }
+      );
+
+      if (response.ok) {
+        // 조회수가 증가한 후, 상세 페이지로 이동
+        navigate(`/communities/${postId}`);
+      } else {
+        console.error("조회수 증가 실패");
+      }
+    } catch (error) {
+      console.error("조회수 증가 중 오류 발생:", error);
+    }
+  };
+
+  // 뒤로가기 (메인 페이지로 이동)
   const onBack = () => {
     navigate("/");
   };
@@ -78,6 +129,20 @@ const CommunityList = () => {
   const goToPostCreate = () => {
     navigate("/communities/new");
   };
+
+  // 페이지 변경 함수
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return; // 유효한 페이지 번호만 허용
+    setCurrentPage(pageNumber); // 페이지 번호 변경
+  };
+
+  // 전체 페이지 수 계산
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  // 현재 페이지에 해당하는 게시글 계산
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <div>
@@ -88,39 +153,109 @@ const CommunityList = () => {
           showIcons: { search: true },
         }}
       >
-        <h2>자유게시판</h2>
         <div className="communityPage">
           {/* 뒤로가기 버튼을 상단에 위치시킴 */}
-          <button onClick={onBack} className="community-back-button">
-            <MdOutlineBackspace />
+          <button
+            onClick={() => navigate("/")}
+            className="community-back-button"
+          >
+            <MdArrowBack
+              size={42}
+              className="community-back-button-default-icon"
+            />
+            <MdArrowBack
+              size={42}
+              className="community-back-button-hover-icon"
+            />
           </button>
 
+          <h2>자유게시판</h2>
+
           {/* 게시글 목록 표시 */}
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <div
-                  className="community-card"
-                  onClick={() => goToDetail(post.id)} // post.id를 전달
-                  style={{ cursor: "pointer" }}
+          <table className="community-table">
+            <thead>
+              <tr>
+                <th className="community-col-number">번호</th>
+                <th className="community-col-title">제목</th>
+                <th className="community-col-nickname">작성자</th>
+                <th className="community-col-date">날짜</th>
+                <th className="community-col-views">조회 수</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentPosts.map((post, index) => (
+                <tr
+                  key={post.id}
+                  onClick={() => goToDetail(post.id)}
+                  className="community-post-row"
                 >
-                  <h3>{post.title}</h3>
-                  <p>{post.content}</p>
-                  <p>작성자: {post.nickname}</p>
-                  <p>
-                    작성일: {new Date(post.updateDate).toLocaleDateString()}
-                  </p>
-                </div>
-              </li>
+                  {/* 가장 최근 글에 마지막 번호를 부여 */}
+                  <td className="community-post-center">
+                    {posts.length - index - (currentPage - 1) * postsPerPage}
+                  </td>
+                  {/* <td className="community-post-center">{indexOfFirstPost + index + 1}</td> */}
+                  <td className="community-post-title">{post.title}</td>
+                  <td className="community-post-center">{post.nickname}</td>
+                  <td className="community-post-center">
+                    {formatRelativeDate(post.updateDate)}
+                  </td>
+                  <td className="community-post-center">{post.views}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* 페이지네이션 */}
+          <div className="community-pagination">
+            <button
+              className="community-pagination-btn"
+              onClick={() => handlePageChange(1)}
+            >
+              처음
+            </button>
+            <button
+              className="community-pagination-btn"
+              onClick={() => handlePageChange(currentPage - 1)}
+            >
+              이전
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => handlePageChange(i + 1)}
+                className={`community-pagination-btn ${
+                  currentPage === i + 1 ? "active" : ""
+                }`}
+              >
+                {i + 1}
+              </button>
             ))}
-          </ul>
-          {/* 게시글 등록 */}
-          <button
-            onClick={goToPostCreate}
-            className="create-community-post"
-          >
-            작성하기
-          </button>
+
+            <button
+              className="community-pagination-btn"
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+              다음
+            </button>
+            <button
+              className="community-pagination-btn"
+              onClick={() => handlePageChange(totalPages)}
+            >
+              마지막
+            </button>
+          </div>
+
+          {/* 게시글 등록 버튼 */}
+          <div className="community-button-container">
+            <button
+              onClick={goToPostCreate}
+              className="create-community-post-button"
+              data-text="작성하기"
+            >
+              <span>작성하기</span>
+            </button>
+          </div>
         </div>
       </DefaultLayout>
     </div>
