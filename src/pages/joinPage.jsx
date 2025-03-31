@@ -12,6 +12,10 @@ const JoinPage = () => {
   const [passwordMatch, setPasswordMatch] = useState(null);
   const navigate = useNavigate();
 
+  const onBack = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1899 }, (_, i) => 1900 + i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
