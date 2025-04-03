@@ -26,7 +26,7 @@ const NavMenu = () => {
         <span>맛집 후기</span>
       </NavLink>
       <NavLink
-        to="/groups"
+        to="/clubs"
         className={({ isActive }) => (isActive ? "active" : "")}
       >
         <FiCalendar />
