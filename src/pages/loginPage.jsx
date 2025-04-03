@@ -83,7 +83,6 @@ const Login = () => {
               {errorMsg && <p className="login-error">{errorMsg}</p>}
               <button className="login-button" type="submit" data-text="로그인">
                 <span>로그인</span>
-                
               </button>
             </form>
           </div>

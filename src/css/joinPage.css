@@ -1,19 +1,88 @@
-.join-container {
-  max-width: 700px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  font-family: "Segoe UI", sans-serif;
+.join-body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4ffe9;
 }
 
-.join-container h2 {
+.join-container {
+  display: flex;
+  width: 80%;
+  height: 1100px; 
+  margin: 50px auto;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden; 
+}
+
+.join-left {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+}
+
+.join-right {
+  flex: 2;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+}
+
+.join-title {
   font-size: 24px;
-  margin-bottom: 50px;
-  border-bottom: 3px solid black;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.join-left {
+  /* background: url("https://source.unsplash.com/400x500/?nature,water") no-repeat center; */
+  background-size: cover;
+  position: relative;
+}
+
+.join-left-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(44, 44, 44, 0.411);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* 기본 버튼 스타일 */
+.signup-login-button {
+  position: relative;
+  border: 2px solid white; /* 초록색 테두리 */
+  padding: 1em 2em;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* hover 시 배경색 그라디언트 */
+.signup-login-button:hover {
+  background: linear-gradient(45deg, #A8C686, #B5C18E); 
+  color: white; /* 흰색 텍스트 */
+  border-color: #A8C686; 
 }
 
 .join-form {
@@ -141,4 +210,58 @@
 .join-form-required {
   color: orange;
   font-weight: bold;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%; 
+}
+
+.password-container .form-input {
+  width: 100%; 
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Caps Lock 툴팁 스타일 */
+.tooltip-caps-lock-on {
+  position: absolute;
+  bottom: 120%;
+  left: 30%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s;
+}
+
+.tooltip-caps-lock-on::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+/* 🟢 Caps Lock이 켜지면 툴팁 표시 */
+.tooltip-visible {
+  opacity: 1;
+  visibility: visible;
 }

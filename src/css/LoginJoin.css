@@ -1,0 +1,19 @@
+/* 로그인 / 회원가입 슬라이드 애니메이션 */
+.slide-enter {
+    transform: translateX(100%); /* 오른쪽에서 왼쪽으로 */
+    opacity: 0;
+  }
+  .slide-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 500ms ease, opacity 500ms ease;
+  }
+  .slide-exit {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .slide-exit-active {
+    transform: translateX(-100%); /* 왼쪽으로 나가며 */
+    opacity: 0;
+    transition: transform 500ms ease, opacity 500ms ease;
+  }
