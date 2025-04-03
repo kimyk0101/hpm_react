@@ -1,0 +1,141 @@
+.club-comments-page {
+  padding: 20px;
+  position: relative;
+}
+
+.comments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.comments-table th,
+.comments-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  word-break: break-word;
+}
+
+.comments-table th:nth-child(1),
+.comments-table td:nth-child(1) {
+  width: 50px;
+}
+
+.comments-table th:nth-child(2),
+.comments-table td:nth-child(2) {
+  width: 60%;
+}
+
+.comments-table th:nth-child(3),
+.comments-table td:nth-child(3) {
+  width: 150px;
+  white-space: nowrap;
+}
+
+.comments-table th:nth-child(4),
+.comments-table td:nth-child(4) {
+  width: 120px;
+}
+
+.comments-table th {
+  background-color: #f2f2f2;
+}
+
+.comments-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.back-button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-button,
+.add-comment-button {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-button:hover,
+.add-comment-button:hover {
+  background-color: #d0d0d0;
+}
+
+.comments-table td button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc; /* 테두리 추가 */
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.comments-table td button:hover {
+  background-color: #d0d0d0;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 50%;
+  max-width: 600px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-buttons button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.modal-buttons button:hover {
+  background-color: #d0d0d0;
+}

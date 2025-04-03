@@ -14,6 +14,10 @@ import MountainReviewDetail from "./pages/mountainReview/mountainReviewDetail";
 import RestaurantReviewList from "./pages/restaurantReview/restaurantReview";
 import CreateRestaurantReview from "./pages/restaurantReview/createRestaurantReview";
 import RestaurantReviewDetail from "./pages/restaurantReview/restaurantReviewDetail";
+import AllClubs from "./pages/club/allClubs";
+import ClubComments from "./pages/club/clubComments";
+import ChatSendbird from "./pages/club/chatSendbird";
+
 import KakaoMap from "./pages/map/kakaomap";
 import "./css/reset.css";
 // import Board from "../src/components/Board";
@@ -40,6 +44,14 @@ function App() {
         <Route path="/restaurant-reviews" element={<RestaurantReviewList />} />{" "} {/* 맛집 후기 목록 */}
         <Route path="/restaurant-reviews/new" element={<CreateRestaurantReview />} />{" "} {/* 맛집 후기 작성 */}
         <Route path="/restaurant-reviews/:id" element={<RestaurantReviewDetail />} />{" "} {/* 맛집 후기 상세 */}
+
+        
+        {/* 모임 */}
+        <Route path="/clubs" element={<AllClubs />} />{" "} {/* 산 모임들 목록 */}
+        <Route path="/clubs/:id" element={<ClubComments />} />{" "} {/* 각각의 산 모임 페이지 */}
+        <Route path="/chatSendbird/:id" element={<ChatSendbird />} />{" "} {/* 샌드버드 채팅방 이동 페이지 */}
+       
+
         {/* 지도 (임시 라우터 설정) */}
         <Route path="/map" element={<KakaoMap />} />
       </Routes>
