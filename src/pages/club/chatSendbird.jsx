@@ -1,69 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import SendBird from "sendbird";
+// import SendbirdApp from "@sendbird/uikit-react/App";
+// import "@sendbird/uikit-react/dist/index.css";
 
-const APP_ID = "YOUR_APP_ID"; // Sendbird Application ID를 여기에 입력하세요.
-const USER_ID = "YOUR_USER_ID"; // 사용자의 ID를 여기에 입력하세요.
+// const ChatSendbird = () => {
+//   return (
+//     <div className="App">
+//       <SendbirdApp
+//         appId = "import.meta.env.VITE_APP_SENDBIRD_APP_ID" // 본인 앱 아이디 복붙
+//         userId="import.meta.env.VITE_APP_SENDBIRD_USER_ID" // 유저 아이디 설정
+//         nickname="min" // 유저 닉네임 설정
+//         theme="dark"	// 다크모드로 변경 "light"가 default 값임
+//       />
+//     </div>
+//   );
+// };
+
+// export default ChatSendbird;
+
+
+
+
+
+import SendbirdApp from "@sendbird/uikit-react/App";
+import "@sendbird/uikit-react/dist/index.css";
+
+
+const APP_ID = import.meta.env.VITE_APP_SENDBIRD_APP_ID;
+const USER_ID = import.meta.env.VITE_APP_SENDBIRD_USER_ID;
+const ACCESS_TOKEN = import.meta.env.VITE_APP_SENDBIRD_ACCESS_TOKEN;
+const CHANNEL_URL = "sendbird_open_channel_23487_ac3ae21dfc95afc170944518fbb785cb6ab35d11"; // 원하는 채팅방 URL 입력
 
 const ChatSendbird = () => {
-    const { id } = useParams();
-    const [channel, setChannel] = useState(null);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const sb = new SendBird({ appId: APP_ID });
-
-        sb.connect(USER_ID, (user, error) => {
-            if (error) {
-                setError(`Sendbird 연결 실패: ${error.message}`);
-                return;
-            }
-
-            sb.OpenChannel.getChannel(id, (openChannel, error) => {
-                if (error) {
-                    setError(`채널 로드 실패: ${error.message}`);
-                    return;
-                }
-
-                openChannel.enter((openChannel, error) => {
-                    if (error) {
-                        setError(`채널 입장 실패: ${error.message}`);
-                        return;
-                    }
-
-                    setChannel(openChannel);
-                    console.log("채널 입장 성공:", openChannel);
-                });
-            });
-        });
-
-        return () => {
-            if (channel) {
-                channel.exit((response, error) => {
-                    if (error) {
-                        console.error("채널 퇴장 실패:", error);
-                    } else {
-                        console.log("채널 퇴장 성공:", response);
-                    }
-                });
-            }
-        };
-    }, [id]);
-
-    if (error) {
-        return <p>오류 발생: {error}</p>;
-    }
-
-    if (!channel) {
-        return <p>채널 로딩 중...</p>;
-    }
+    console.log("APP_ID:", APP_ID);
+    console.log("USER_ID:", USER_ID);
+    console.log("CHANNEL_URL:", CHANNEL_URL);
+    console.log("ACCESS_TOKEN:", ACCESS_TOKEN);
 
     return (
-        <div>
-            <h2>채팅방</h2>
-            <p>채널 이름: {channel.name}</p>
-            {/* Sendbird UI Kit 또는 custom UI를 사용하여 채팅 기능 구현 */}
-        </div>
+        <SendbirdApp
+            appId={APP_ID}
+            userId={USER_ID}
+            accessToken={ACCESS_TOKEN}
+            channelUrl={CHANNEL_URL} // 특정 채팅방만 열기
+            theme="dark"
+            showSearchIcon={true}
+            nickname={"민정"}
+        />
     );
 };
 
