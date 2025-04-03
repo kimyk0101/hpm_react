@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { MdArrowBack } from "react-icons/md"; // 아이콘 추가
 import "../../css/DefaultLayout.css";
@@ -105,13 +107,10 @@ const CreateCommunityPost = () => {
 
   return (
     <div>
-      <DefaultLayout
-        headerProps={{
-          title: "하이펜타",
-          showLogo: true,
-          showIcons: { search: true },
-        }}
-      >
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+      <DefaultLayout>
         <div className="communityPage-create">
           {/* 뒤로가기 버튼 */}
           <button

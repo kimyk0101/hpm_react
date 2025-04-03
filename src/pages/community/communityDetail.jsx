@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 import "../../css/CommunityDetail.css";
@@ -423,13 +425,10 @@ function CommunityDetail() {
 
   return (
     <div>
-      <DefaultLayout
-        headerProps={{
-          title: "하이펜타",
-          showLogo: true,
-          showIcons: { search: true },
-        }}
-      >
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+      <DefaultLayout>
         <div className="communityPage-detail">
           {/* 뒤로가기 버튼 */}
           <button

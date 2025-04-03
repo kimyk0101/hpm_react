@@ -1,0 +1,64 @@
+.review-split-section {
+    display: flex;
+    align-items: flex-start; /* 시작점 기준 정렬 */
+    justify-content: center;
+    gap: 4rem;
+    padding: 3rem 0;
+    position: relative;
+  }
+  
+  /* 가운데 산 아이콘 */
+  .mountain-icon {
+    font-size: 4rem;
+    color: #4caf50;
+    align-self: center; /* 가운데 정렬 */
+    padding: 0 1rem;
+  }
+  
+  /* 왼쪽 등산 후기 영역: 살짝 위로 */
+  .review-split-section .review-column:first-child {
+    transform: translateY(-80px);
+  }
+  
+  /* 오른쪽 맛집 후기 영역: 살짝 아래로 */
+  .review-split-section .review-column:last-child {
+    transform: translateY(80px);
+  }
+  
+  /* 공통 스타일 */
+  .review-column {
+    flex: 1;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .review-column h3 {
+    font-size: 1.6rem;
+    color: #2e5f3e;
+    margin-bottom: 0.75rem;
+  }
+  
+  .review-column p {
+    font-size: 1.05rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .review-button {
+    background-color: #5f7c60;
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .review-button:hover {
+    background-color: #3e5942;
+  }
+  

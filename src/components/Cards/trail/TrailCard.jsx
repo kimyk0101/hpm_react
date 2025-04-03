@@ -5,10 +5,12 @@ import "../../../css/TrailCard.css";
 
 const TrailCard = ({ image, mountainName, cardInfo }) => {
   return (
-    <div className="slider-card">
-      <TrailImage image={image} mountainName={mountainName} />
-      <TrailDetails cardInfo={cardInfo} />
-    </div>
+    <>
+      <div className="slider-card">
+        <TrailImage image={image} mountainName={mountainName} />
+        <TrailDetails mountainName={mountainName} cardInfo={cardInfo} />
+      </div>
+    </>
   );
 };
 

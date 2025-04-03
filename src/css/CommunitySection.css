@@ -1,0 +1,159 @@
+.community-section-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6rem;
+  padding: 2rem 0;
+}
+
+/* 왼쪽 커뮤니티 미리보기 */
+.community-left {
+  width: calc(2 * ((100% - 48px) / 4) + 16px);
+}
+
+/* 오른쪽 텍스트 설명 */
+.community-right {
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.community-right h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #0e0f0e;
+  /* margin-bottom: 1rem; */
+}
+
+.community-right p {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 2;
+  color: #3d3737;
+  margin: 2rem 0;
+}
+
+/* 🔹 카드 3개 가로 나열 */
+.commu-card-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 1.5rem;
+}
+
+.preview-card {
+  flex: 1;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* min-height: 40px; */
+}
+
+.preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.preview-title {
+  font-size: 1.05rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.preview-content {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+/* .preview-author {
+  font-size: 0.8rem;
+  color: #999;
+} */
+
+.preview-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: auto;
+}
+
+.preview-date {
+  font-style: italic;
+}
+
+
+/* 🔻 리스트 형태 게시글 */
+.commu-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.commu-post-item {
+  padding: 0.75rem 1rem;
+  margin-bottom: 8px;
+  background-color: #fcfcfc;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.commu-post-item:hover {
+  background-color: #e6f3ec;
+}
+
+.commu-post-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commu-post-title {
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 70%; /* 제목 너무 길면 잘리게 */
+}
+
+.commu-post-meta {
+  font-size: 0.75rem;
+  color: #999;
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+
+.go-community-btn {
+  margin-top: 1rem;
+  background-color: #5f7c60;
+  color: rgb(245, 244, 244);
+  /* padding: 0.6rem 1.2rem; */
+  border: none;
+  font-size: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.go-community-btn:hover {
+  background-color: #374638;
+}
+

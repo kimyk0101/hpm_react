@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    /* height: 64px; */
+    height: 80px;
     /* background-color: lightgreen; */
     /* display: flex; */
     align-items: center;
@@ -10,6 +10,7 @@
     /* padding: 0 2rem;  */
     z-index: 1000;
     background-color: #fff;
+    /* background-color: rgb(124, 133, 122); */
     border-bottom: 1px solid gray;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
@@ -21,7 +22,7 @@
   margin: 0 auto;
   /* border: 1px solid red; */
   /* min-height: 64px; */
-  height: 64px;
+  height: 80px;
   padding: 0 20px;
 }
 
@@ -37,15 +38,20 @@
 
 .header-left {
     justify-content: flex-start;
+    width: 160px;
+    min-width: 160px;
+    display:flex;
     gap: 20px;
 }
 
 .header-center {
+    flex: 1;
     justify-content: center;
 }
 
 .header-right {
     justify-content: flex-end;
+    min-width: 180px;
     gap: 20px;
 }
 
@@ -90,9 +96,20 @@
   }
 
   .auth-buttons {
-    gap: 20px;
+    width: 160px;
+    /* text-align: center; */
+    justify-content: flex-end;
+    gap: 30px;
     display: flex;
     /* min-width: 170px; */
+  }
+
+  .auth-buttons button {
+    min-width: 60px;
+    white-space: nowrap;
+    /* padding: 6px; */
+    text-align: center;
+    /* font-size: 0.9rem; */
   }
 
   .back-button {

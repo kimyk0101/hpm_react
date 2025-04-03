@@ -6,6 +6,8 @@ import {
 } from "date-fns"; //  상대적 시간 계산 라이브러리
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md"; // 아이콘 추가
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 import "../../css/Community.css";
@@ -147,13 +149,10 @@ const CommunityList = () => {
 
   return (
     <div>
-      <DefaultLayout
-        headerProps={{
-          title: "하이펜타",
-          showLogo: true,
-          showIcons: { search: true },
-        }}
-      >
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+      <DefaultLayout>
         <div className="communityPage">
           {/* 뒤로가기 버튼을 상단에 위치시킴 */}
           <button

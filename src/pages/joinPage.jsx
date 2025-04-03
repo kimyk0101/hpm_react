@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactSelect from "react-dropdown-select"; // ReactSelect 임포트
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 눈 아이콘을 import
+import ContentContainer from "../layouts/ContentContainer";
+import Header from "../components/Header/Header";
 import DefaultLayout from "../layouts/DefaultLayout";
 import "../css/joinPage.css";
 
@@ -388,237 +390,244 @@ const JoinPage = () => {
   };
 
   return (
-    <DefaultLayout
-      headerProps={{
-        showBack: true,
-        title: "회원가입",
-        showIcons: { search: true },
-      }}
-    >
-      <div className="login-body">
-        <div className="join-container">
-          <div className="join-left">
-            <div className="join-left-overlay">
-              <p className="signup-login-text">로그인 하시겠습니까?</p>
-              <button
-                className="signup-login-button"
-                onClick={() => navigate("/login")}
-              >
-                로그인
-              </button>
-            </div>
-          </div>
-          <div className="join-right">
-            <h2 className="join-title">회원가입!</h2>
-
-            <form className="join-form" onSubmit={handleSignup}>
-              <label>
-                이름 <span className="join-form-required">*</span>
-              </label>
-              <input
-                type="text"
-                name="name"
-                className="form-input"
-                placeholder="이름을 입력하세요"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                required
-              />
-              <label>
-                닉네임 <span className="join-form-required">*</span>
-              </label>
-              <input
-                type="text"
-                name="nickname"
-                className="form-input"
-                placeholder="2~10자 문자, 숫자 조합으로 입력하세요"
-                value={formData.nickname}
-                onChange={(e) => {
-                  setFormData({ ...formData, nickname: e.target.value });
-                  checkUserNicknameAvailability(e.target.value); // 입력할 때마다 중복 체크
-                }}
-                required
-              />
-              {isUserNicknameAvailable !== null && (
-                <span
-                  style={{ color: isUserNicknameAvailable ? "green" : "red" }}
-                >
-                  {isUserNicknameAvailable ? "✅ 사용 가능" : "❌ 사용 불가"}
-                </span>
-              )}
-              <label>
-                아이디 <span className="join-form-required">*</span>
-              </label>
-              <div className="id-check-wrapper">
-                <input
-                  type="text"
-                  name="userId"
-                  className="form-input"
-                  placeholder="6~20자 영문, 숫자 조합으로 입력하세요"
-                  value={formData.userId}
-                  onChange={(e) =>
-                    setFormData({ ...formData, userId: e.target.value })
-                  }
-                  required
-                />
+    <>
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+      <DefaultLayout>
+        <div className="login-body">
+          <div className="join-container">
+            <div className="join-left">
+              <div className="join-left-overlay">
+                <p className="signup-login-text">로그인 하시겠습니까?</p>
                 <button
-                  type="button"
-                  onClick={checkUserIdAvailability}
-                  className="id-check-button"
+                  className="signup-login-button"
+                  onClick={() => navigate("/login")}
                 >
-                  중복 확인
+                  로그인
                 </button>
               </div>
-              {isUserIdAvailable !== null && (
-                <span style={{ color: isUserIdAvailable ? "green" : "red" }}>
-                  {isUserIdAvailable ? "✅ 사용 가능" : "❌ 사용 불가"}
-                </span>
-              )}
-              <label>
-                비밀번호 <span className="join-form-required">*</span>
-              </label>
-              <div className="password-container">
+            </div>
+            <div className="join-right">
+              <h2 className="join-title">회원가입!</h2>
+
+              <form className="join-form" onSubmit={handleSignup}>
+                <label>
+                  이름 <span className="join-form-required">*</span>
+                </label>
                 <input
-                  type={passwordVisible ? "text" : "password"}
+                  type="text"
+                  name="name"
                   className="form-input"
-                  placeholder="8~20자 영문, 숫자, 특수문자 조합으로 입력하세요"
-                  value={formData.password}
-                  onChange={handlePasswordChange}
-                  onKeyDown={handleKeyDownPassword}
-                  onBlur={handleBlurPassword}
-                  autoComplete="off"
+                  placeholder="이름을 입력하세요"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   required
                 />
-                <span
-                  className="toggle-password"
-                  onClick={togglePasswordVisibility}
-                >
-                  {passwordVisible ? <FaEye /> : <FaEyeSlash />}
-                </span>
-                {capsLockOn && (
-                  <div className="tooltip-caps-lock-on tooltip-visible">
-                    ⚠️ Caps Lock이 켜져 있습니다.
-                  </div>
+                <label>
+                  닉네임 <span className="join-form-required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="nickname"
+                  className="form-input"
+                  placeholder="2~10자 문자, 숫자 조합으로 입력하세요"
+                  value={formData.nickname}
+                  onChange={(e) => {
+                    setFormData({ ...formData, nickname: e.target.value });
+                    checkUserNicknameAvailability(e.target.value); // 입력할 때마다 중복 체크
+                  }}
+                  required
+                />
+                {isUserNicknameAvailable !== null && (
+                  <span
+                    style={{ color: isUserNicknameAvailable ? "green" : "red" }}
+                  >
+                    {isUserNicknameAvailable ? "✅ 사용 가능" : "❌ 사용 불가"}
+                  </span>
                 )}
-              </div>
-              {passwordStrength && (
-                <span style={{ color: passwordColor }}>{passwordStrength}</span>
-              )}
-              <label>
-                비밀번호 확인 <span className="join-form-required">*</span>
-              </label>
-              <div className="password-container">
+                <label>
+                  아이디 <span className="join-form-required">*</span>
+                </label>
+                <div className="id-check-wrapper">
+                  <input
+                    type="text"
+                    name="userId"
+                    className="form-input"
+                    placeholder="6~20자 영문, 숫자 조합으로 입력하세요"
+                    value={formData.userId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, userId: e.target.value })
+                    }
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={checkUserIdAvailability}
+                    className="id-check-button"
+                  >
+                    중복 확인
+                  </button>
+                </div>
+                {isUserIdAvailable !== null && (
+                  <span style={{ color: isUserIdAvailable ? "green" : "red" }}>
+                    {isUserIdAvailable ? "✅ 사용 가능" : "❌ 사용 불가"}
+                  </span>
+                )}
+                <label>
+                  비밀번호 <span className="join-form-required">*</span>
+                </label>
+                <div className="password-container">
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    className="form-input"
+                    placeholder="8~20자 영문, 숫자, 특수문자 조합으로 입력하세요"
+                    value={formData.password}
+                    onChange={handlePasswordChange}
+                    onKeyDown={handleKeyDownPassword}
+                    onBlur={handleBlurPassword}
+                    autoComplete="off"
+                    required
+                  />
+                  <span
+                    className="toggle-password"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+                  </span>
+                  {capsLockOn && (
+                    <div className="tooltip-caps-lock-on tooltip-visible">
+                      ⚠️ Caps Lock이 켜져 있습니다.
+                    </div>
+                  )}
+                </div>
+                {passwordStrength && (
+                  <span style={{ color: passwordColor }}>
+                    {passwordStrength}
+                  </span>
+                )}
+                <label>
+                  비밀번호 확인 <span className="join-form-required">*</span>
+                </label>
+                <div className="password-container">
+                  <input
+                    type={confirmPasswordVisible ? "text" : "password"}
+                    className="form-input"
+                    placeholder="비밀번호를 한 번 더 입력하세요"
+                    value={formData.confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    autoComplete="off"
+                    required
+                  />
+                  <span
+                    className="toggle-password"
+                    onClick={toggleConfirmPasswordVisibility}
+                  >
+                    {confirmPasswordVisible ? <FaEye /> : <FaEyeSlash />}
+                  </span>
+                </div>
+                {passwordMatch !== null && (
+                  <span style={{ color: passwordMatch ? "green" : "red" }}>
+                    {passwordMatch ? "✅ 비밀번호 일치" : "❌ 비밀번호 불일치"}
+                  </span>
+                )}
+                <label>생년월일</label>
+                <div className="birth-select">
+                  <ReactSelect
+                    options={years.map((year) => ({
+                      label: year,
+                      value: year,
+                    }))}
+                    value={{
+                      label: formData.birthYear,
+                      value: formData.birthYear,
+                    }}
+                    onChange={(selected) =>
+                      handleDateChange("birthYear", selected[0]?.value)
+                    }
+                    style={{ width: "80px", height: "40px", fontSize: "16px" }}
+                    placeholder="년"
+                  />
+                  <ReactSelect
+                    options={months.map((month) => ({
+                      label: month,
+                      value: month,
+                    }))}
+                    value={{
+                      label: formData.birthMonth,
+                      value: formData.birthMonth,
+                    }}
+                    onChange={(selected) =>
+                      handleDateChange("birthMonth", selected[0]?.value)
+                    }
+                    style={{ width: "55px", height: "40px", fontSize: "16px" }}
+                    placeholder="월"
+                  />
+                  <ReactSelect
+                    options={days.map((day) => ({ label: day, value: day }))}
+                    value={{
+                      label: formData.birthDay,
+                      value: formData.birthDay,
+                    }}
+                    onChange={(selected) =>
+                      handleDateChange("birthDay", selected[0]?.value)
+                    }
+                    style={{ width: "55px", height: "40px", fontSize: "16px" }}
+                    placeholder="일"
+                  />
+                </div>
+                <label>전화번호</label>
                 <input
-                  type={confirmPasswordVisible ? "text" : "password"}
+                  type="text"
                   className="form-input"
-                  placeholder="비밀번호를 한 번 더 입력하세요"
-                  value={formData.confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                  autoComplete="off"
-                  required
+                  placeholder="-를 제외한 숫자만 입력하세요"
+                  value={formData.phoneNumber}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phoneNumber: e.target.value })
+                  }
                 />
-                <span
-                  className="toggle-password"
-                  onClick={toggleConfirmPasswordVisibility}
+                <label>이메일</label>
+                <input
+                  type="email"
+                  className="form-input"
+                  placeholder="이메일을 입력하세요"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                />
+                <label>주소</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="주소를 입력하세요"
+                  value={formData.address}
+                  onClick={handleAddressClick} // 클릭 시 주소 검색 실행
+                  readOnly // 직접 입력 방지
+                />
+                <label>상세 주소</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="상세 주소를 입력하세요"
+                  value={formData.addressDetail}
+                  onChange={handleAddressDetailChange} // 상세 주소 입력 시 처리
+                />
+                <button
+                  type="submit"
+                  className="join-submit-button"
+                  data-text="가입하기"
                 >
-                  {confirmPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-                </span>
-              </div>
-              {passwordMatch !== null && (
-                <span style={{ color: passwordMatch ? "green" : "red" }}>
-                  {passwordMatch ? "✅ 비밀번호 일치" : "❌ 비밀번호 불일치"}
-                </span>
-              )}
-              <label>생년월일</label>
-              <div className="birth-select">
-                <ReactSelect
-                  options={years.map((year) => ({ label: year, value: year }))}
-                  value={{
-                    label: formData.birthYear,
-                    value: formData.birthYear,
-                  }}
-                  onChange={(selected) =>
-                    handleDateChange("birthYear", selected[0]?.value)
-                  }
-                  style={{ width: "80px", height: "40px", fontSize: "16px" }}
-                  placeholder="년"
-                />
-                <ReactSelect
-                  options={months.map((month) => ({
-                    label: month,
-                    value: month,
-                  }))}
-                  value={{
-                    label: formData.birthMonth,
-                    value: formData.birthMonth,
-                  }}
-                  onChange={(selected) =>
-                    handleDateChange("birthMonth", selected[0]?.value)
-                  }
-                  style={{ width: "55px", height: "40px", fontSize: "16px" }}
-                  placeholder="월"
-                />
-                <ReactSelect
-                  options={days.map((day) => ({ label: day, value: day }))}
-                  value={{ label: formData.birthDay, value: formData.birthDay }}
-                  onChange={(selected) =>
-                    handleDateChange("birthDay", selected[0]?.value)
-                  }
-                  style={{ width: "55px", height: "40px", fontSize: "16px" }}
-                  placeholder="일"
-                />
-              </div>
-              <label>전화번호</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="-를 제외한 숫자만 입력하세요"
-                value={formData.phoneNumber}
-                onChange={(e) =>
-                  setFormData({ ...formData, phoneNumber: e.target.value })
-                }
-              />
-              <label>이메일</label>
-              <input
-                type="email"
-                className="form-input"
-                placeholder="이메일을 입력하세요"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-              <label>주소</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="주소를 입력하세요"
-                value={formData.address}
-                onClick={handleAddressClick} // 클릭 시 주소 검색 실행
-                readOnly // 직접 입력 방지
-              />
-              <label>상세 주소</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="상세 주소를 입력하세요"
-                value={formData.addressDetail}
-                onChange={handleAddressDetailChange} // 상세 주소 입력 시 처리
-              />
-              <button
-                type="submit"
-                className="join-submit-button"
-                data-text="가입하기"
-              >
-                <span>가입하기</span>
-              </button>
-            </form>
+                  <span>가입하기</span>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </DefaultLayout>
+      </DefaultLayout>
+    </>
   );
 };
 

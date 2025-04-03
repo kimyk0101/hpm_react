@@ -3,7 +3,7 @@ import "../../css/DefaultSlider.css";
 
 //  children: 카드 요소들
 //  visibleCount: 한번에 보일 카드 수
-const DefaultSlider = ({ children, visibleCount = 3 }) => {
+const DefaultSlider = ({ children, visibleCount = 4, className }) => {
   //  silderRef: 슬라이더 너비 측정용
   const sliderRef = useRef(null);
   const scrollIndex = useRef(0);
@@ -39,7 +39,7 @@ const DefaultSlider = ({ children, visibleCount = 3 }) => {
   const cardWidthPercent = `calc((100% - ${totalGapPx}px) / ${visibleCount})`;
 
   return (
-    <div className="slider-wrapper">
+    <div className={`slider-wrapper ${className || ""}`}>
       <button className="slider-btn left" onClick={() => scroll("left")}>
         {"<"}
       </button>

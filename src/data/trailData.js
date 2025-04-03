@@ -8,6 +8,7 @@ const trailData = [
       cardInfo: {
         name: "도선사 코스",
         distance: "3.2km",
+        time: "1시간 20분",
         level: "중간",
       },
     },
@@ -18,6 +19,7 @@ const trailData = [
       cardInfo: {
         name: "서울대 코스",
         distance: "2.8km",
+        time: "1시간 20분",
         level: "쉬움",
       },
     },
@@ -28,6 +30,7 @@ const trailData = [
       cardInfo: {
         name: "우이령길",
         distance: "4.1km",
+        time: "1시간 20분",
         level: "어려움",
       },
     },
@@ -38,6 +41,7 @@ const trailData = [
       cardInfo: {
         name: "옛골 코스",
         distance: "2.5km",
+        time: "1시간 20분",
         level: "쉬움",
       },
     },
@@ -48,6 +52,7 @@ const trailData = [
       cardInfo: {
         name: "수락폭포 코스",
         distance: "3.8km",
+        time: "1시간 20분",
         level: "중간",
       },
     },
@@ -58,6 +63,7 @@ const trailData = [
       cardInfo: {
         name: "상계동 코스",
         distance: "3.1km",
+        time: "1시간 20분",
         level: "중간",
       },
     },

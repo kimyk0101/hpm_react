@@ -4,6 +4,8 @@ import { useAuth } from "../contexts/AuthContext";
 import ReactSelect from "react-dropdown-select"; // ReactSelect 임포트
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 눈 아이콘을 import
 import { CSSTransition } from "react-transition-group";
+import ContentContainer from "../layouts/ContentContainer";
+import Header from "../components/Header/Header";
 import DefaultLayout from "../layouts/DefaultLayout";
 import "../css/joinPage.css";
 import "../css/LoginPage.css";
@@ -434,22 +436,20 @@ const LoginJoinPage = () => {
   };
 
   return (
-    <DefaultLayout
-      headerProps={{
-        showBack: true,
-        title: "회원가입",
-        showIcons: { search: true },
-      }}
-    >
-      <div className="login-body">
-        {/* {isLogin ? ( */}
-        <CSSTransition
-          in={isLogin}
-          timeout={500}
-          classNames="slide"
-          unmountOnExit
-          nodeRef={nodeRefLogin} // nodeRef 추가
-        >
+    <>
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+      <DefaultLayout>
+        <div className="login-body">
+          {/* {isLogin ? ( */}
+          <CSSTransition
+            in={isLogin}
+            timeout={500}
+            classNames="slide"
+            unmountOnExit
+            nodeRef={nodeRefLogin} // nodeRef 추가
+          >
             <div className="login-container" ref={nodeRefLogin}>
               <div className="login-left">
                 <h2 className="login-title">Welcome!</h2>
@@ -500,14 +500,14 @@ const LoginJoinPage = () => {
               </div>
             </div>
           </CSSTransition>
-        {/* ) : ( */}
-        <CSSTransition
-          in={!isLogin}
-          timeout={500}
-          classNames="slide"
-          unmountOnExit
-          nodeRef={nodeRefSignup} // nodeRef 추가
-        >
+          {/* ) : ( */}
+          <CSSTransition
+            in={!isLogin}
+            timeout={500}
+            classNames="slide"
+            unmountOnExit
+            nodeRef={nodeRefSignup} // nodeRef 추가
+          >
             <div className="join-container" ref={nodeRefSignup}>
               <div className="join-left">
                 <div className="join-left-overlay">
@@ -758,9 +758,10 @@ const LoginJoinPage = () => {
               </div>
             </div>
           </CSSTransition>
-        {/* )} */}
-      </div>
-    </DefaultLayout>
+          {/* )} */}
+        </div>
+      </DefaultLayout>
+    </>
   );
 };
 

@@ -1,11 +1,15 @@
-const TrailDetails = ({ cardInfo }) => {
+const TrailDetails = ({ mountainName, cardInfo }) => {
   return (
     <div className="card-details">
       <p>
-        <strong>{cardInfo.name}</strong>
+        <strong>{mountainName}</strong>
       </p>
-      <p>거리: {cardInfo.distance}</p>
-      <p>난이도: {cardInfo.level}</p>
+      <p className="trail-course">{cardInfo.name}</p>
+      <div className="trail-meta">
+        <p>{cardInfo.distance}</p>
+        <p>{cardInfo.time}</p>
+        <p>{cardInfo.level}</p>
+      </div>
     </div>
   );
 };

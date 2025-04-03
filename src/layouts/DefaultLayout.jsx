@@ -6,11 +6,11 @@ import "../css/DefaultLayout.css";
 
 const DefaultLayout = ({ children, headerProps }) => (
   <>
-    <header className="header-container">
+    {/* <header className="header-container">
       <ContentContainer>
         <Header {...headerProps} />
       </ContentContainer>
-    </header>
+    </header> */}
 
     <ContentContainer>
       <main className="main-content">{children}</main>
