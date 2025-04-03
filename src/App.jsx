@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainHome from "../src/pages/mainPage";
 import LoginPage from "../src/pages/loginPage";
 import JoinPage from "../src/pages/joinPage";
+import LoginJoin from "../src/pages/login-joinPage";
 import Mypage from "./pages/MyPage/MyPage";
 import EditProfile from "./pages/Mypage/EditProfile/EditProfile";
 import SearchPage from "./pages/Search/SearchPage";
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainHome />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/login-join" element={<LoginJoin />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/edit" element={<EditProfile />} />

@@ -298,3 +298,140 @@
   transform: translateY(0);
   opacity: 1;
 }
+
+
+
+
+/* 댓글, 대댓글 css */
+
+/* 댓글 스타일 */
+.c-detail-comments {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 댓글 입력 영역 */
+.c-detail-comment-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.c-detail-comment-input textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+}
+.c-detail-comment-input button {
+  align-self: flex-end;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 개별 댓글 스타일 */
+.c-detail-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+/* 닉네임과 작성자 배지 */
+.c-detail-comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+.nickname {
+  color: #333;
+}
+.author-badge {
+  background-color: #ffcc00;
+  color: #333;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+
+/* 댓글 내용 스타일 */
+.c-detail-comment p {
+  margin: 4px 0;
+  cursor: pointer;
+}
+
+/* 댓글 날짜와 답글 버튼 */
+.c-detail-comment span {
+  font-size: 12px;
+  color: #666;
+}
+.c-detail-comment button {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #007bff;
+  cursor: pointer;
+}
+.c-detail-comment button:hover {
+  text-decoration: underline;
+}
+
+/* 대댓글 스타일 */
+.c-detail-replies {
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.c-detail-reply {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border-left: 2px solid #ddd;
+}
+
+/* 대댓글 입력 영역 */
+.c-detail-reply-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+.c-detail-reply-input input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.c-detail-reply-input button {
+  align-self: flex-end;
+  padding: 4px 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 댓글 수정/삭제 버튼 */
+.c-detail-comments-buttons, .c-detail-reply-buttons {
+  display: flex;
+  gap: 8px;
+}
+.c-detail-comments-edit-delete-button, .c-detail-replies-edit-delete-button {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #ff4d4f;
+  cursor: pointer;
+}
+.c-detail-comments-edit-delete-button:hover, .c-detail-replies-edit-delete-button:hover {
+  text-decoration: underline;
+}

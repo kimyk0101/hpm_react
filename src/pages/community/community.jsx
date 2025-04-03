@@ -58,6 +58,7 @@ const CommunityList = () => {
         content: community.content,
         updateDate: community.update_date,
         views: community.views,
+        commentCount: community.comment_count,
       }));
 
       setPosts(postData); // 상태 업데이트
@@ -193,8 +194,9 @@ const CommunityList = () => {
                   <td className="community-post-center">
                     {posts.length - index - (currentPage - 1) * postsPerPage}
                   </td>
-                  {/* <td className="community-post-center">{indexOfFirstPost + index + 1}</td> */}
-                  <td className="community-post-title">{post.title}</td>
+                  <td className="community-post-title">
+                    {post.title} {post.commentCount}
+                  </td>
                   <td className="community-post-center">{post.nickname}</td>
                   <td className="community-post-center">
                     {formatRelativeDate(post.updateDate)}
@@ -220,17 +222,28 @@ const CommunityList = () => {
               이전
             </button>
 
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => handlePageChange(i + 1)}
-                className={`community-pagination-btn ${
-                  currentPage === i + 1 ? "active" : ""
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {(() => {
+              let startPage = Math.max(1, currentPage - 2);
+              let endPage = Math.min(totalPages, startPage + 4);
+              if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+              }
+
+              return [...Array(endPage - startPage + 1)].map((_, i) => {
+                const pageNum = startPage + i;
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`community-pagination-btn ${
+                      currentPage === pageNum ? "active" : ""
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              });
+            })()}
 
             <button
               className="community-pagination-btn"
