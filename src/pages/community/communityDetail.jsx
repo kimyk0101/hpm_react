@@ -16,7 +16,8 @@ function CommunityDetail() {
   const API_COMMUNITY_URL = `http://localhost:8088/api/communities/${communityId}`;
   const API_COMMENT_URL = `http://localhost:8088/api/communities/${communityId}/comments`;
   const API_PHOTO_URL = `http://localhost:8088/api/communityPhoto/list/${communityId}`;
-  const API_PHOTO_DELETE = `http://localhost:8088/api/communityPhoto/delete/${photo.id}`;
+  const API_PHOTO_DELETE = (photoId) =>
+    `http://localhost:8088/api/communityPhoto/delete/photo/${photoId}`;
 
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]); // 댓글 리스트
@@ -97,11 +98,11 @@ function CommunityDetail() {
     }
   };
 
-  //  이미지 삭제 API
+  //  각 이미지 개별 삭제 API
   const handleDeletePhoto = async (photoId) => {
     try {
-      await fetch(`${API_PHOTO_DELETE}/${photoId}`, { method: "DELETE" });
-      fetchPhotos();
+      await fetch(API_PHOTO_DELETE(photoId), { method: "DELETE" });
+      setPhotos((prev) => prev.filter((p) => p.id !== photoId));
     } catch (e) {
       console.error("이미지 삭제 실패:", e);
     }
@@ -549,7 +550,12 @@ function CommunityDetail() {
                 </div>
 
                 {/* ✅ 새 이미지 업로더 */}
-                <PhotoUploader ref={uploaderRef} onChange={() => {}} />
+                <PhotoUploader
+                  ref={uploaderRef}
+                  initialServerPhotos={photos} // ✅ 서버 이미지 전달
+                  onDeleteServerPhoto={handleDeletePhoto} // ✅ 서버 삭제 API 연결
+                  onChange={() => {}}
+                />
 
                 <div className="c-detail-buttons">
                   <button
