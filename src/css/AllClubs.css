@@ -1,52 +1,57 @@
 .clubsPage {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .clubs-back-button {
-    align-self: flex-start;
-  }
-  
-  .club-cards-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  
-  .club-card {
-    width: 300px;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    position: relative;
-  }
-  
-  .club-card img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-    cursor: pointer; /* 이미지 hover 시 손 모양 커서 */
-  }
-  
-  .club-card h3 {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold; /* club.name bold 체 */
-  }
-  
-  .club-card p.club-title {
-    color: green;
-  }
-  
-  .club-card p {
-    margin: 0;
-  }
+  display: flex;
+  flex-direction: column;
+}
+
+.clubs-back-button {
+  align-self: flex-start;
+}
+
+.club-cards-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.club-card {
+  width: 300px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.club-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  cursor: pointer; /* 이미지 hover 시 손 모양 커서 */
+}
+
+.club-card h3 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold; /* club.name bold 체 */
+}
+
+.club-card p.club-title {
+  color: green;
+}
+
+.club-card p {
+  margin: 0;
+}
+
+/* 조회수 빨간색 표시 */
+.club-card p.club-views {
+  color: red;
+}

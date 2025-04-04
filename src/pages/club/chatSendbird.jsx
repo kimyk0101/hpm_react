@@ -1,50 +1,55 @@
-// import SendbirdApp from "@sendbird/uikit-react/App";
-// import "@sendbird/uikit-react/dist/index.css";
-
-// const ChatSendbird = () => {
-//   return (
-//     <div className="App">
-//       <SendbirdApp
-//         appId = "import.meta.env.VITE_APP_SENDBIRD_APP_ID" // 본인 앱 아이디 복붙
-//         userId="import.meta.env.VITE_APP_SENDBIRD_USER_ID" // 유저 아이디 설정
-//         nickname="min" // 유저 닉네임 설정
-//         theme="dark"	// 다크모드로 변경 "light"가 default 값임
-//       />
-//     </div>
-//   );
-// };
-
-// export default ChatSendbird;
-
-
-
-
-
 import SendbirdApp from "@sendbird/uikit-react/App";
 import "@sendbird/uikit-react/dist/index.css";
-
+import { useAuth } from "../../contexts/AuthContext";
 
 const APP_ID = import.meta.env.VITE_APP_SENDBIRD_APP_ID;
+
 const USER_ID = import.meta.env.VITE_APP_SENDBIRD_USER_ID;
 const ACCESS_TOKEN = import.meta.env.VITE_APP_SENDBIRD_ACCESS_TOKEN;
-const CHANNEL_URL = "sendbird_open_channel_23487_ac3ae21dfc95afc170944518fbb785cb6ab35d11"; // 원하는 채팅방 URL 입력
+
+const HMANAGER_ID = import.meta.env.VITE_APP_SENDBIRD_HALLASANMANAGER_ID;
+const HMANAGER_ACCESS_TOKEN = import.meta.env.VITE_APP_SENDBIRD_HALLASANMANAGER_ACCESS_TOKEN;
+
+const SMANAGER_ID = import.meta.env.VITE_APP_SENDBIRD_SEORAKSANMANAGER_ID;
+const SMANAGER_ACCESS_TOKEN = import.meta.env.VITE_APP_SENDBIRD_SEORAKSANMANAGER_ACCESS_TOKEN;
+
+const MMANAGER_ID = import.meta.env.VITE_APP_SENDBIRD_MAISANMANAGER_ID;
+const MMANAGER_ACCESS_TOKEN = import.meta.env.VITE_APP_SENDBIRD_MAISANMANAGER_ACCESS_TOKEN;
 
 const ChatSendbird = () => {
-    console.log("APP_ID:", APP_ID);
-    console.log("USER_ID:", USER_ID);
-    console.log("CHANNEL_URL:", CHANNEL_URL);
-    console.log("ACCESS_TOKEN:", ACCESS_TOKEN);
+    const { user } = useAuth();
+
+    // console.log("APP_ID:", APP_ID);
+    // console.log("USER_ID:", USER_ID);
+    // console.log("ACCESS_TOKEN:", ACCESS_TOKEN);
+
+    let sendbirdUserId = USER_ID;
+    let sendbirdAccessToken = ACCESS_TOKEN;
+
+    if (user && user.user_id) {
+        if (user.user_id === "hallasanmanager") {
+            sendbirdUserId = HMANAGER_ID;
+            sendbirdAccessToken = HMANAGER_ACCESS_TOKEN;
+        } else if (user.user_id === "seoraksanmanager") {
+            sendbirdUserId = SMANAGER_ID;
+            sendbirdAccessToken = SMANAGER_ACCESS_TOKEN;
+        } else if (user.user_id === "maisanmanager") {
+            sendbirdUserId = MMANAGER_ID;
+            sendbirdAccessToken = MMANAGER_ACCESS_TOKEN;
+        }
+    }
 
     return (
-        <SendbirdApp
-            appId={APP_ID}
-            userId={USER_ID}
-            accessToken={ACCESS_TOKEN}
-            channelUrl={CHANNEL_URL} // 특정 채팅방만 열기
-            theme="dark"
-            showSearchIcon={true}
-            nickname={"민정"}
-        />
+        <div style={{ width: "100%", height: "100vh" }}>
+            <SendbirdApp
+                appId={APP_ID}
+                userId={sendbirdUserId}
+                accessToken={sendbirdAccessToken}
+                theme="dark"
+                showSearchIcon={true}
+                nickname={user?.nickname || "익명"}
+            />
+        </div>
     );
 };
 
