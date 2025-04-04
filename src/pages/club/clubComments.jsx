@@ -5,6 +5,7 @@ import "../../css/ClubComments.css";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "react-modal";
 
+
 const ClubComments = () => {
     const { id } = useParams();
     const [comments, setComments] = useState([]);
@@ -18,9 +19,16 @@ const ClubComments = () => {
     const [deleteCommentId, setDeleteCommentId] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const { user } = useAuth();
-    const [isChatModalOpen, setIsChatModalOpen] = useState(false); // 채팅방 입장 모달 상태 추가
-
+    const [isChatModalOpen, setIsChatModalOpen] = useState(false);
     const modalRef = useRef(null);
+
+    // 페이지네이션 관련 상태 추가
+    const [currentPage, setCurrentPage] = useState(1);
+    const commentsPerPage = 5;
+
+    // 필터링 관련 상태 추가
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchType, setSearchType] = useState("content"); // 기본 검색 타입은 '내용'
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -185,6 +193,23 @@ const ClubComments = () => {
         }
     };
 
+    // 필터링된 댓글 목록 반환하는 함수
+    const filteredComments = comments.filter(comment => {
+        if (searchType === "content") {
+            return comment.content.toLowerCase().includes(searchTerm.toLowerCase());
+        } else if (searchType === "nickname") {
+            return comment.nickname.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        return true;
+    });
+
+    // 페이지네이션 관련 함수 수정
+    const indexOfLastComment = currentPage * commentsPerPage;
+    const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+    const currentComments = filteredComments.slice(indexOfFirstComment, indexOfLastComment);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div>
             <DefaultLayout
@@ -211,44 +236,71 @@ const ClubComments = () => {
                     {error && <p style={{ color: "red" }}>{error}</p>}
 
                     {comments.length > 0 ? (
-                        <table className="comments-table">
-                            <thead>
-                                <tr>
-                                    <th>번호</th>
-                                    <th>내용</th>
-                                    <th>작성자</th>
-                                    <th>작성일</th>
-                                    <th>관리</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {comments.map((comment, index) => {
-                                    const date = new Date(comment.updateDate);
-                                    const formattedDate = date.toLocaleDateString("ko-KR", {
-                                        year: "numeric",
-                                        month: "2-digit",
-                                        day: "2-digit",
-                                    });
-                                    const formattedTime = date.toLocaleTimeString("ko-KR", {
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                    });
+                        <>
+                            {/* 검색 필터 위치 변경 */}
+                            <div className="search-filter-container">
+                                <div className="search-filter">
+                                    <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+                                        <option value="content">내용</option>
+                                        <option value="nickname">작성자</option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        placeholder="검색어를 입력하세요"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <table className="comments-table">
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>내용</th>
+                                        <th>작성자</th>
+                                        <th>작성일</th>
+                                        <th>관리</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentComments.map((comment, index) => {
+                                        const date = new Date(comment.updateDate);
+                                        const formattedDate = date.toLocaleDateString("ko-KR", {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                        });
+                                        const formattedTime = date.toLocaleTimeString("ko-KR", {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                        });
 
-                                    return (
-                                        <tr key={comment.id}>
-                                            <td>{comments.length - index}</td>
-                                            <td>{comment.content}</td>
-                                            <td>{comment.nickname}</td>
-                                            <td>{`${formattedDate} ${formattedTime}`}</td>
-                                            <td>
-                                                <button onClick={() => openEditModal(comment)}>수정</button>
-                                                <button onClick={() => openDeleteModal(comment.id, comment.usersId)}>삭제</button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                        return (
+                                            <tr key={comment.id}>
+                                                <td>{comments.length - (indexOfFirstComment + index)}</td>
+                                                <td>{comment.content}</td>
+                                                <td>{comment.nickname}</td>
+                                                <td>{`${formattedDate} ${formattedTime}`}</td>
+                                                <td>
+                                                    <button onClick={() => openEditModal(comment)}>수정</button>
+                                                    <button onClick={() => openDeleteModal(comment.id, comment.usersId)}>삭제</button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                            {/* 페이지네이션 */}
+                            <div className="pagination">
+                                {Array(Math.ceil(filteredComments.length / commentsPerPage))
+                                    .fill()
+                                    .map((_, index) => (
+                                        <button key={index + 1} onClick={() => paginate(index + 1)}>
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                </div>
+                        </>
                     ) : (
                         <p>공지사항이 없습니다.</p>
                     )}
@@ -318,6 +370,7 @@ const ClubComments = () => {
                             </div>
                         </Modal>
                     )}
+
                     {isChatModalOpen && (
                         <Modal
                             isOpen={isChatModalOpen}

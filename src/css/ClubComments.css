@@ -139,3 +139,39 @@
 .modal-buttons button:hover {
   background-color: #d0d0d0;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-filter-container {
+  display: flex;
+  justify-content: flex-end; /* 또는 flex-end, center 등 */
+  margin-bottom: 20px;
+}
+
+.search-filter {
+  display: flex;
+}
+
+.search-filter select,
+.search-filter input {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
