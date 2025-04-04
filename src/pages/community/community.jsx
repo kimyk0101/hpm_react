@@ -97,11 +97,6 @@ const CommunityList = () => {
 
   const navigate = useNavigate();
 
-  // 상세 페이지로 이동
-  // const goToDetail = (postId) => {
-  //   navigate(`/communities/${postId}`);
-  // };
-
   const goToDetail = async (postId) => {
     try {
       // 조회수 증가 요청 보내기
@@ -194,7 +189,10 @@ const CommunityList = () => {
                     {posts.length - index - (currentPage - 1) * postsPerPage}
                   </td>
                   <td className="community-post-title">
-                    {post.title} {post.commentCount}
+                    {post.title}{" "}
+                    <span style={{ color: "green" }}>
+                      [{post.commentCount}]
+                    </span>
                   </td>
                   <td className="community-post-center">{post.nickname}</td>
                   <td className="community-post-center">

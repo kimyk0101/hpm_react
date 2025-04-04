@@ -23,7 +23,6 @@ function CommunityDetail() {
   const [replyContent, setReplyContent] = useState(""); // 대댓글 내용
   const [editReply, setEditReply] = useState(null);
   const [replies, setReplies] = useState({});
-  const [visibleReplies, setVisibleReplies] = useState({}); // 어떤 댓글의 답글이 보이는지 저장
 
   const navigate = useNavigate(); // useNavigate 훅 사용
 
@@ -142,25 +141,45 @@ function CommunityDetail() {
     }
   };
 
-  // 댓글(부모 댓글만) 불러오기
+  // 전체 댓글 트리 구조 만들기
+  const buildCommentTree = (comments) => {
+    const map = {};
+    const roots = [];
+
+    comments.forEach((comment) => {
+      comment.children = []; // 자식 초기화
+      map[comment.id] = comment;
+    });
+
+    comments.forEach((comment) => {
+      if (comment.parent_id === null) {
+        roots.push(comment); // 최상위 부모
+      } else {
+        const parent = map[comment.parent_id];
+        if (parent) {
+          parent.children.push(comment);
+        }
+      }
+    });
+
+    return roots;
+  };
+
+  // 댓글 불러오기 (부모 댓글 + 자식 댓글)
   const fetchComments = async () => {
     try {
       const response = await fetch(API_COMMENT_URL);
       const data = await response.json();
 
-      console.log("서버에서 받아온 댓글 데이터:", data);
-
-      if (!Array.isArray(data) || data.length === 0) {
+      if (!Array.isArray(data)) {
         console.warn("댓글 데이터가 없습니다.");
         setComments([]);
         return;
       }
 
-      // `parent_id`가 `null`인 댓글만 필터링 (즉, 부모 댓글만 가져옴)
-      const rootComments = data.filter((comment) => comment.parent_id === null);
-
-      console.log("부모 댓글만 필터링된 데이터:", rootComments);
-      setComments(rootComments);
+      const treeData = buildCommentTree(data);
+      setComments(treeData);
+      console.log("🌳 트리 구조로 변환된 댓글 데이터:", treeData);
     } catch (error) {
       console.error("댓글 불러오기 실패:", error);
     }
@@ -279,58 +298,6 @@ function CommunityDetail() {
     }
   };
 
-  //  대댓글 불러오기
-  const fetchReplies = async (commentId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8088/api/communities/${communityId}/${commentId}/replies`
-      );
-      const data = await response.json();
-
-      console.log(`📌 댓글 ${commentId}의 대댓글 데이터:`, data);
-
-      if (!Array.isArray(data)) {
-        console.warn("❌ 대댓글 데이터가 올바르지 않습니다.");
-        return;
-      }
-
-      // 상태 업데이트: 특정 댓글의 `replies` 추가
-      setComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment.id === commentId ? { ...comment, children: data } : comment
-        )
-      );
-    } catch (error) {
-      console.error("❌ 대댓글 불러오기 실패:", error);
-    }
-  };
-
-  useEffect(() => {
-    console.log("현재 replies 상태:", replies);
-  }, [replies]); // replies가 변경될 때마다 콘솔 출력
-
-  // 답글 표시 토글
-  const toggleReplies = (commentId) => {
-    setVisibleReplies((prev) => {
-      const isCurrentlyVisible = prev[commentId];
-
-      // 토글: 이미 보이는 상태라면 숨기고, 아니면 표시
-      return {
-        ...prev,
-        [commentId]: !isCurrentlyVisible,
-      };
-    });
-  };
-
-  // `visibleReplies` 상태가 변경될 때 `fetchReplies` 실행
-  useEffect(() => {
-    Object.entries(visibleReplies).forEach(([commentId, isVisible]) => {
-      if (isVisible) {
-        fetchReplies(Number(commentId)); // 숫자로 변환 후 실행
-      }
-    });
-  }, [visibleReplies]);
-
   // 대댓글 입력창 토글
   const toggleReply = (commentId) => {
     if (!isLoggedIn) {
@@ -340,46 +307,38 @@ function CommunityDetail() {
     setReplyingTo(replyingTo === commentId ? null : commentId);
   };
 
-//  대댓글 생성 
-const handleReplySubmit = async (parentId) => {
-  if (!replyContent[parentId]?.trim()) {
-    alert("답글을 입력하세요");
-    return;
-  }
-
-  const replyData = {
-    content: replyContent[parentId],
-    update_date: formatDate(new Date()),
-    users_id: parseInt(user.id, 10),
-  };
-
-  console.log("전송 데이터:", JSON.stringify(replyData));
-
-  try {
-    const response = await fetch(
-      `http://localhost:8088/api/communities/${communityId}/comments/${parentId}/replies`,
-      {
-        method: "POST",
-        body: JSON.stringify(replyData),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`서버 오류: ${response.status}`);
+  //  대댓글 생성
+  const handleReplySubmit = async (parentId) => {
+    if (!replyContent[parentId]?.trim()) {
+      alert("답글을 입력하세요");
+      return;
     }
 
-    setReplyContent((prev) => ({ ...prev, [parentId]: "" })); // 입력창 초기화
-    setReplyingTo(null); // 입력창 닫기
+    const replyData = {
+      content: replyContent[parentId],
+      update_date: formatDate(new Date()),
+      users_id: parseInt(user.id, 10),
+      parent_id: parentId, // 꼭 필요!
+    };
 
-    setVisibleReplies((prev) => ({ ...prev, [parentId]: true })); // 답글 표시 상태 true
+    try {
+      const response = await fetch(
+        `http://localhost:8088/api/communities/${communityId}/comments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(replyData),
+        }
+      );
 
-    fetchReplies(parentId); // 답글 다시 불러오기
-  } catch (error) {
-    console.error("대댓글 추가 실패:", error);
-  }
-};
+      if (!response.ok) throw new Error(`서버 오류: ${response.status}`);
 
+      setReplyContent((prev) => ({ ...prev, [parentId]: "" }));
+      fetchComments(); // 전체 댓글 + 대댓글 새로 불러오기
+    } catch (error) {
+      console.error("대댓글 추가 실패:", error);
+    }
+  };
 
   // 대댓글 수정
   const handleEditReplyClick = (reply) => {
@@ -643,10 +602,13 @@ const handleReplySubmit = async (parentId) => {
                     </div>
                   ) : (
                     // 수정 모드 아닐 때의 댓글 내용 (클릭하면 답글 보이게)
-                    <p
-                      className="c-detail-comment-content"
-                      onClick={() => toggleReplies(comment.id)}
-                    >
+                    // <p
+                    //   className="c-detail-comment-content"
+                    //   onClick={() => fetchReplies(comment.id)}
+                    // >
+                    //   {comment.content}
+                    // </p>
+                    <p className="c-detail-comment-content">
                       {comment.content}
                     </p>
                   )}
@@ -705,95 +667,93 @@ const handleReplySubmit = async (parentId) => {
                   )}
 
                   {/* 대댓글 목록 */}
-                  {visibleReplies[comment.id] &&
-                    comment.children &&
-                    comment.children.length > 0 && (
-                      <div className="c-detail-replies">
-                        {comment.children.map((reply) => {
-                          const isReplyAuthor = user?.id === reply.users_id;
+                  {comment.children && comment.children.length > 0 && (
+                    <div className="c-detail-replies">
+                      {comment.children.map((reply) => {
+                        const isReplyAuthor = user?.id === reply.users_id;
 
-                          return (
-                            <div key={reply.id} className="c-detail-reply">
-                              {/* 닉네임 + 작성자 배지 */}
-                              <div className="c-detail-reply-header">
-                                <span className="c-detail-reply-nickname">
-                                  {reply.nickname}
+                        return (
+                          <div key={reply.id} className="c-detail-reply">
+                            {/* 닉네임 + 작성자 배지 */}
+                            <div className="c-detail-reply-header">
+                              <span className="c-detail-reply-nickname">
+                                {reply.nickname}
+                              </span>
+                              {isReplyAuthor && (
+                                <span className="c-detail-reply-author-badge">
+                                  작성자
                                 </span>
-                                {isReplyAuthor && (
-                                  <span className="c-detail-reply-author-badge">
-                                    작성자
-                                  </span>
-                                )}
-                              </div>
-
-                              {/* 답글 수정 모드 */}
-                              {editReply && editReply.id === reply.id ? (
-                                <div className="c-detail-reply-edit-wrapper">
-                                  <textarea
-                                    className="c-detail-reply-textarea"
-                                    value={editReply.content}
-                                    onChange={(e) =>
-                                      setEditReply({
-                                        ...editReply,
-                                        content: e.target.value,
-                                      })
-                                    }
-                                  />
-                                  <div className="c-detail-reply-edit-buttons">
-                                    <button
-                                      className="c-detail-reply-edit-button"
-                                      onClick={() => handleEditReply(reply.id)}
-                                    >
-                                      수정 완료
-                                    </button>
-                                    <button
-                                      className="c-detail-reply-edit-button"
-                                      onClick={() => setEditReply(null)}
-                                    >
-                                      취소
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <>
-                                  {/* 답글 내용 */}
-                                  <p className="c-detail-reply-content">
-                                    {reply.content}
-                                  </p>
-
-                                  {/* 답글 작성일 */}
-                                  <span className="c-detail-comment-updateDate">
-                                    {reply.update_date}
-                                  </span>
-
-                                  {/* 답글 수정/삭제 버튼 */}
-                                  {isLoggedIn && isReplyAuthor && (
-                                    <div className="c-detail-reply-buttons">
-                                      <button
-                                        className="c-detail-replies-edit-delete-button"
-                                        onClick={() =>
-                                          handleEditReplyClick(reply)
-                                        }
-                                      >
-                                        수정
-                                      </button>
-                                      <button
-                                        className="c-detail-replies-edit-delete-button"
-                                        onClick={() =>
-                                          handleDeleteReply(reply.id)
-                                        }
-                                      >
-                                        삭제
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
                               )}
                             </div>
-                          );
-                        })}
-                      </div>
-                    )}
+
+                            {/* 답글 수정 모드 */}
+                            {editReply && editReply.id === reply.id ? (
+                              <div className="c-detail-reply-edit-wrapper">
+                                <textarea
+                                  className="c-detail-reply-textarea"
+                                  value={editReply.content}
+                                  onChange={(e) =>
+                                    setEditReply({
+                                      ...editReply,
+                                      content: e.target.value,
+                                    })
+                                  }
+                                />
+                                <div className="c-detail-reply-edit-buttons">
+                                  <button
+                                    className="c-detail-reply-edit-button"
+                                    onClick={() => handleEditReply(reply.id)}
+                                  >
+                                    수정 완료
+                                  </button>
+                                  <button
+                                    className="c-detail-reply-edit-button"
+                                    onClick={() => setEditReply(null)}
+                                  >
+                                    취소
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                {/* 답글 내용 */}
+                                <p className="c-detail-reply-content">
+                                  {reply.content}
+                                </p>
+
+                                {/* 답글 작성일 */}
+                                <span className="c-detail-comment-updateDate">
+                                  {reply.update_date}
+                                </span>
+
+                                {/* 답글 수정/삭제 버튼 */}
+                                {isLoggedIn && isReplyAuthor && (
+                                  <div className="c-detail-reply-buttons">
+                                    <button
+                                      className="c-detail-replies-edit-delete-button"
+                                      onClick={() =>
+                                        handleEditReplyClick(reply)
+                                      }
+                                    >
+                                      수정
+                                    </button>
+                                    <button
+                                      className="c-detail-replies-edit-delete-button"
+                                      onClick={() =>
+                                        handleDeleteReply(reply.id)
+                                      }
+                                    >
+                                      삭제
+                                    </button>
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })}
