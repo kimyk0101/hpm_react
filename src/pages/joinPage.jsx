@@ -50,7 +50,7 @@ const JoinPage = () => {
 
   //  닉네임 중복 확인
   const checkUserNicknameAvailability = async (nickname) => {
-    const requestUrl = `http://localhost:8088/api/users/check-nickname?nickname=${nickname}`;
+    const requestUrl = `http://localhost:8088/api/users/check-user-nickname?nickname=${nickname}`;
     console.log("닉네임 중복 확인 요청 URL:", requestUrl);
 
     try {
