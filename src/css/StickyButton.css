@@ -1,0 +1,32 @@
+/* DefaultLayout.css 또는 별도의 CSS 파일에 추가 */
+
+.sticky-button {
+    position: fixed;
+    bottom: 5vh; /* 화면 하단에서 5vh */
+    right: 5vw; /* 화면 오른쪽에서 5vw */
+    background-color: #f0f0f0; /* 배경색 */
+    padding: 10px; /* 패딩 */
+    border-radius: 5px; /* 테두리 반경 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #333; /* 링크 색상 */
+    z-index: 1; /* 겹침 방지 */
+  }
+  
+  .sticky-button a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .sticky-button:hover {
+    background-color: #ddd; /* 마우스 오버 시 배경색 변경 */
+  }
+  
+  /* 모바일 대응 */
+  @media (max-width: 768px) {
+    .sticky-button {
+      bottom: 10vh;
+      right: 10vw;
+      padding: 5px;
+    }
+  }
+  

@@ -10,8 +10,10 @@ import trailData from "../data/trailData";
 import mtReviewData from "../data/mtReviewData";
 import MainHeaderImage from "./main/MainHeaderImage";
 import ViewAllButton from "../components/common/ViewAllButton";
+import { Link } from "react-router-dom";
 import "../css/DefaultLayout.css";
 import "../css/MainPage.css";
+import "../css/StickyButton.css";
 
 const MainHome = () => {
   return (
@@ -72,6 +74,14 @@ const MainHome = () => {
         </div> */}
         <div className="review-section-container">
           <ReviewSection />
+        </div>
+        <div className="sticky-button">
+          <Link to="/mountain/list_map" aria-label="산 목록 지도 보기">
+            <img
+              src="https://i.ibb.co/6cNgZxb6/free-icon-mountain.png"
+              alt="산 아이콘"
+            />
+          </Link>
         </div>
       </DefaultLayout>
     </>

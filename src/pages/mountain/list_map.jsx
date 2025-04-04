@@ -1,16 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
-import "../../css/DefaultLayout.css";
-import "../../css/map.css"; // map.css 파일 임포트
+import StickyButton from "../../components/map/StickyButton"; // StickyButton 컴포넌트 임포트
+import "../../css/map.css";
 
-function KakaoMap() {
+function MountainMap() {
   const mapRef = useRef(null);
   const [markerInfo, setMarkerInfo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
     const script = document.createElement("script");
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
-      import.meta.env.VITE_KAKAO_API
+      import.meta.env.VITE_KAKAO_MAPS_API_KEY
     }&autoload=false`;
     document.head.appendChild(script);
 
@@ -27,14 +28,14 @@ function KakaoMap() {
 
         // 각 산에 대한 마커 이미지 URL
         const markerImages = {
-          한라산: "https://i.ibb.co/6cNgZxb6/free-icon-mountain.png",
-          지리산: "https://i.ibb.co/hxb1GQ90/mountains.png",
-          설악산: "https://i.ibb.co/JwYFpyhH/placeholder.png",
-          태백산: "https://i.ibb.co/JwYFpyhH/placeholder.png",
-          소백산: "https://i.ibb.co/6cNgZxb6/free-icon-mountain.png",
-          속리산: "https://i.ibb.co/hxb1GQ90/mountains.png",
-          관악산: "https://i.ibb.co/JwYFpyhH/placeholder.png",
-          북한산: "https://i.ibb.co/JwYFpyhH/placeholder.png",
+          한라산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          지리산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          설악산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          태백산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          소백산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          속리산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          관악산: "https://i.ibb.co/QZk1h2W/30x30.png",
+          북한산: "https://i.ibb.co/QZk1h2W/30x30.png",
         };
 
         // 마커 위치 정의
@@ -106,8 +107,15 @@ function KakaoMap() {
         ];
 
         // 마커 이미지 속성 정의
-        const imageSize = new window.kakao.maps.Size(64, 69),
-          imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+        const imageSize = new window.kakao.maps.Size(30, 30),
+          imageOption = { offset: new window.kakao.maps.Point(15, 25) };
+
+        // 마커에 마우스 오버 효과를 위한 이미지 준비
+        const hoverImage = new window.kakao.maps.MarkerImage(
+          "https://i.ibb.co/hxb1GQ90/mountains.png", // hover 이미지 URL
+          imageSize,
+          imageOption
+        );
 
         // 줌 레벨에 따른 마커 이미지 크기 변경 함수
         const changeMarkerImage = () => {
@@ -124,7 +132,7 @@ function KakaoMap() {
               marker.setImage(defaultImage);
             } else {
               // 줌 레벨이 10 이상일 때 더 큰 이미지 사용
-              const largeImageSize = new window.kakao.maps.Size(80, 90);
+              const largeImageSize = new window.kakao.maps.Size(30, 30);
               const largeImage = new window.kakao.maps.MarkerImage(
                 markerImages[position.title],
                 largeImageSize,
@@ -151,12 +159,22 @@ function KakaoMap() {
           marker.setMap(map);
           markers.push(marker);
 
+          // 마커에 마우스 오버 이벤트 등록
+          window.kakao.maps.event.addListener(marker, "mouseover", function () {
+            marker.setImage(hoverImage);
+          });
+
+          // 마커에 마우스 아웃 이벤트 등록
+          window.kakao.maps.event.addListener(marker, "mouseout", function () {
+            marker.setImage(markerImage);
+          });
+
           // 마커 아래에 라벨 추가
           const label = new window.kakao.maps.CustomOverlay({
             map: map,
             position: position.latlng,
-            content: `<div style="background-color: #fff; border: 1px solid #ddd; padding: 5px; font-size: 12px;">${position.title}</div>`,
-            yAnchor: 1.5,
+            content: `<div style="background-color: transparent; padding: 5px; font-size: 11px; font-weight:bold;">${position.title}</div>`,
+            yAnchor: 0,
           });
           label.setMap(map);
 
@@ -164,6 +182,8 @@ function KakaoMap() {
           window.kakao.maps.event.addListener(marker, "click", function () {
             setMarkerInfo(position);
             setIsOpen(true);
+            setSelectedMarker(marker); // 선택된 마커 저장
+            marker.setImage(hoverImage); // 선택된 마커의 이미지를 호버 이미지로 변경
           });
         });
 
@@ -186,44 +206,40 @@ function KakaoMap() {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        position: "relative", // 추가
-      }}
-    >
-      <div ref={mapRef} style={{ width: "1024px", height: "1157px" }}></div>
-      {isOpen && markerInfo && (
-        <div
-          style={{
-            position: "absolute",
-            right: "30%",
-            left: "25%", // 좌측 여백
-            width: "55%", // 너비 설정
-            bottom: "0px",
-            padding: "20px",
-            backgroundColor: "#f1f1f1",
-            border: "1px solid #ddd",
-            borderRadius: "5px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            zIndex: 1000,
-          }}
-        >
-          <h2>{markerInfo.title}</h2>
-          <p>고도: {markerInfo.height}</p>
-          <p>{markerInfo.content}</p>
-          <img src={markerInfo.image} width="100" height="100" />
-          <button onClick={() => (window.location.href = markerInfo.link)}>
-            상세보기
-          </button>
-          <button onClick={() => setIsOpen(false)}>닫기</button>
-        </div>
-      )}
+    <div className="map-container">
+      <div className="map" style={{ position: "relative" }}>
+        <div ref={mapRef} style={{ width: "100%", height: "100%" }}></div>
+        {isOpen && markerInfo && (
+          <div className="info-box">
+            <div className="mountain-card">
+              <img
+                src={markerInfo.image}
+                alt={markerInfo.title}
+                className="mountain-image"
+              />
+              <div className="mountain-info">
+                <div className="mountain-header">
+                  <h2 className="mountain-title">{markerInfo.title}</h2>
+                  <span className="mountain-badge">{markerInfo.badge}</span>
+                </div>
+                <p className="mountain-location">
+                  {markerInfo.height} · {markerInfo.region}
+                </p>
+                <p className="mountain-description">{markerInfo.description}</p>
+                <div className="mountain-stats">
+                  <span>코스 {markerInfo.courses}</span>
+                  <span>실시간 {markerInfo.realtime}</span>
+                  <span>후기 {markerInfo.reviews}</span>
+                  <div onClick={() => setIsOpen(false)}>닫기</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      <StickyButton /> {/* StickyButton 추가 */}
     </div>
   );
 }
 
-export default KakaoMap;
+export default MountainMap;

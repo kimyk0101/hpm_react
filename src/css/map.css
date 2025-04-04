@@ -8,7 +8,78 @@
 
 .map {
   width: 1024px;
-  height: 1157px;
+  height: 919px;
+}
+
+.info-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  /* text-align: left; */
+}
+
+/* .info-box img {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.info-box button {
+  margin: 5px;
+} */
+
+.info-box .mountain-card {
+  display: flex;
+  align-items: center;
+}
+
+.info-box .mountain-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+}
+
+.info-box .mountain-info {
+  margin-left: 20px;
+}
+
+.info-box .mountain-header {
+  display: flex;
+}
+
+.info-box .mountain-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.info-box .mountain-badge {
+  margin-left: auto;
+  font-size: 12px;
+  color: #4caf50; /* 초록색 */
+}
+
+.info-box .mountain-location {
+  font-size: 14px;
+}
+
+.info-box .mountain-description {
+  font-size: 12px;
+}
+
+.info-box .mountain-stats {
+  display: flex;
+  gap: 20px; /* 간격 조정 */
+}
+
+.info-box .mountain-stats span {
+  font-size: 12px;
 }
 
 .popup {
@@ -64,3 +135,21 @@
 .popup button:last-child:hover {
   background-color: #a71d2a;
 }
+
+.sticky-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.sticky-button button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+

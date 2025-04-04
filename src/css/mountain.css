@@ -1,0 +1,82 @@
+.container {
+  max-width: 1200px;
+  margin: 40px auto;    
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 70%;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+}
+
+.search-button {
+  width: 20%;
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.mountain-list {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden; /* 스크롤 숨기기 */
+}
+
+.mountain-card {
+  margin: 20px;
+  width: calc(33.33% - 10px); /* 3개씩 표시 */
+  margin: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mountain-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.mountain-info {
+  padding: 20px;
+}
+
+.mountain-name {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.mountain-height,
+.mountain-location {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.sticky-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.sticky-button button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+

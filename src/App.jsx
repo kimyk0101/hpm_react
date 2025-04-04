@@ -20,7 +20,9 @@ import AllClubs from "./pages/club/allClubs";
 import ClubComments from "./pages/club/clubComments";
 import ChatSendbird from "./pages/club/chatSendbird";
 
-import KakaoMap from "./pages/map/kakaomap";
+import MountainMap from "./pages/mountain/list_map";
+import MountainList from "./pages/mountain/mountainList";
+// import MountainDetail from "./pages/mountain/mountainDetail";
 import "./css/reset.css";
 // import Board from "../src/components/Board";
 
@@ -94,8 +96,12 @@ function App() {
         {/* 각각의 산 모임 페이지 */}
         <Route path="/chatSendbird/:id" element={<ChatSendbird />} />{" "}
         {/* 샌드버드 채팅방 이동 페이지 */}
-        {/* 지도 (임시 라우터 설정) */}
-        <Route path="/map" element={<KakaoMap />} />
+        {/* 산 지도  */}
+        <Route path="/mountain/list_map" element={<MountainMap />} />
+        {/* 산 목록 */}
+        <Route path="/mountain/list" element={<MountainList />} />
+        {/* 산 단건 목록 */}
+        {/* <Route path="/mountain/:id" element={<MountainDetail />} /> */}
       </Routes>
     </Router>
   );
