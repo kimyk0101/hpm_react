@@ -4,42 +4,40 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 42px;
-  font-weight: bold;
-  width: 60px;
-  height: 60px;
+  font-size: 16px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
 }
 
-/* 검정색 화살표 */
-.c-create-back-button::before {
-  content: "←";
+/* 검정색 아이콘 */
+.c-create-back-button .c-create-back-button-default-icon {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   position: absolute;
   color: black;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* 초록색 화살표 (처음에는 안 보임) */
-.c-create-back-button::after {
-  content: "←";
+/* 초록색 아이콘 (처음에는 안 보임) */
+.c-create-back-button .c-create-back-button-hover-icon {
   position: absolute;
   color: #8caa63;
-  transform: translateX(100%);
+  transform: translateX(100%); /* 오른쪽에 숨김 */
   opacity: 0;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* 호버 시, 검정 화살표 왼쪽으로 사라짐 */
-.c-create-back-button:hover::before {
+/* 호버 시, 검정 아이콘 왼쪽으로 사라짐 */
+.c-create-back-button:hover .c-create-back-button-default-icon {
   transform: translateX(-100%);
   opacity: 0;
 }
 
-/* 호버 시, 초록 화살표 오른쪽에서 등장 */
-.c-create-back-button:hover::after {
+/* 호버 시, 초록 아이콘 오른쪽에서 등장 */
+.c-create-back-button:hover .c-create-back-button-hover-icon {
   transform: translateX(0);
   opacity: 1;
 }
@@ -181,7 +179,7 @@
 }
 
 /* 로그인 안내 메시지 스타일 */
-c-login-redirect-message {
+.c-login-redirect-message {
   font-size: 1rem;
   color: #555;
   text-align: center;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { redirect, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
+import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -22,6 +23,7 @@ function CommunityDetail() {
   const [replyContent, setReplyContent] = useState(""); // 대댓글 내용
   const [editReply, setEditReply] = useState(null);
   const [replies, setReplies] = useState({});
+  const [visibleReplies, setVisibleReplies] = useState({}); // 어떤 댓글의 답글이 보이는지 저장
 
   const navigate = useNavigate(); // useNavigate 훅 사용
 
@@ -221,7 +223,6 @@ function CommunityDetail() {
     e.preventDefault();
 
     if (!editComment.content.trim()) {
-      alert("내용을 입력해주세요.");
       return;
     }
 
@@ -239,11 +240,8 @@ function CommunityDetail() {
 
       fetchComments(); // 댓글 수정 후 다시 불러오기
       setEditComment(null); // 수정 성공 후 초기화
-
-      alert("수정이 완료되었습니다!");
     } catch (error) {
       console.error("댓글 수정 실패:", error);
-      alert("댓글 수정에 실패했습니다.");
     }
   };
 
@@ -311,47 +309,77 @@ function CommunityDetail() {
     console.log("현재 replies 상태:", replies);
   }, [replies]); // replies가 변경될 때마다 콘솔 출력
 
+  // 답글 표시 토글
+  const toggleReplies = (commentId) => {
+    setVisibleReplies((prev) => {
+      const isCurrentlyVisible = prev[commentId];
+
+      // 토글: 이미 보이는 상태라면 숨기고, 아니면 표시
+      return {
+        ...prev,
+        [commentId]: !isCurrentlyVisible,
+      };
+    });
+  };
+
+  // `visibleReplies` 상태가 변경될 때 `fetchReplies` 실행
+  useEffect(() => {
+    Object.entries(visibleReplies).forEach(([commentId, isVisible]) => {
+      if (isVisible) {
+        fetchReplies(Number(commentId)); // 숫자로 변환 후 실행
+      }
+    });
+  }, [visibleReplies]);
+
   // 대댓글 입력창 토글
   const toggleReply = (commentId) => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다");
+      return;
+    }
     setReplyingTo(replyingTo === commentId ? null : commentId);
   };
 
-  //  대댓글 생성
-  const handleReplySubmit = async (parentId) => {
-    if (!replyContent[parentId]?.trim()) {
-      alert("답글을 입력하세요!");
-      return;
-    }
+//  대댓글 생성 
+const handleReplySubmit = async (parentId) => {
+  if (!replyContent[parentId]?.trim()) {
+    alert("답글을 입력하세요");
+    return;
+  }
 
-    const replyData = {
-      content: replyContent[parentId], // content가 문자열인지 확인
-      update_date: formatDate(new Date()),
-      users_id: parseInt(user.id, 10),
-    };
-
-    console.log("전송 데이터:", JSON.stringify(replyData));
-
-    try {
-      const response = await fetch(
-        `http://localhost:8088/api/communities/${communityId}/comments/${parentId}/replies`,
-        {
-          method: "POST",
-          body: JSON.stringify(replyData),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`서버 오류: ${response.status}`);
-      }
-
-      setReplyContent((prev) => ({ ...prev, [parentId]: "" }));
-      setReplyingTo(null);
-      fetchComments();
-    } catch (error) {
-      console.error("대댓글 추가 실패:", error);
-    }
+  const replyData = {
+    content: replyContent[parentId],
+    update_date: formatDate(new Date()),
+    users_id: parseInt(user.id, 10),
   };
+
+  console.log("전송 데이터:", JSON.stringify(replyData));
+
+  try {
+    const response = await fetch(
+      `http://localhost:8088/api/communities/${communityId}/comments/${parentId}/replies`,
+      {
+        method: "POST",
+        body: JSON.stringify(replyData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`서버 오류: ${response.status}`);
+    }
+
+    setReplyContent((prev) => ({ ...prev, [parentId]: "" })); // 입력창 초기화
+    setReplyingTo(null); // 입력창 닫기
+
+    setVisibleReplies((prev) => ({ ...prev, [parentId]: true })); // 답글 표시 상태 true
+
+    fetchReplies(parentId); // 답글 다시 불러오기
+  } catch (error) {
+    console.error("대댓글 추가 실패:", error);
+  }
+};
+
 
   // 대댓글 수정
   const handleEditReplyClick = (reply) => {
@@ -380,7 +408,7 @@ function CommunityDetail() {
             ),
           }))
         );
-        setEditReply(null);
+        setEditReply(null); // 수정 입력창 닫기
       }
     } catch (error) {
       console.error("대댓글 수정 실패:", error);
@@ -402,19 +430,22 @@ function CommunityDetail() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`서버 오류: ${response.status}`);
+      if (response.ok) {
+        alert("답글이 삭제되었습니다.");
+        setComments((prevComments) =>
+          prevComments.map((comment) => ({
+            ...comment,
+            children: comment.children.filter((r) => r.id !== replyId),
+          }))
+        );
+      } else {
+        const errorData = await response.json();
+        console.error("답글 삭제 실패", errorData);
+        alert("답글 삭제에 실패했습니다.");
       }
-
-      // 성공적으로 삭제하면 화면에서 대댓글 제거
-      setComments((prevComments) =>
-        prevComments.map((comment) => ({
-          ...comment,
-          children: comment.children.filter((r) => r.id !== replyId),
-        }))
-      );
     } catch (error) {
-      console.error("대댓글 삭제 실패:", error);
+      console.error("답글 삭제 중 오류 발생:", error);
+      alert("답글 삭제 중 오류가 발생했습니다.");
     }
   };
 
@@ -434,7 +465,16 @@ function CommunityDetail() {
           <button
             onClick={() => navigate("/communities")}
             className="c-detail-back-button"
-          ></button>
+          >
+            <MdArrowBack
+              size={42}
+              className="c-detail-back-button-default-icon"
+            />
+            <MdArrowBack
+              size={42}
+              className="c-detail-back-button-hover-icon"
+            />
+          </button>
           <h2>
             게시글 상세보기{" "}
             {editPost && <span className="c-edit-label"> &lt;수정중&gt;</span>}
@@ -551,22 +591,9 @@ function CommunityDetail() {
 
           {/* 댓글 */}
           <div className="c-detail-comments">
-            {/* 로그인한 사용자만 댓글 입력 가능 */}
+            {/* 댓글 목록 */}
             {comments.length === 0 && (
               <div className="c-detail-no-comments">첫 댓글을 남겨보세요</div>
-            )}
-
-            {isLoggedIn ? (
-              <div className="c-detail-comment-input">
-                <textarea
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="댓글을 입력하세요..."
-                />
-                <button onClick={handleSubmitComment}>댓글 작성</button>
-              </div>
-            ) : (
-              <p>댓글을 작성하려면 로그인하세요.</p>
             )}
 
             {comments.map((comment) => {
@@ -574,29 +601,91 @@ function CommunityDetail() {
 
               return (
                 <div key={comment.id} className="c-detail-comment">
-                  {/* 🔥 닉네임 + 작성자 표시 */}
+                  {/* 닉네임 + 작성자 표시 */}
                   <div className="c-detail-comment-header">
-                    <span className="nickname">{comment.nickname}</span>
-                    {isAuthor && <span className="author-badge">작성자</span>}
+                    <span className="c-detail-comment-nickname">
+                      {comment.nickname}
+                    </span>
+                    {isAuthor && (
+                      <span className="c-detail-comment-author-badge">
+                        작성자
+                      </span>
+                    )}
                   </div>
 
-                  {/* 🔥 댓글 내용 */}
-                  <p
-                    onClick={() => fetchReplies(comment.id)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {comment.content} (대댓글)
-                  </p>
-                  <span>{comment.update_date}</span>
+                  {/* 댓글 수정 중일 경우 textarea 표시 */}
+                  {editComment && editComment.id === comment.id ? (
+                    <div className="c-detail-comment-edit-wrapper">
+                      <textarea
+                        className="c-detail-comment-textarea"
+                        value={editComment.content}
+                        onChange={(e) =>
+                          setEditComment({
+                            ...editComment,
+                            content: e.target.value,
+                          })
+                        }
+                      />
+                      <div className="c-detail-comment-edit-buttons">
+                        <button
+                          className="c-detail-comment-edit-button"
+                          onClick={handleEditComment}
+                        >
+                          수정 완료
+                        </button>
+                        <button
+                          className="c-detail-comment-edit-button"
+                          onClick={() => setEditComment(null)}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    // 수정 모드 아닐 때의 댓글 내용 (클릭하면 답글 보이게)
+                    <p
+                      className="c-detail-comment-content"
+                      onClick={() => toggleReplies(comment.id)}
+                    >
+                      {comment.content}
+                    </p>
+                  )}
 
-                  {/* 대댓글 작성 버튼 */}
-                  <button onClick={() => toggleReply(comment.id)}>
-                    답글 달기
-                  </button>
-                  {replyingTo === comment.id && (
+                  {/* 댓글 작성일 + 답글쓰기 버튼 */}
+                  <div className="c-detail-comment-meta">
+                    <span className="c-detail-comment-updateDate">
+                      {comment.update_date}
+                    </span>
+                    <button
+                      className="c-detail-comment-reply-button"
+                      onClick={() => toggleReply(comment.id)}
+                    >
+                      답글 쓰기
+                    </button>
+                  </div>
+
+                  {/* 댓글 수정/삭제 버튼 */}
+                  {isLoggedIn && isAuthor && !editComment && (
+                    <div className="c-detail-comments-buttons">
+                      <button
+                        className="c-detail-comments-edit-delete-button"
+                        onClick={() => handleEditClick(comment)}
+                      >
+                        수정
+                      </button>
+                      <button
+                        className="c-detail-comments-edit-delete-button"
+                        onClick={() => handleDeleteComment(comment.id)}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  )}
+
+                  {/* 대댓글 입력 창 */}
+                  {isLoggedIn && replyingTo === comment.id && (
                     <div className="c-detail-reply-input">
-                      <input
-                        type="text"
+                      <textarea
                         value={replyContent[comment.id] || ""}
                         onChange={(e) =>
                           setReplyContent({
@@ -606,130 +695,137 @@ function CommunityDetail() {
                         }
                         placeholder="답글을 입력하세요."
                       />
-                      <button onClick={() => handleReplySubmit(comment.id)}>
-                        등록
+                      <button
+                        className="c-detail-reply-input-button"
+                        onClick={() => handleReplySubmit(comment.id)}
+                      >
+                        답글 작성
                       </button>
                     </div>
                   )}
 
-                  {/* 🔥 대댓글 목록 */}
-                  {comment.children && comment.children.length > 0 && (
-                    <div className="c-detail-replies">
-                      {comment.children.map((reply) => {
-                        const isReplyAuthor = user?.id === reply.users_id; // 대댓글 작성자 여부 체크
+                  {/* 대댓글 목록 */}
+                  {visibleReplies[comment.id] &&
+                    comment.children &&
+                    comment.children.length > 0 && (
+                      <div className="c-detail-replies">
+                        {comment.children.map((reply) => {
+                          const isReplyAuthor = user?.id === reply.users_id;
 
-                        return (
-                          <div key={reply.id} className="c-detail-reply">
-                            {/* 🔥 대댓글 닉네임 + 작성자 */}
-                            <div className="c-detail-comment-header">
-                              <span className="nickname">{reply.nickname}</span>
-                              {isReplyAuthor && (
-                                <span className="author-badge">작성자</span>
-                              )}
-                            </div>
+                          return (
+                            <div key={reply.id} className="c-detail-reply">
+                              {/* 닉네임 + 작성자 배지 */}
+                              <div className="c-detail-reply-header">
+                                <span className="c-detail-reply-nickname">
+                                  {reply.nickname}
+                                </span>
+                                {isReplyAuthor && (
+                                  <span className="c-detail-reply-author-badge">
+                                    작성자
+                                  </span>
+                                )}
+                              </div>
 
-                            {editReply && editReply.id === reply.id ? (
-                              <>
-                                <textarea
-                                  value={editReply.content}
-                                  onChange={(e) =>
-                                    setEditReply({
-                                      ...editReply,
-                                      content: e.target.value,
-                                    })
-                                  }
-                                />
-                                <button
-                                  className="c-detail-repliy-save"
-                                  onClick={() => handleEditReply(reply.id)}
-                                >
-                                  수정 완료
-                                </button>
-                                <button
-                                  className="c-detail-repliy-cancle"
-                                  onClick={() => setEditReply(null)}
-                                >
-                                  취소
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                <p>{reply.content}</p>
-                                <span>{reply.update_date}</span>
-
-                                {/* 대댓글 수정/삭제 버튼 */}
-                                {isLoggedIn && isReplyAuthor && (
-                                  <div className="c-detail-reply-buttons">
+                              {/* 답글 수정 모드 */}
+                              {editReply && editReply.id === reply.id ? (
+                                <div className="c-detail-reply-edit-wrapper">
+                                  <textarea
+                                    className="c-detail-reply-textarea"
+                                    value={editReply.content}
+                                    onChange={(e) =>
+                                      setEditReply({
+                                        ...editReply,
+                                        content: e.target.value,
+                                      })
+                                    }
+                                  />
+                                  <div className="c-detail-reply-edit-buttons">
                                     <button
-                                      className="c-detail-replies-edit-delete-button"
-                                      onClick={() =>
-                                        handleEditReplyClick(reply)
-                                      }
-                                      data-text="수정"
+                                      className="c-detail-reply-edit-button"
+                                      onClick={() => handleEditReply(reply.id)}
                                     >
-                                      <span>수정</span>
+                                      수정 완료
                                     </button>
                                     <button
-                                      className="c-detail-replies-edit-delete-button"
-                                      onClick={() =>
-                                        handleDeleteReply(reply.id)
-                                      }
-                                      data-text="삭제"
+                                      className="c-detail-reply-edit-button"
+                                      onClick={() => setEditReply(null)}
                                     >
-                                      <span>삭제</span>
+                                      취소
                                     </button>
                                   </div>
-                                )}
-                              </>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                                </div>
+                              ) : (
+                                <>
+                                  {/* 답글 내용 */}
+                                  <p className="c-detail-reply-content">
+                                    {reply.content}
+                                  </p>
 
-                  {/* 🔥 댓글 수정/삭제 버튼 */}
-                  {isLoggedIn && isAuthor && (
-                    <div className="c-detail-comments-buttons">
-                      {editComment && editComment.id === comment.id ? (
-                        <>
-                          <textarea
-                            value={editComment.content}
-                            onChange={(e) =>
-                              setEditComment({
-                                ...editComment,
-                                content: e.target.value,
-                              })
-                            }
-                          />
-                          <button onClick={handleEditComment}>수정 완료</button>
-                          <button onClick={() => setEditComment(null)}>
-                            취소
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            className="c-detail-comments-edit-delete-button"
-                            onClick={() => handleEditClick(comment)}
-                            data-text="수정"
-                          >
-                            <span>수정</span>
-                          </button>
-                          <button
-                            className="c-detail-comments-edit-delete-button"
-                            onClick={() => handleDeleteComment(comment.id)}
-                            data-text="삭제"
-                          >
-                            <span>삭제</span>
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  )}
+                                  {/* 답글 작성일 */}
+                                  <span className="c-detail-comment-updateDate">
+                                    {reply.update_date}
+                                  </span>
+
+                                  {/* 답글 수정/삭제 버튼 */}
+                                  {isLoggedIn && isReplyAuthor && (
+                                    <div className="c-detail-reply-buttons">
+                                      <button
+                                        className="c-detail-replies-edit-delete-button"
+                                        onClick={() =>
+                                          handleEditReplyClick(reply)
+                                        }
+                                      >
+                                        수정
+                                      </button>
+                                      <button
+                                        className="c-detail-replies-edit-delete-button"
+                                        onClick={() =>
+                                          handleDeleteReply(reply.id)
+                                        }
+                                      >
+                                        삭제
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                 </div>
               );
             })}
+
+            {/* 댓글 입력 창을 가장 아래쪽으로 이동 */}
+            {isLoggedIn ? (
+              <div className="c-detail-comment-input">
+                <textarea
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="댓글을 입력하세요..."
+                />
+                <button
+                  className="c-detail-comment-input-button"
+                  onClick={handleSubmitComment}
+                >
+                  댓글 작성
+                </button>
+              </div>
+            ) : (
+              <p className="c-login-redirect-message">
+                댓글을 작성하려면 로그인하세요.
+                <span>
+                  <button
+                    className="c-detail-login-redirect"
+                    onClick={() => navigate("/login")}
+                  >
+                    &lt;로그인 하러 가기&gt;
+                  </button>
+                </span>
+              </p>
+            )}
           </div>
         </div>
       </DefaultLayout>

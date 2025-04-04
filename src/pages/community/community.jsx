@@ -5,7 +5,7 @@ import {
   differenceInDays,
 } from "date-fns"; //  상대적 시간 계산 라이브러리
 import { useNavigate } from "react-router-dom";
-import { MdArrowBack } from "react-icons/md"; // 아이콘 추가
+import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";

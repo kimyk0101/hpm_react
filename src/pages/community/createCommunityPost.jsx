@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { MdArrowBack } from "react-icons/md"; // 아이콘 추가
+import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import "../../css/DefaultLayout.css";
 import "../../css/CreateCommunityPost.css";
 
@@ -116,7 +116,16 @@ const CreateCommunityPost = () => {
           <button
             onClick={() => navigate("/communities")}
             className="c-create-back-button"
-          ></button>
+          >
+            <MdArrowBack
+              size={42}
+              className="c-create-back-button-default-icon"
+            />
+            <MdArrowBack
+              size={42}
+              className="c-create-back-button-hover-icon"
+            />
+          </button>
           <h2>새 게시글 작성</h2>
           {!isLoggedIn ? (
             <div className="c-login-container">
