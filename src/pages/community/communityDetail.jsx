@@ -1,20 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { redirect, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
 import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import "../../css/DefaultLayout.css";
 import "../../css/CommunityDetail.css";
 
 function CommunityDetail() {
   const { id } = useParams();
   const communityId = parseInt(id, 10); // String -> Long 타입으로 변환
+
   const API_COMMUNITY_URL = `http://localhost:8088/api/communities/${communityId}`;
   const API_COMMENT_URL = `http://localhost:8088/api/communities/${communityId}/comments`;
+  const API_PHOTO_URL = `http://localhost:8088/api/communityPhoto/list/${communityId}`;
+  const API_PHOTO_DELETE = `http://localhost:8088/api/communityPhoto/delete/${photo.id}`;
+
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]); // 댓글 리스트
+  const [photos, setPhotos] = useState([]); // 이미지 상태
   const [user, setUser] = useState([]); //  login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
   const [editPost, setEditPost] = useState(null); // 수정할 게시글 상태 추가
@@ -23,6 +29,7 @@ function CommunityDetail() {
   const [replyContent, setReplyContent] = useState(""); // 대댓글 내용
   const [editReply, setEditReply] = useState(null);
   const [replies, setReplies] = useState({});
+  const uploaderRef = useRef(); // PhotoUploader ref
 
   const navigate = useNavigate(); // useNavigate 훅 사용
 
@@ -76,9 +83,34 @@ function CommunityDetail() {
       console.error("데이터 불러오기 실패:", error);
     }
   };
+
+  //  이미지 불러오기 API
+  const fetchPhotos = async () => {
+    try {
+      const response = await fetch(API_PHOTO_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setPhotos(data);
+      }
+    } catch (error) {
+      console.error("사진 불러오기 실패:", error);
+    }
+  };
+
+  //  이미지 삭제 API
+  const handleDeletePhoto = async (photoId) => {
+    try {
+      await fetch(`${API_PHOTO_DELETE}/${photoId}`, { method: "DELETE" });
+      fetchPhotos();
+    } catch (e) {
+      console.error("이미지 삭제 실패:", e);
+    }
+  };
+
   // ✅ 게시글 상세 정보 가져오기
   useEffect(() => {
     fetchPostDetail();
+    fetchPhotos(); //  이미지 정보 추가
   }, [communityId]); // 게시글 ID가 바뀔 때만 실행
 
   // 게시글 수정
@@ -92,17 +124,32 @@ function CommunityDetail() {
     };
 
     try {
-      await fetch(API_COMMUNITY_URL, {
+      const res = await fetch(API_COMMUNITY_URL, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedPost),
       });
-      // 수정 후 게시글 목록 갱신
-      fetchPostDetail();
-      setEditPost(null); // 수정 완료 후 수정 폼 초기화
 
-      // 수정 완료 알림
-      alert("수정이 완료되었습니다");
+      if (res.ok) {
+        // ✅ 새 이미지가 있다면 업로드
+        const newImages = uploaderRef.current?.getFiles?.();
+        if (newImages?.length > 0) {
+          const formData = new FormData();
+          formData.append("communitiesId", communityId);
+          newImages.forEach((img) => formData.append("photos", img));
+
+          await fetch("http://localhost:8088/api/communityPhoto/upload", {
+            method: "POST",
+            body: formData,
+          });
+        }
+        // 수정 후 게시글 목록 갱신
+        fetchPostDetail();
+        setEditPost(null); // 수정 완료 후 수정 폼 초기화
+        fetchPhotos();
+        // 수정 완료 알림
+        alert("수정이 완료되었습니다");
+      }
     } catch (error) {
       console.error("게시글 수정 실패:", error);
     }
@@ -482,6 +529,27 @@ function CommunityDetail() {
                     수정할 수 있는 부분입니다
                   </div>
                 </div>
+                {/* ✅ 기존 이미지 보여주기 */}
+                <div className="c-detail-edit-images">
+                  {photos.map((photo) => (
+                    <div key={photo.id} className="c-detail-edit-image-wrapper">
+                      <img
+                        src={`http://localhost:8088${photo.file_path}`}
+                        alt="업로드 이미지"
+                        className="c-detail-photo"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleDeletePhoto(photo.id)}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ✅ 새 이미지 업로더 */}
+                <PhotoUploader ref={uploaderRef} onChange={() => {}} />
 
                 <div className="c-detail-buttons">
                   <button
@@ -522,6 +590,20 @@ function CommunityDetail() {
                   <p className="c-detail-views">조회 {post.views}</p>
                 </div>
                 <p className="c-detail-content">{post.content}</p>
+
+                {/* 이미지 렌더링 */}
+                {photos.length > 0 && (
+                  <div className="c-detail-photos">
+                    {photos.map((photo) => (
+                      <img
+                        key={photo.id}
+                        src={`http://localhost:8088${photo.file_path}`}
+                        alt="게시물 이미지"
+                        className="c-detail-photo"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )
           ) : (

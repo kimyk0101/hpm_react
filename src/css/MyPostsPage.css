@@ -4,6 +4,7 @@
     background-color: #fdfdfd;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-top: 90px;
   }
   
   .mypage-posts-page h3 {
@@ -66,26 +67,29 @@
   }
 
   /* ================= CommunityPosts.jsx ================= */
-  .community-tab .sub-tab-content h4 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: #333;
+  .community-tab .sub-tab-content li {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
   }
   
-  .community-tab .sub-tab-content ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  /* ================= CommunityComments.jsx ================= */
   .community-tab .sub-tab-content li p {
     margin: 0;
     font-weight: 500;
+    font-size: 1rem;
+    color: #222;
   }
   
-  .community-tab .sub-tab-content li span {
+  .community-tab .sub-tab-content li .post-meta {
     color: #888;
     font-size: 0.85rem;
-    margin-left: auto;
   }
   
+  .community-tab .sub-tab-content li .post-title {
+    display: block;
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+  }

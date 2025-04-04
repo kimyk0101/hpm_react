@@ -62,7 +62,7 @@ const CommunityPreview = () => {
             onClick={() => navigate(`/community/${post.id}`)}
           >
             <h4 className="preview-title">{post.title.slice(0, 6)}...</h4>
-            <p className="preview-content">{post.content.slice(0, 20)}...</p>
+            <p className="preview-content">{post.content.slice(0, 10)}...</p>
 
             <div className="preview-meta">
               <span className="preview-author">by {post.nickname}</span>

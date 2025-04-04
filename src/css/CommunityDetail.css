@@ -97,8 +97,27 @@
   line-height: 1.6;
   padding-top: 20px;
   border-top: 1px solid #ccc;
-  min-height: 500px;
+  min-height: 80px;
 }
+
+/* 사진 영역 wrapper */
+.c-detail-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.5rem; /* ✅ 본문과 너무 떨어지지 않게 조절 */
+  margin-bottom: 1.5rem;
+}
+
+/* 사진 개별 요소 */
+.c-detail-photo {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  /* border: 1px solid #ccc; */
+}
+
 
 /* 수정, 삭제 버튼 스타일 */
 .c-detail-buttons {
@@ -662,3 +681,5 @@ align-self: flex-end;
 .c-detail-comments-edit-delete-button:hover, .c-detail-replies-edit-delete-button:hover {
   text-decoration: underline;
 }
+
+

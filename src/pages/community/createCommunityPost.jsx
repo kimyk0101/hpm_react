@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import "../../css/DefaultLayout.css";
 import "../../css/CreateCommunityPost.css";
@@ -12,6 +13,9 @@ const CreateCommunityPost = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState([]); //  login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+
+  const [images, setImages] = useState([]);
+  const photoUploaderRef = useRef();
 
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
@@ -84,6 +88,20 @@ const CreateCommunityPost = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("새로 생성된 게시글 ID:", data.id);
+        console.log("업로드할 이미지 수:", images.length);
+
+        if (images.length > 0) {
+          const formData = new FormData();
+          formData.append("communitiesId", data.id);
+          images.forEach((img) => formData.append("photos", img));
+
+          await fetch("http://localhost:8088/api/communityPhoto/upload", {
+            method: "POST",
+            body: formData,
+          });
+        }
+
         console.log("✅ 게시글 작성 성공:", data);
         alert("게시물이 성공적으로 등록되었습니다!");
         navigate("/communities");
@@ -161,6 +179,9 @@ const CreateCommunityPost = () => {
                 required
                 className="c-post-content"
               />
+
+              <PhotoUploader ref={photoUploaderRef} onChange={setImages} />
+
               <div className="c-post-button-container">
                 <button
                   type="submit"
