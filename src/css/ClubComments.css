@@ -1,3 +1,9 @@
+.club-comments-container {
+  max-width: 1200px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
+  padding: 20px;
+}
+
 .club-comments-page {
   padding: 20px;
   position: relative;
@@ -53,11 +59,17 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: flex; /* 아이콘과 텍스트를 가로로 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.back-button svg {
+  margin-right: 8px;
 }
 
 .button-container {
   position: absolute;
-  top: 20px;
+  top: 40px;
   right: 20px;
   display: flex;
   gap: 10px;
@@ -160,7 +172,7 @@
 
 .search-filter-container {
   display: flex;
-  justify-content: flex-end; /* 또는 flex-end, center 등 */
+  justify-content: flex-center; /* 또는 flex-end, center 등 */
   margin-bottom: 20px;
 }
 
@@ -174,4 +186,21 @@
   margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.page-header h2 {
+  margin-left: 10px;
+}
+
+h5 {
+  color: red;
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;  
 }

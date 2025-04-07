@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DefaultLayout from "../../layouts/DefaultLayout";
+import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import "../../css/AllClubs.css";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 
 const AllClubs = () => {
     const API_URL = "http://localhost:8088/api/clubs";
@@ -75,24 +77,37 @@ const AllClubs = () => {
         }
     };
 
+    const goToHome = () => {
+        navigate("/"); // 첫 화면으로 이동
+    };
+
     return (
-        <div>
-            <DefaultLayout
-                headerProps={{
-                    title: "하이펜타",
-                    showLogo: true,
-                    showIcons: { search: true },
-                }}
-            >
-                <div className="clubsPage">
-                    <button onClick={() => navigate("/")} className="clubs-back-button">
-                        뒤로 가기
-                    </button>
-                    <br />
-                    <br />
+        <div className="all-clubs-container">
+            <header className="header-container">
+                <ContentContainer>
+                    <Header
+                        title="하이펜타"
+                        showBack={false}
+                        showLogo={true}
+                        showIcons={{ search: true }}
+                        menuItems={[
+                            { label: "커뮤니티", onClick: () => navigate("/communities") },
+                            { label: "등산 후기", onClick: () => navigate("/hiking-reviews") },
+                            { label: "맛집 후기", onClick: () => navigate("/restaurant-reviews") },
+                            { label: "모임", onClick: () => navigate("/clubs") },
+                        ]}
+                    />
+                </ContentContainer>
+            </header>
 
+            <br/>
+            <ContentContainer>
+                <div className="clubs-page">
+                    <div className="page-header">
+                        <h2>모임 목록</h2>
+                    </div>
+                   
                     {error && <p style={{ color: "red" }}>{error}</p>}
-
                     {clubs.length > 0 ? (
                         <div className="club-cards-container">
                             {clubs.map((club) => (
@@ -105,8 +120,8 @@ const AllClubs = () => {
                                         style={{ cursor: "pointer" }}
                                     />
                                     <p className="club-title">{club.title}</p>
-                                    <p>{club.content}</p><br/>
-                                    <p className="club-views">조회수 : {club.views}</p> {/* 조회수 표시 */}
+                                    <p>{club.content}</p><br />
+                                    <p className="club-views">조회수 : {club.views}</p>
                                 </div>
                             ))}
                         </div>
@@ -114,7 +129,7 @@ const AllClubs = () => {
                         <p>클럽 목록을 불러오는 중이거나, 클럽이 없습니다.</p>
                     )}
                 </div>
-            </DefaultLayout>
+            </ContentContainer>
         </div>
     );
 };
