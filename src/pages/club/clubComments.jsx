@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/ClubComments.css";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "react-modal";
-
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 
 const ClubComments = () => {
     const { id } = useParams();
@@ -24,7 +24,7 @@ const ClubComments = () => {
 
     // 페이지네이션 관련 상태 추가
     const [currentPage, setCurrentPage] = useState(1);
-    const commentsPerPage = 5;
+    const commentsPerPage = 4;
 
     // 필터링 관련 상태 추가
     const [searchTerm, setSearchTerm] = useState("");
@@ -211,14 +211,25 @@ const ClubComments = () => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
-        <div>
-            <DefaultLayout
-                headerProps={{
-                    title: "하이펜타",
-                    showLogo: true,
-                    showIcons: { search: true },
-                }}
-            >
+        <>
+            <header className="header-container">
+                <ContentContainer>
+                    <Header
+                        title="하이펜타"
+                        showBack={false}
+                        showLogo={true}
+                        showIcons={{ search: true }}
+                        menuItems={[
+                            { label: "커뮤니티", onClick: () => navigate("/communities") },
+                            { label: "등산 후기", onClick: () => navigate("/hiking-reviews") },
+                            { label: "맛집 후기", onClick: () => navigate("/restaurant-reviews") },
+                            { label: "모임", onClick: () => navigate("/clubs") },
+                        ]}
+                    />
+                </ContentContainer>
+            </header>
+            <br/><br/>
+            <div className="club-comments-container">
                 <div className="club-comments-page">
                     <div className="button-container">
                         <button onClick={handleChatEnter} className="chat-button">
@@ -228,10 +239,11 @@ const ClubComments = () => {
                             공지사항 등록
                         </button>
                     </div>
-                    <button onClick={() => navigate("/clubs")} className="back-button">
-                        뒤로 가기
-                    </button>
-                    <h2>공지사항</h2>
+                    <br/>
+                    <div className="page-header">
+                        
+                        <h2>공지사항</h2>
+                    </div>
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -250,6 +262,7 @@ const ClubComments = () => {
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
+                                    <h5>등산 단톡방 입장 원하시는 분은 '해당 산 관리자' or '총괄매니저' 님 에게 단톡방 초대 원한다는 메세지 하나만 남겨주세요 !</h5>
                                 </div>
                             </div>
                             <table className="comments-table">
@@ -299,7 +312,7 @@ const ClubComments = () => {
                                             {index + 1}
                                         </button>
                                     ))}
-                                </div>
+                            </div>
                         </>
                     ) : (
                         <p>공지사항이 없습니다.</p>
@@ -392,8 +405,8 @@ const ClubComments = () => {
                         </Modal>
                     )}
                 </div>
-            </DefaultLayout>
-        </div>
+            </div>
+        </>
     );
 };
 

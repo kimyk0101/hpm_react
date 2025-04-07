@@ -94,8 +94,12 @@ function App() {
         <Route path="/clubs" element={<AllClubs />} /> {/* 산 모임들 목록 */}
         <Route path="/clubs/:id" element={<ClubComments />} />{" "}
         {/* 각각의 산 모임 페이지 */}
+
+
         <Route path="/chatSendbird/:id" element={<ChatSendbird />} />{" "}
         {/* 샌드버드 채팅방 이동 페이지 */}
+
+
         {/* 산 지도  */}
         <Route path="/mountain/list_map" element={<MountainMap />} />
         {/* 산 목록 */}
