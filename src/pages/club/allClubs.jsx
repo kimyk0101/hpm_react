@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
+// import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import "../../css/AllClubs.css";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
@@ -77,9 +77,6 @@ const AllClubs = () => {
         }
     };
 
-    const goToHome = () => {
-        navigate("/"); // 첫 화면으로 이동
-    };
 
     return (
         <div className="all-clubs-container">
