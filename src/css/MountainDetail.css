@@ -1,35 +1,148 @@
-/* 코스 목록 스타일 */
-.courses-section {
-  margin: 2rem 0;
-  padding: 1rem;
+/* 전체 컨테이너 스타일 */
+.mountain-detail {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+/* 헤더 섹션 */
+.header-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header-section h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.meta-info {
+  margin-top: 10px;
+}
+
+.meta-info span {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 1rem;
+  color: #7f8c8d;
+}
+
+/* 지도 컨테이너 */
+.map-container {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 30px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+/* 날씨 섹션 */
+.weather-section {
+  margin-bottom: 30px;
+}
+
+.weather-section h2 {
+  font-size: 1.8rem;
+  color: #2980b9;
+}
+
+.current-weather {
+  display: flex;
+  align-items: center;
+}
+
+.current-weather img {
+  width: 80px;
+  height: auto;
+}
+
+.weather-info {
+  margin-left: 15px;
+}
+
+.weather-info p {
+  margin: 5px 0;
+}
+
+/* 날씨 예보 그리드 */
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.forecast-card {
+  text-align: center;
+}
+
+.forecast-card img {
+  width: 50px;
+}
+
+/* 상세 정보 섹션 */
+.info-section h3 {
+  font-size: 1.5rem;
+}
+
+.info-section p {
+  margin-top: -10px; /* 텍스트 간격 조정 */
+}
+
+/* 코스 목록 섹션 */
+.courses-section h2 {
+  font-size: 1.8rem;
 }
 
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+  gap: 20px; /* 카드 간격 */
 }
 
+/* 코스 카드 스타일 */
 .course-card {
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #f9f9f9; /* 카드 배경색 */
+  border-radius: 0.7em; /* 모서리 둥글게 */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.05) 0px 1px 3px; /* 그림자 효과 */
+  padding: 20px; /* 내부 여백 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 클릭 및 hover 효과 */
+  cursor: pointer; /* 클릭 가능한 요소임을 표시 */
+}
+
+.course-card:hover {
+  transform: translateY(-5px); /* hover 시 살짝 올라감 */
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 10px, rgba(0, 0, 0, 0.1) 0px 2px 4px; /* hover 시 그림자 강화 */
 }
 
 .course-card h3 {
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #2c3e50; /* 제목 색상 */
+}
+
+.course-info {
+  margin-top: 10px;
 }
 
 .course-info p {
-  margin: 0.3rem 0;
-  color: #7f8c8d;
+  margin: 5px 0;
 }
 
+/* 코스 목록 그리드 스타일 */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto)); /* 반응형 그리드 */
+  gap: 20px; /* 카드 간격 */
+}
+
+/* 코스가 없을 때 메시지 스타일 */
 .no-course {
   text-align: center;
-  color: #95a5a6;
-  padding: 2rem;
+  font-size: 1.2rem;
+  color: #7f8c8d;
 }
