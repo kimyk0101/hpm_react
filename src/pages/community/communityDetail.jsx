@@ -535,7 +535,7 @@ function CommunityDetail() {
                   {photos.map((photo) => (
                     <div key={photo.id} className="c-detail-edit-image-wrapper">
                       <img
-                        src={`http://localhost:8088${photo.file_path}`}
+                        src={photo.file_path}
                         alt="업로드 이미지"
                         className="c-detail-photo"
                       />
@@ -603,7 +603,7 @@ function CommunityDetail() {
                     {photos.map((photo) => (
                       <img
                         key={photo.id}
-                        src={`http://localhost:8088${photo.file_path}`}
+                        src={photo.file_path}
                         alt="게시물 이미지"
                         className="c-detail-photo"
                       />

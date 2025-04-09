@@ -7,6 +7,8 @@ import PopularSearches from "./PopularSearches";
 import CommunityResults from "./Results/CommunityResults";
 import MountainResults from "./Results/MountainResults";
 import ReviewResults from "./Results/ReviewResults";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import "../../css/SearchPage.css";
 
 const SearchPage = () => {
@@ -105,57 +107,70 @@ const SearchPage = () => {
   };
 
   return (
-    <DefaultLayout
-      headerProps={{
-        showBack: true,
-        title: "검색",
-      }}
-    >
-      <div className="search-page">
-        <SearchInput
-          query={query}
-          setQuery={setQuery}
-          onSearch={handleSearch}
-        />
-
-        {!hasSearched && (
-          <div className="search-info">
-            <RecentSearches
-              recentSearches={recentSearches}
-              onClickKeyword={handleSearch}
-              onDeleteKeyword={handleDelete}
+    <>
+      <header className="header-container home-section">
+        <ContentContainer>
+          <Header
+            title="하이펜타"
+            showLogo={true}
+            showIcons={{ search: true }}
+          />
+        </ContentContainer>
+      </header>
+      <DefaultLayout
+        headerProps={{
+          showBack: true,
+          title: "검색",
+        }}
+      >
+        <div className="search-page">
+          <div className="search-breakout">
+            <SearchInput
+              query={query}
+              setQuery={setQuery}
+              onSearch={handleSearch}
             />
-            <PopularSearches onClickKeyword={handleSearch} />
           </div>
-        )}
 
-        {hasSearched && (
-          <>
-            <div className="tab-buttons">
-              <button
-                onClick={() => setActiveTab("mountain")}
-                className={activeTab === "mountain" ? "active" : ""}
-              >
-                산 정보
-              </button>
-              <button
-                onClick={() => setActiveTab("community")}
-                className={activeTab === "community" ? "active" : ""}
-              >
-                커뮤니티
-              </button>
-              <button
-                onClick={() => setActiveTab("review")}
-                className={activeTab === "review" ? "active" : ""}
-              >
-                후기
-              </button>
+          {!hasSearched && (
+            <div className="search-info">
+              <RecentSearches
+                recentSearches={recentSearches}
+                onClickKeyword={handleSearch}
+                onDeleteKeyword={handleDelete}
+              />
+              <PopularSearches onClickKeyword={handleSearch} />
             </div>
-            <div className="tab-content">{renderResultList()}</div>
-          </>
-        )}
-      </div>
-    </DefaultLayout>
+          )}
+
+          {hasSearched && (
+            <>
+              <div className="tab-buttons">
+                <button
+                  onClick={() => setActiveTab("mountain")}
+                  className={activeTab === "mountain" ? "active" : ""}
+                >
+                  산 정보
+                </button>
+                <button
+                  onClick={() => setActiveTab("community")}
+                  className={activeTab === "community" ? "active" : ""}
+                >
+                  커뮤니티
+                </button>
+                <button
+                  onClick={() => setActiveTab("review")}
+                  className={activeTab === "review" ? "active" : ""}
+                >
+                  후기
+                </button>
+              </div>
+              <div className="tab-content">{renderResultList()}</div>
+            </>
+          )}
+        </div>
+      </DefaultLayout>
+    </>
   );
 };
 

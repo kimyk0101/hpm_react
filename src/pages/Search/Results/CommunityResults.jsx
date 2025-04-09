@@ -17,26 +17,31 @@ const CommunityResults = ({ data, submittedQuery }) => {
       {data.map((item) => (
         <li key={item.id} className="community-item">
           <Link to={`/communities/${item.id}`} className="community-link">
-            <h4 className="community-title">
-              {highlightKeyword(item.title, submittedQuery)}
-            </h4>
             <div className="community-content-wrapper">
-              <p className="community-content">
-                {highlightKeyword(item.content, submittedQuery)}
-              </p>
-              {/* 이미지 필드가 있다면 렌더링. 현재는 없으므로 안전 처리 */}
-              {item.imageUrls?.length > 0 && (
+              {/* 왼쪽 영역 */}
+              <div className="community-text">
+                <h4 className="community-title">
+                  {highlightKeyword(item.title, submittedQuery)}
+                </h4>
+                <p className="community-content">
+                  {highlightKeyword(item.content, submittedQuery)}
+                </p>
+                <p className="community-author">작성자: {item.nickname}</p>
+                <p className="community-meta">
+                  {item.update_date?.slice(0, 10)} | 조회수 {item.views} | 댓글{" "}
+                  {item.comment_count ?? 0}
+                </p>
+              </div>
+
+              {/* 오른쪽 이미지 썸네일 */}
+              {item.imageUrl && (
                 <img
-                  src={item.imageUrls[0]}
+                  src={item.imageUrl}
                   alt="썸네일"
                   className="community-thumbnail"
                 />
               )}
             </div>
-            <p className="community-author">작성자: {item.nickname}</p>
-            <p className="community-meta">
-              작성일: {item.update_date} | 댓글 수: 0
-            </p>
           </Link>
         </li>
       ))}

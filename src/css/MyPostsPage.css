@@ -56,14 +56,18 @@
   
   .post-title {
     font-weight: 600;
-    font-size: 1.05rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    /* margin-bottom: 0.5rem; */
     color: #333;
   }
   
   .post-meta {
     color: #777;
     font-size: 0.85rem;
+  }
+
+  .post-meta span {
+    margin-right: 5px;
   }
 
   /* ================= CommunityPosts.jsx ================= */
@@ -83,13 +87,16 @@
   }
   
   .community-tab .sub-tab-content li .post-meta {
-    color: #888;
     font-size: 0.85rem;
+    color: #888;
+    display: block;
+    text-align: left;
   }
   
-  .community-tab .sub-tab-content li .post-title {
+  .community-tab .sub-tab-content li .c-post-title {
     display: block;
-    color: #888;
     font-size: 0.85rem;
-    margin-top: 0.2rem;
+    color: #888;
+    padding: 0;
+    text-align: left;
   }

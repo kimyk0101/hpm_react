@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { highlightKeyword } from "../../../utils/highlightKeyword";
 
 const MountainResults = ({ data, submittedQuery }) => {
   if (!data || data.length === 0) {

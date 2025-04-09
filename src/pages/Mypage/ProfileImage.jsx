@@ -4,6 +4,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import PreviewModal from "../../components/modal/PreviewModal";
 import { FaEdit } from "react-icons/fa";
 
+//  s3 버킷 주소
+const BUCKET_URL = "https://highpentam.s3.ap-northeast-2.amazonaws.com";
+
 const ProfileImage = () => {
   const { user } = useAuth();
   const [imageUrl, setImageUrl] = useState(null);
@@ -15,6 +18,7 @@ const ProfileImage = () => {
   const menuRef = useRef();
   const selectedFileRef = useRef(null);
 
+  //  유저 프로필 이미지 조회
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
@@ -24,7 +28,7 @@ const ProfileImage = () => {
         const data = (await res.ok) ? await res.json() : null;
 
         if (data?.file_path) {
-          setImageUrl(`http://localhost:8088${data.file_path}?t=${Date.now()}`);
+          setImageUrl(`${BUCKET_URL}/${data.file_path}?t=${Date.now()}`);
         } else {
           setImageUrl("/default-profile.jpg");
         }
@@ -39,6 +43,7 @@ const ProfileImage = () => {
     if (user?.id) fetchPhoto();
   }, [user]);
 
+  // ✅ 외부 클릭 시 사진 업로드메뉴 닫기
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -49,6 +54,7 @@ const ProfileImage = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // ✅ 파일 선택 시 미리보기
   const handleUpload = (file) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -59,11 +65,36 @@ const ProfileImage = () => {
     selectedFileRef.current = file;
   };
 
+  // ✅ S3 Presigned URL 요청
+  const getPresignedUrl = async (fileName) => {
+    const res = await fetch(
+      `http://localhost:8088/api/s3/presigned-url?fileName=${fileName}`
+    );
+    const url = await res.text();
+    return url;
+  };
+
+  // ✅ S3 업로드
+  const uploadToS3 = async (file) => {
+    const presignedUrl = await getPresignedUrl(file.name);
+    const res = await fetch(presignedUrl, {
+      method: "PUT",
+      headers: { "Content-Type": file.type },
+      body: file,
+    });
+    if (!res.ok) throw new Error("S3 업로드 실패");
+    const s3Path = presignedUrl.split("?")[0].replace(`${BUCKET_URL}/`, "");
+    return s3Path;
+  };
+
+  // ✅ 업로드 확정 -> DB에 경로 저장
   const confirmUpload = async () => {
     const file = selectedFileRef.current;
     if (!file || !user?.id) return;
 
     try {
+      const s3Path = await uploadToS3(file);
+
       const formData = new FormData();
       formData.append("usersId", user.id);
       formData.append("photo", file);
@@ -74,14 +105,7 @@ const ProfileImage = () => {
       });
 
       if (res.ok) {
-        const data = await res.json();
-        // console.log("응답 데이터", data);
-        // setImageUrl(`http://localhost:8088${data.file_path}?t=${Date.now()}`);
-        const imageUrl = `http://localhost:8088${
-          data.file_path
-        }?t=${Date.now()}`;
-        // console.log("업로드 후 이미지 URL:", imageUrl);
-        setImageUrl(imageUrl);
+        setImageUrl(`${BUCKET_URL}/${s3Path}?t=${Date.now()}`);
         setIsPreviewOpen(false);
         setMenuOpen(false);
       }
@@ -90,6 +114,7 @@ const ProfileImage = () => {
     }
   };
 
+  // ✅ 삭제 요청
   const handleDelete = async () => {
     const confirm = window.confirm("정말로 삭제하시겠습니까?");
     if (!confirm) return;

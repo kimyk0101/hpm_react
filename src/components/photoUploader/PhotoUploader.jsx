@@ -67,10 +67,7 @@ const PhotoUploader = forwardRef(
           <div className="preview-container">
             {serverImages.map((photo, index) => (
               <div key={`server-${index}`} className="preview-image">
-                <img
-                  src={`http://localhost:8088${photo.file_path}`}
-                  alt="server"
-                />
+                <img src={photo.file_Path} alt="server" />
                 <button
                   type="button"
                   className="remove-btn"

@@ -46,6 +46,8 @@ const CommunityPosts = () => {
             <div className="post-meta">
               {/* <span>{post.nickname}</span> */}
               <span>{post.update_date?.slice(0, 10)}</span>
+              <span>조회수 {post.views}</span>
+              <span>댓글 수 {post.comment_count}</span>
             </div>
           </li>
         ))}

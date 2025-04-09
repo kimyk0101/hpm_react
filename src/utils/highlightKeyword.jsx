@@ -6,20 +6,18 @@ export const highlightKeyword = (text, keyword) => {
   // 검색어(keyword)나 원본 텍스트(text)가 비어있으면 그대로 반환
   if (!keyword || !text) return text;
 
-  // 검색어와 일치하는 부분을 찾기 위한 정규식(대소문자 무시, 전체 검색)
-  const regex = new RegExp(`(${keyword})`, "gi");
-  const parts = text.split(regex);
+  // 1. 키워드를 안전하게 escape (특수문자 대응)
+  const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  // 텍스트를 keyword를 기준으로 나눠서 배열로 만듦
-  return parts.map((part, i) =>
-    part.toLowerCase() === keyword.toLowerCase() ? (
-      <span key={i} className="highlight">
-        {part}
-      </span>
-    ) : (
-      part
-    )
+  // 2. 정규식으로 keyword 단위로 감싸기
+  const regex = new RegExp(`(${escapedKeyword})`, "gi"); // 대소문자 무시
+
+  const highlightedText = text.replace(
+    regex,
+    '<span style="color:green; font-weight:bold;">$1</span>'
   );
+
+  return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
 };
 
 // 검색어가 포함된 문자열 중 검색어만 따로 하이라이트하려면

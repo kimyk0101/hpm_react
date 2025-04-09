@@ -19,18 +19,18 @@ const SearchInput = ({ query, setQuery, onSearch }) => {
           placeholder="검색어를 입력하세요"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="search-input"
+          className="s-search-input"
         />
         {query && (
           <button
             type="button"
             onClick={handleClear}
-            className="input-clear-button"
+            className="search-input-clear-button"
           >
             ✕
           </button>
         )}
-        <button type="submit" className="input-search-button">
+        <button type="submit" className="search-input-search-button">
           <FiSearch />
         </button>
       </div>

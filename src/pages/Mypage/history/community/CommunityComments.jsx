@@ -55,9 +55,9 @@ const CommunityComments = () => {
               <Link to={`/communities/${comment.communities_id}`}>
                 <p>{comment.content}</p>
                 <span className="post-meta">
-                  {comment.update_date.slice(0, 16)}
+                  {comment.update_date.slice(0, 10)}
                 </span>
-                <span className="post-title">{comment.communityTitle}</span>
+                <span className="c-post-title">{comment.communityTitle}</span>
               </Link>
             </li>
           ))}

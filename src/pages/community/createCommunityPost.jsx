@@ -13,7 +13,6 @@ const CreateCommunityPost = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState([]); //  login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
-
   const [images, setImages] = useState([]);
   const photoUploaderRef = useRef();
 
@@ -94,7 +93,9 @@ const CreateCommunityPost = () => {
         if (images.length > 0) {
           const formData = new FormData();
           formData.append("communitiesId", data.id);
-          images.forEach((img) => formData.append("photos", img));
+
+          const fileImages = images.filter((img) => img instanceof File);
+          fileImages.forEach((img) => formData.append("photos", img));
 
           await fetch("http://localhost:8088/api/communityPhoto/upload", {
             method: "POST",
