@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainHome from "./pages/mainPage";
 import LoginPage from "../src/pages/loginPage";
@@ -22,7 +23,7 @@ import ChatSendbird from "./pages/club/chatSendbird";
 
 import MountainMap from "./pages/mountain/list_map";
 import MountainList from "./pages/mountain/mountainList";
-// import MountainDetail from "./pages/mountain/mountainDetail";
+import MountainDetail from "./pages/mountain/mountainDetail";
 import "./css/reset.css";
 // import Board from "../src/components/Board";
 
@@ -94,18 +95,14 @@ function App() {
         <Route path="/clubs" element={<AllClubs />} /> {/* 산 모임들 목록 */}
         <Route path="/clubs/:id" element={<ClubComments />} />{" "}
         {/* 각각의 산 모임 페이지 */}
-
-
         <Route path="/chatSendbird/:id" element={<ChatSendbird />} />{" "}
         {/* 샌드버드 채팅방 이동 페이지 */}
-
-
         {/* 산 지도  */}
         <Route path="/mountain/list_map" element={<MountainMap />} />
         {/* 산 목록 */}
         <Route path="/mountain/list" element={<MountainList />} />
         {/* 산 단건 목록 */}
-        {/* <Route path="/mountain/:id" element={<MountainDetail />} /> */}
+        <Route path="/mountain/:id" element={<MountainDetail />} />
       </Routes>
     </Router>
   );

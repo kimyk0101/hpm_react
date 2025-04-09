@@ -1,169 +1,82 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import StickyButton from "../../components/map/StickyButton"; // StickyButton 컴포넌트 임포트
-import "../../css/mountain.css";
+import "../../css/mountain.css"; // CSS 파일 분리
 
 function MountainList() {
-  const [mountainList, setMountainList] = useState([]);
-  const [filteredMountainList, setFilteredMountainList] = useState([]);
-  const [isSearched, setIsSearched] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [pageNo, setPageNo] = useState(1); // 페이지 번호 상태 추가
-  const [isFetching, setIsFetching] = useState(false); // 데이터 로딩 상태
-  const serviceKey = import.meta.env.VITE_FOREST_API_KEY;
+  const [mountains, setMountains] = useState([]); // 전체 산 데이터 상태
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색 키워드 상태
+  const [filteredMountains, setFilteredMountains] = useState([]); // 검색 결과 상태
 
-  const fetchAllData = async () => {
-    setIsSearched(true);
-    try {
-      const url =
-        "/forest-api/openapi/service/cultureInfoService/gdTrailInfoOpenAPI";
-      const params = {
-        serviceKey: serviceKey,
-        numOfRows: 1000, // 최대값으로 설정
-        pageNo: 1, // 페이지 번호
-      };
-
-      const allData = [];
-      let pageNo = 1;
-
-      while (true) {
-        params.pageNo = pageNo;
-        const response = await axios.get(
-          `${url}?${new URLSearchParams(params).toString()}`
-        );
-        const data = response.data;
-
-        if (data.response && data.response.body && data.response.body.items) {
-          const items = data.response.body.items.item;
-          if (Array.isArray(items)) {
-            allData.push(...items);
-          } else {
-            allData.push(items);
-          }
-
-          // 더 이상 데이터가 없으면 종료
-          if (items.length < params.numOfRows) break;
-        } else {
-          break;
-        }
-
-        pageNo++;
-      }
-
-      setMountainList(allData);
-      setFilteredMountainList(allData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const fetchMoreData = async () => {
-    setIsFetching(true);
-    try {
-      const url =
-        "/forest-api/openapi/service/cultureInfoService/gdTrailInfoOpenAPI";
-      const params = {
-        serviceKey: serviceKey,
-        numOfRows: 1000,
-        pageNo: pageNo + 1, // 다음 페이지로 이동
-      };
-
-      const response = await axios.get(
-        `${url}?${new URLSearchParams(params).toString()}`
-      );
-      const data = response.data;
-
-      if (data.response && data.response.body && data.response.body.items) {
-        const items = data.response.body.items.item;
-        if (Array.isArray(items)) {
-          setMountainList((prevList) => [...prevList, ...items]);
-          setFilteredMountainList((prevList) => [...prevList, ...items]);
-        } else {
-          setMountainList((prevList) => [...prevList, items]);
-          setFilteredMountainList((prevList) => [...prevList, items]);
-        }
-
-        setPageNo((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      console.error("Error fetching more data:", error);
-    } finally {
-      setIsFetching(false);
-    }
-  };
-
-  const handleSearchChange = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    setSearchTerm(searchTerm);
-    const filteredList = mountainList.filter((mountain) => {
-      return (
-        mountain.mntnm.toLowerCase().includes(searchTerm) ||
-        mountain.subnm.toLowerCase().includes(searchTerm) ||
-        mountain.areanm.toLowerCase().includes(searchTerm)
-      );
-    });
-    setFilteredMountainList(filteredList);
-  };
-
+  // 전체 산 데이터 가져오기
   useEffect(() => {
-    fetchAllData();
-  }, [serviceKey]);
+    axios
+      .get("http://localhost:8088/api/mountains") // 전체 산 데이터를 조회하는 API 호출
+      .then((response) => {
+        setMountains(response.data);
+        setFilteredMountains(response.data); // 초기 상태에서는 전체 데이터를 필터링 결과로 설정
+      })
+      .catch((error) => {
+        console.error("산 데이터 불러오기 오류:", error);
+      });
+  }, []);
 
+  // 검색 기능: 키워드가 변경될 때마다 필터링 수행
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight * 0.9
-      ) {
-        if (!isFetching) {
-          fetchMoreData();
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isFetching, pageNo]);
+    if (searchKeyword.trim() === "") {
+      setFilteredMountains(mountains); // 검색어가 없으면 전체 데이터를 보여줌
+    } else {
+      const filtered = mountains.filter(
+        (mountain) =>
+          mountain.name.includes(searchKeyword) || // 이름으로 필터링
+          mountain.location.includes(searchKeyword) // 위치로 필터링
+      );
+      setFilteredMountains(filtered);
+    }
+  }, [searchKeyword, mountains]);
 
   return (
-    <div className="container">
-      <h1 className="title">산 목록</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
+    <div className="mountain-list">
+      {/* 검색창 */}
+      <div className="search-bar">
         <input
           type="text"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          placeholder="검색어 입력"
-          className="search-input"
+          placeholder="산 이름 또는 위치를 검색하세요"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)} // 검색어 상태 업데이트
         />
-        <button type="submit" className="search-button">
-          검색
-        </button>
-      </form>
-      {isSearched ? (
-        <div className="mountain-list">
-          {filteredMountainList.map((mountain) => (
-            <div key={mountain.mntncd} className="mountain-card">
-              <img
-                src={`https://i.ibb.co/6cNgZxb6/free-icon-mountain.png`}
-                alt={mountain.mntnm}
-                className="mountain-image"
-              />
-              <div className="mountain-info">
-                <h2 className="mountain-name">{mountain.mntnm}</h2>
-                <p className="mountain-height">고도: {mountain.mntheight}m</p>
-                <p className="mountain-location">위치: {mountain.areanm}</p>
+      </div>
+
+      {/* 산 목록 */}
+      <div className="mountain-grid">
+        {filteredMountains.length > 0 ? (
+          filteredMountains.map((mountain) => (
+            <div key={mountain.id} className="mountain-card">
+              <div
+                className="card-image"
+                style={{
+                  backgroundImage: `url(${
+                    mountain.image || "/default-image.jpg"
+                  })`,
+                }}
+              >
+                {/* 카드 이미지 */}
+              </div>
+              <div className="card-content">
+                <h3>{mountain.name}</h3>
+                <p>📍 {mountain.location}</p>
+                <p>⛰ {mountain.height}m</p>
+                <a href={`/mountain/${mountain.id}`} className="detail-link">
+                  상세 보기 →
+                </a>
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div>검색 결과가 없습니다.</div>
-      )}
-      <StickyButton /> {/* StickyButton 추가 */}
+          ))
+        ) : (
+          <p className="no-results">검색 결과가 없습니다.</p>
+        )}
+        <StickyButton className="no-style" />
+      </div>
     </div>
   );
 }
