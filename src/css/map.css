@@ -1,83 +1,102 @@
-.map {
-  width: 1024px;
-  height: 919px; /* 지도 높이 조정 */
-  position: relative;
+.map-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 전체 화면 높이 사용 */
 }
+
+.map {
+  flex-grow: 1; /* 남은 공간 모두 차지 */
+  width: 95%;
+  max-width: 1200px;
+  margin: 20px auto; /* 중앙 정렬 */
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+}
+
 
 .info-box-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  max-height: 150px; /* 팝업 최대 높이 설정 */
+  position: fixed;
+  z-index: 9999;
+  bottom: -100px; /* 초기 위치 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 20px; /* 여백 추가 */
+  border-radius: 12px;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, .1);
+
+  /* 애니메이션 효과 */
+  transition: bottom 0.3s ease, opacity 0.3s ease;
 }
 
-.info-box-bottom .mountain-card {
-  display: contents;
+.info-box-bottom.open {
+  bottom: 30px; /* 팝업이 열릴 때 위치 */
+}
+
+.info-box-bottom.closed {
+  bottom: -100px; /* 팝업이 닫힐 때 위치 */
+}
+
+.mountain-card {
+  display: flex;
   align-items: center;
 }
 
-.info-box-bottom .mountain-image {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+.mountain-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
 }
 
-.info-box-bottom .mountain-info {
+.mountain-info {
   flex-grow: 1;
 }
 
-.info-box-bottom .mountain-title {
-  font-size: 14px;
-  font-weight: bold;
+.mountain-title {
+  /* font-size: 18px; */
+  font-size: 1.5rem;
 }
 
-.info-box-bottom .mountain-location {
-  font-size: 12px;
+.mountain-location,
+.mountain-height,
+.mountain-selection-reason {
+  font-size: .9rem;
 }
 
-.info-box-bottom .mountain-height {
-  font-size: 12px;
-}
-
-.info-box-bottom .mountain-selection-reason {
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 한 줄까지만 표시 */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.info-box-bottom .button-group {
+.button-group {
   display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
+  gap: 10px;
 }
 
-.info-box-bottom .detail-button, .info-box-bottom .review-button, .info-box-bottom .close-button {
-  padding: 2px 5px;
+.button-group button {
+  flex-grow: auto;
+
+  padding: 10px 20px; /* 버튼 크기 조정 */
+  border-radius: 8px; /* 둥근 모서리 */
   border: none;
-  border-radius: 5px;
+  
   cursor: pointer;
-  font-size: 10px;
 }
 
-.info-box-bottom .detail-button {
-  background-color: #4CAF50;
-  color: white;
-}
+.review-map-button{  
+  background-color:white;
+  }
+  
+  .close-map-button:hover{
+  background-color:white;
+  
+  }
+  
 
-.info-box-bottom .review-button {
-  background-color: #03A9F4;
-  color: white;
-}
-
-.info-box-bottom .close-button {
-  background-color: #E74C3C;
-  color: white;
-}
+/* 라벨 스타일 */
+.custom-label {
+  background-color:rgb(255, 255, 255);
+  padding: 2px 8px;  
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  z-index: 30; /* 지도 위에 표시 */
+    }

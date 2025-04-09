@@ -247,8 +247,8 @@ function MountainDetail() {
       </div>
 
       {/* 지도 영역 */}
-      <div className="map-container">
-        <div ref={mapRef} className="map"></div>
+      <div className="map-detail-container">
+        <div ref={mapRef} className="map-detail"></div>
       </div>
 
       {/* 날씨 섹션 */}

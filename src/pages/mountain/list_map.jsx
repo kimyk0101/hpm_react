@@ -21,7 +21,7 @@ function MountainMap() {
     const script = document.createElement("script");
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
       import.meta.env.VITE_KAKAO_MAPS_API_KEY
-    }&autoload=false`;
+    }&libraries=clusterer&autoload=false`; // 클러스터러 라이브러리 추가
     document.head.appendChild(script);
 
     const onLoadKakaoAPI = () => {
@@ -35,27 +35,59 @@ function MountainMap() {
         };
         const map = new window.kakao.maps.Map(mapRef.current, options);
 
-        // 각 산에 대한 마커 이미지 URL
+        const resizeObserver = new ResizeObserver(() => {
+          map.relayout();
+        });
+
+        // 지도 컨테이너 관찰 시작
+        if (mapRef.current) {
+          resizeObserver.observe(mapRef.current);
+        }
+
+        // 지도 크기 재조정 (중요!)
+        setTimeout(() => {
+          map.relayout();
+        }, 300);
+
+        // 마커 클러스터러 생성
+        const clusterer = new window.kakao.maps.MarkerClusterer({
+          map: map,
+          averageCenter: true,
+          minLevel: 10,
+          calculator: [10, 30, 50], // 클러스터 분할 기준
+          styles: [
+            {
+              width: "45px",
+              height: "45px",
+              background: "rgba(255, 100, 50, 0.9)",
+              borderRadius: "25px",
+              color: "#fff",
+              textAlign: "center",
+              lineHeight: "45px",
+              fontSize: "14px",
+              content: (count) => `${count}개`, // 텍스트 포맷 변경
+            },
+          ],
+        });
+
         const markerImages = {
           default: "https://i.ibb.co/QZk1h2W/30x30.png",
         };
 
-        // 마커 이미지 속성 정의
         const imageSize = new window.kakao.maps.Size(30, 30),
           imageOption = { offset: new window.kakao.maps.Point(15, 25) };
 
-        // 마커에 마우스 오버 효과를 위한 이미지 준비
         const hoverImage = new window.kakao.maps.MarkerImage(
           "https://i.ibb.co/hxb1GQ90/mountains.png", // hover 이미지 URL
           imageSize,
           imageOption
         );
 
-        // 위치 배열을 사용하여 마커 생성
-        const markers = [];
+        const markers = []; // 마커 배열
+        const labels = []; // 라벨 배열
 
         if (isLoaded) {
-          mountains.forEach((mountain) => {
+          mountains.forEach((mountain, index) => {
             const markerImage = new window.kakao.maps.MarkerImage(
               markerImages.default,
               imageSize,
@@ -68,38 +100,17 @@ function MountainMap() {
               ),
               image: markerImage,
             });
-            marker.setMap(map);
-            markers.push(marker);
 
-            // 마커에 마우스 오버 이벤트 등록
-            window.kakao.maps.event.addListener(
-              marker,
-              "mouseover",
-              function () {
-                marker.setImage(hoverImage);
-              }
-            );
+            markers.push(marker); // 마커 배열에 추가
 
-            // 마커에 마우스 아웃 이벤트 등록
-            window.kakao.maps.event.addListener(
-              marker,
-              "mouseout",
-              function () {
-                marker.setImage(markerImage);
-              }
-            );
-
-            // 마커 아래에 라벨 추가
+            // 라벨 생성 (초기에는 숨김)
             const label = new window.kakao.maps.CustomOverlay({
-              map: map,
-              position: new window.kakao.maps.LatLng(
-                mountain.latitude,
-                mountain.longitude
-              ),
-              content: `<div style="background-color: transparent; padding: 5px; font-size: 11px; font-weight:bold;">${mountain.name}</div>`,
-              yAnchor: 0,
+              content: `<div class="custom-label">${mountain.name}</div>`,
+              position: marker.getPosition(),
+              yAnchor: -0.2,
+              map: null, // 처음에 지도에 추가하지 않음
             });
-            label.setMap(map);
+            labels[index] = label;
 
             // 마커 클릭 이벤트 등록
             window.kakao.maps.event.addListener(marker, "click", function () {
@@ -120,6 +131,28 @@ function MountainMap() {
               marker.setImage(hoverImage); // 선택된 마커의 이미지를 호버 이미지로 변경
             });
           });
+
+          // 클러스터링 이벤트 리스너 추가 (라벨 표시/숨김 처리)
+          window.kakao.maps.event.addListener(
+            clusterer,
+            "clustered",
+            function (clusters) {
+              const clusteredMarkers = new Set();
+              clusters.forEach((cluster) =>
+                cluster.getMarkers().forEach((m) => clusteredMarkers.add(m))
+              );
+
+              markers.forEach((marker, index) => {
+                if (clusteredMarkers.has(marker)) {
+                  labels[index].setMap(null); // 클러스터에 포함된 마커는 라벨 숨김
+                } else {
+                  labels[index].setMap(map); // 단독 마커는 라벨 표시
+                }
+              });
+            }
+          );
+
+          clusterer.addMarkers(markers); // 클러스터러에 마커 추가
         }
       });
     };
@@ -137,53 +170,44 @@ function MountainMap() {
         <div ref={mapRef} style={{ width: "100%", height: "100%" }}></div>
       </div>
       {isOpen && markerInfo && (
-        <div className="info-box-bottom">
-          <div className="mountain-card">
-            <img
-              src={markerInfo.image}
-              alt={markerInfo.title}
-              className="mountain-image"
-            />
-            <div className="mountain-info">
-              <div className="mountain-header">
-                <h2 className="mountain-title">{markerInfo.title}</h2>
-              </div>
-              <p className="mountain-location">위치: {markerInfo.location}</p>
-              <p className="mountain-height">고도: {markerInfo.height}m</p>
-              <p className="mountain-selection-reason">
-                선정이유: {markerInfo.selectionReason}
-              </p>
-              <div className="button-group">
-                <button
-                  className="detail-button"
-                  onClick={async () => {
-                    const mountainName = markerInfo.title;
-                    try {
-                      const response = await fetch(
-                        `http://localhost:8088/api/mountains/name/${mountainName}`
-                      );
-                      const mountainId = await response.text(); // 산 ID를 문자열로 받음
-                      if (mountainId) {
-                        window.location.href = `/mountain/${mountainId}`;
-                      } else {
-                        console.error("산 ID가 없습니다.");
-                      }
-                    } catch (error) {
-                      console.error("산 ID 조회 실패:", error);
-                    }
-                  }}
-                >
-                  상세보기
-                </button>
-                <button className="review-button">등산후기</button>
-                <button
-                  className="close-button"
-                  onClick={() => setIsOpen(false)}
-                >
-                  닫기
-                </button>
-              </div>
-            </div>
+        <div className={`info-box-bottom ${isOpen ? "open" : "closed"}`}>
+          <div className="mountain-info">
+            <h2 className="mountain-title">{markerInfo.title}</h2>
+            <p className="mountain-location">위치: {markerInfo.location}</p>
+            <p className="mountain-height">고도: {markerInfo.height}m</p>
+            <p className="mountain-selection-reason">
+              선정 이유: {markerInfo.selectionReason}
+            </p>
+          </div>
+          <div className="button-group">
+            <button
+              className="detail-map-button"
+              onClick={async () => {
+                const mountainName = markerInfo.title;
+                try {
+                  const response = await fetch(
+                    `http://localhost:8088/api/mountains/name/${mountainName}`
+                  );
+                  const mountainId = await response.text();
+                  if (mountainId) {
+                    window.location.href = `/mountain/${mountainId}`;
+                  } else {
+                    console.error("산 ID가 없습니다.");
+                  }
+                } catch (error) {
+                  console.error("산 ID 조회 실패:", error);
+                }
+              }}
+            >
+              상세보기
+            </button>
+            <button className="review-map-button">등산 후기</button>
+            <button
+              className="close-map-button"
+              onClick={() => setIsOpen(false)}
+            >
+              닫기
+            </button>
           </div>
         </div>
       )}
