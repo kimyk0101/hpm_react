@@ -124,6 +124,16 @@ const CreateCommunityPost = () => {
     navigate("/login"); // 로그인 페이지로 이동
   };
 
+  const textareaRef = useRef(null);
+  
+      // 자동 높이 조정
+      useEffect(() => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+          textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+      }, [newPost.content]); 
+
   return (
     <div>
       <ContentContainer>
@@ -173,6 +183,7 @@ const CreateCommunityPost = () => {
               />
               <textarea
                 value={newPost.content}
+                ref={textareaRef}
                 onChange={(e) =>
                   setNewPost({ ...newPost, content: e.target.value })
                 }

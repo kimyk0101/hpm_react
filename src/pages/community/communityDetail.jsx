@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
 import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import ContentContainer from "../../layouts/ContentContainer";
@@ -454,11 +454,6 @@ function CommunityDetail() {
       console.error("답글 삭제 중 오류 발생:", error);
       alert("답글 삭제 중 오류가 발생했습니다.");
     }
-  };
-
-  // 뒤로가기 버튼
-  const onBack = () => {
-    navigate("/communities"); // 리스트 페이지로 이동
   };
 
   return (

@@ -1,0 +1,188 @@
+.mReview-card-wrapper {
+  position: relative;
+}
+.mReview-post-card {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mReview-card-options {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+.mReview-card-options-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mReview-card-dropdown {
+  position: absolute;
+  top: 30px;
+  right: -20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mReview-card-dropdown button {
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: center;
+  cursor: pointer;
+  width: 70px;
+}
+
+.mReview-card-dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+.mReview-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mReview-edit-form input[type="text"],
+.mReview-edit-form textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mReview-edit-form input[type="text"]:focus,
+.mReview-edit-form textarea:focus {
+  border: 2px solid #8caa63;
+  outline: none;
+}
+
+.mReview-edit-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mReview-edit-form li {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.mReview-edit-form li:hover {
+  background-color: #f0f0f0;
+}
+
+.mReview-edit-form li.selected {
+  background-color: #d2f3e0;
+  font-weight: bold;
+}
+
+.mReview-edit-form div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.mReview-edit-form button {
+  padding: 8px 12px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mReview-edit-form button[type="button"] {
+  background: #999;
+}
+
+.mReview-post-header {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mReview-post-nickname {
+  font-size: 15px;
+}
+
+.mReview-post-meta {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.mReview-post-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+
+/* .mReview-post-content {
+  margin-bottom: 10px;
+  font-weight: 400;
+} */
+
+.mr-content-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.mr-see-more-btn {
+  color: rgb(119, 119, 119);
+  font-size: 10px;
+  cursor: pointer;
+  text-align: right;
+}
+
+.mReview-post-tags {
+  margin-bottom: 8px;
+}
+
+.mReview-post-tag {
+  background-color: #eef1f4;
+  color: #333;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-right: 4px;
+}
+
+.mReview-post-reactions {
+  display: flex;
+  font-size: 13px;
+  color: #666;
+  margin-top: auto;
+  gap: 20px;
+}

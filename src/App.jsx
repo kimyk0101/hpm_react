@@ -13,7 +13,7 @@ import CreateCommunityPost from "./pages/community/createCommunityPost";
 import CommunityDetail from "./pages/community/communityDetail";
 import MountainReviewList from "./pages/mountainReview/mountainReview";
 import CreateMountainReview from "./pages/mountainReview/createMountainReview";
-import MountainReviewDetail from "./pages/mountainReview/mountainReviewDetail";
+import MountainReviewCard from "./pages/mountainReview/mountainReviewCard";
 import RestaurantReviewList from "./pages/restaurantReview/restaurantReview";
 import CreateRestaurantReview from "./pages/restaurantReview/createRestaurantReview";
 import RestaurantReviewDetail from "./pages/restaurantReview/restaurantReviewDetail";
@@ -56,8 +56,8 @@ function App() {
         />{" "}
         {/* 등산 후기 작성 */}
         <Route
-          path="/mountain-reviews/:id"
-          element={<MountainReviewDetail />}
+          path="/mountain-reviews"
+          element={<MountainReviewCard />}
         />{" "}
         {/* 등산 후기 상세 */}
         {/* 맛집 후기 */}

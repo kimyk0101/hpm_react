@@ -1,0 +1,106 @@
+.mReview-feed-page {
+  position: relative;
+  padding: 10px 0 100px;
+}
+
+/* 뒤로가기 버튼 기본 스타일 */
+.mReview-back-button {
+  position: absolute;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+}
+
+/* 검정색 아이콘 */
+.mReview-back-button .mReview-back-button-default-icon {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  position: absolute;
+  color: black;
+}
+
+/* 초록색 아이콘 (처음에는 안 보임) */
+.mReview-back-button .mReview-back-button-hover-icon {
+  position: absolute;
+  color: #8caa63;
+  transform: translateX(100%); /* 오른쪽에 숨김 */
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* 호버 시, 검정 아이콘 왼쪽으로 사라짐 */
+.mReview-back-button:hover .mReview-back-button-default-icon {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* 호버 시, 초록 아이콘 오른쪽에서 등장 */
+.mReview-back-button:hover .mReview-back-button-hover-icon {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.mReview-post-list {
+  margin-top: 70px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+.create-mReview-post-button-fixed {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.mReview-search-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.mReview-search-input {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}
+
+.mReview-search-input:focus {
+  border: 2px solid #8caa63;
+  outline: none; 
+}
+
+.mReview-scroll-top-button {
+  position: fixed;
+  bottom: 130px;
+  right: 76px;
+  z-index: 1000;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 30px;
+}
+
+.mReview-scroll-top-button:hover {
+  background-color: #f0f0f0;
+  border-radius: 30px;
+}

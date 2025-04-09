@@ -118,11 +118,6 @@ const CommunityList = () => {
     }
   };
 
-  // 뒤로가기 (메인 페이지로 이동)
-  const onBack = () => {
-    navigate("/");
-  };
-
   // 게시글 작성 페이지로 이동
   const goToPostCreate = () => {
     navigate("/communities/new");

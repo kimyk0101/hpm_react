@@ -1,40 +1,50 @@
 import React, { useState, useEffect } from "react";
+import {
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+} from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
+import { MdArrowBack, MdArrowUpward } from "react-icons/md";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
+import MountainReviewCard from "../mountainReview/mountainReviewCard";
+import "../../css/MountainReview.css";
 
-const MountainReviewList  = () => {
-  const API_URL = "http://localhost:8088/api/mountain-reviews"; // API URL
+const MountainReviewList = () => {
+  const API_URL = "http://localhost:8088/api/mountain-reviews";
 
   const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState([]); //  login 부분
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // 로그인 상태 확인 함수
+  const navigate = useNavigate();
+
+  // 로그인 상태 확인
   const checkLoginStatus = async () => {
     try {
       const response = await fetch("http://localhost:8088/api/users/session", {
         method: "GET",
-        credentials: "include", // 쿠키를 포함하여 요청
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
         setIsLoggedIn(true);
-        setUser(data); // 로그인된 사용자 정보 저장
-        console.log(data);
+        setUser(data);
+        console.log("로그인 유저 정보:", data);
       } else {
         setIsLoggedIn(false);
       }
     } catch (error) {
-      console.error("로그인 상태 확인 중 오류 발생:", error);
-      setIsLoggedIn(false);
+      console.error("로그인 상태 확인 중 오류:", error);
     }
   };
 
   useEffect(() => {
-    checkLoginStatus(); // 컴포넌트가 마운트될 때 로그인 상태 확인
+    checkLoginStatus();
   }, []);
 
   // 게시글 불러오기
@@ -42,95 +52,142 @@ const MountainReviewList  = () => {
     try {
       const response = await fetch(API_URL);
       const data = await response.json();
+      console.log("📥 게시글 데이터:", data);
 
-      const postData = Object.values(data).map((mReview) => ({
+      const postData = data.map((mReview) => ({
         id: mReview.id,
         name: mReview.name,
         nickname: mReview.nickname,
         location: mReview.location,
-        course: mReview.course,
-        level: mReview.level,
-        title: mReview.title,
+        courseName: mReview.course_name,
+        difficultyLevel: mReview.difficulty_level,
         content: mReview.content,
         updateDate: mReview.update_date,
+        usersId: mReview.users_id,
+        mountainsId: mReview.mountains_id,
+        mountainCoursesId: mReview.mountain_courses_id,
+        likes: mReview.likes,
+        commentCount: mReview.comment_count,
       }));
 
-      setPosts(postData); // 상태 업데이트
+      setPosts(postData);
     } catch (error) {
       console.error("게시글 불러오기 실패:", error);
     }
   };
 
-  // 컴포넌트 마운트 시 게시글 조회
   useEffect(() => {
     fetchPosts();
   }, []);
 
-  const navigate = useNavigate();
-
-  //  상세 페이지로 이동
-  const goToDetail = (postId) => {
-    navigate(`/mountain-reviews/${postId}`);
+  const handleCommentChange = () => {
+    fetchPosts(); // 댓글 변경 시 전체 게시글 다시 불러오기
   };
 
-  //  뒤로가기 (메인 페이지로 이동)
-  const onBack = () => {
-    navigate("/");
+  // 상대적 날짜 변환 함수 (필요 시 카드에 넘겨줄 수 있음)
+  const formatRelativeDate = (date) => {
+    const now = new Date();
+    const parsedDate = new Date(date.replace(" ", "T"));
+    const minutesAgo = differenceInMinutes(now, parsedDate);
+    const hoursAgo = differenceInHours(now, parsedDate);
+    const daysAgo = differenceInDays(now, parsedDate);
+
+    if (minutesAgo < 60) return `${minutesAgo}분 전`;
+    if (hoursAgo < 24) return `${hoursAgo}시간 전`;
+    if (daysAgo < 7) return `${daysAgo}일 전`;
+    if (daysAgo < 30) return `${Math.floor(daysAgo / 7)}주 전`;
+    return `${Math.floor(daysAgo / 30)}개월 전`;
   };
 
-  // 게시글 작성 페이지로 이동
+  // 작성하기 버튼 클릭 시
   const goToPostCreate = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다!");
+      navigate("/login");
+      return;
+    }
     navigate("/mountain-reviews/new");
   };
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 800); 
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const [searchQuery, setSearchQuery] = useState(""); // ← 검색어 상태 추가
+
+  // 검색어로 필터링된 게시글
+  const filteredPosts = posts.filter((post) =>
+    post.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
-      <DefaultLayout
-        headerProps={{
-          title: "하이펜타",
-          showLogo: true,
-          showIcons: { search: true },
-        }}
-      >
-        <h2>자유게시판</h2>
-        <div className="mountainReviewPage">
-          {/* 뒤로가기 버튼을 상단에 위치시킴 */}
-          <button onClick={onBack} className="mReview-back-button">
-            <MdOutlineBackspace />
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+
+      <DefaultLayout>
+        <div className="mReview-feed-page">
+          <button onClick={() => navigate("/")} className="mReview-back-button">
+            <MdArrowBack
+              size={42}
+              className="mReview-back-button-default-icon"
+            />
+            <MdArrowBack size={42} className="mReview-back-button-hover-icon" />
           </button>
 
-          {/* 게시글 목록 표시 */}
-          {/* TODO: 목록 표시 변경 */}
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <div
-                  className="mReview-card"
-                  onClick={() => goToDetail(post.id)} // post.id를 전달
-                  style={{ cursor: "pointer" }}
-                >
-                  <h3>{post.title}</h3>
-                  <p>{post.content}</p>
-                  <p>작성자: {post.nickname}</p>
-                  <p>
-                    작성일: {new Date(post.updateDate).toLocaleDateString()}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          {/* 게시글 등록 */}
           <button
             onClick={goToPostCreate}
-            className="mReview-create-post"
+            className="create-mReview-post-button-fixed"
+            data-text="작성하기"
           >
-            작성하기
+            <span>작성하기</span>
           </button>
+
+          {/* 검색창 */}
+          <div className="mReview-search-container">
+            <input
+              type="text"
+              placeholder="산 이름으로 검색"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mReview-search-input"
+            />
+          </div>
+
+          {/* 게시글 리스트 */}
+          <div className="mReview-post-list">
+            {filteredPosts.map((post) => (
+              // {posts.map((post) => (
+              <MountainReviewCard
+                key={post.id}
+                post={post}
+                currentUser={user}
+                onCommentChange={handleCommentChange}
+              />
+            ))}
+          </div>
+
+          {/* 상단 이동 버튼 */}
+          {showScrollTop && (
+            <button
+              className="mReview-scroll-top-button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <MdArrowUpward />
+            </button>
+          )}
         </div>
       </DefaultLayout>
     </div>
   );
 };
 
-export default MountainReviewList ;
-
+export default MountainReviewList;
