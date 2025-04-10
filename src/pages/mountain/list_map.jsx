@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import StickyButton from "../../components/map/StickyButton"; // StickyButton 컴포넌트 임포트
 import "../../css/map.css";
+import { useNavigate } from "react-router-dom";
 
 function MountainMap() {
   const mapRef = useRef(null);
+  const navigate = useNavigate();
   const [markerInfo, setMarkerInfo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
