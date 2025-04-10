@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { highlightKeyword } from "../../../utils/highlightKeyword";
 
 const MountainResults = ({ data, submittedQuery }) => {
+  const [images, setImages] = useState({});
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const newImages = {};
+      for (const mountain of data) {
+        try {
+          const response = await fetch(
+            `http://localhost:8088/api/mountains/${mountain.id}/image`
+          );
+          if (response.ok) {
+            const imgData = await response.json();
+            newImages[mountain.id] = imgData.imageUrl;
+          }
+        } catch (error) {
+          console.error("이미지 불러오기 실패:", error);
+        }
+      }
+      setImages(newImages);
+    };
+
+    if (data && data.length > 0) fetchImages();
+  }, [data]);
+
   if (!data || data.length === 0) {
     return (
       <p className="no-result">
@@ -10,15 +33,28 @@ const MountainResults = ({ data, submittedQuery }) => {
       </p>
     );
   }
-
   return (
     <ul className="mountain-list">
       {data.map((item) => (
         <li key={item.id} className="mountain-item">
-          <h4 className="mountain-title">{item.name}</h4>
-          <p className="mountain-meta">
-            위치: {item.location} | 난이도: {item.level}
-          </p>
+          <div className="mountain-item-content">
+            <div className="mountain-thumbnail-wrapper">
+              <img
+                src={images[item.id]}
+                alt={item.name}
+                className="mountain-thumbnail"
+              />
+            </div>
+            <div className="mountain-info">
+              <h4 className="mountain-title">{item.name}</h4>
+              <p className="mountain-meta">
+                {item.height || "-"} | {item.location || "-"}
+              </p>
+              <p className="mountain-desc">
+                {item.selection_reason || "설명이 없습니다."}
+              </p>
+            </div>
+          </div>
         </li>
       ))}
     </ul>

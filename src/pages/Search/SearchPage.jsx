@@ -6,7 +6,6 @@ import RecentSearches from "./RecentSearches";
 import PopularSearches from "./PopularSearches";
 import CommunityResults from "./Results/CommunityResults";
 import MountainResults from "./Results/MountainResults";
-import ReviewResults from "./Results/ReviewResults";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import "../../css/SearchPage.css";
@@ -24,7 +23,6 @@ const SearchPage = () => {
   const [results, setResults] = useState({
     mountain: [],
     community: [],
-    review: [],
   });
   // 최근 검색어 목록
   const [recentSearches, setRecentSearches] = useState([]);
@@ -49,18 +47,25 @@ const SearchPage = () => {
     if (!searchQuery.trim()) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8088/api/communities/search?q=${searchQuery}`
-      );
-      if (!res.ok) throw new Error("서버 응답 오류");
+      const [mountainRes, communityRes] = await Promise.all([
+        fetch(
+          `http://localhost:8088/api/mountains/search?keyword=${searchQuery}`
+        ),
+        fetch(`http://localhost:8088/api/communities/search?q=${searchQuery}`),
+      ]);
 
-      const data = await res.json();
+      if (!mountainRes.ok || !communityRes.ok)
+        throw new Error("서버 응답 오류");
+
+      const [mountainData, communityData] = await Promise.all([
+        mountainRes.json(),
+        communityRes.json(),
+      ]);
 
       // 검색 결과 상태 업데이트
       setResults({
-        mountain: [], // 추후 API 연결 예정
-        community: data,
-        review: [], // 추후 API 연결 예정
+        mountain: mountainData, // 추후 API 연결 예정
+        community: communityData,
       });
 
       // 검색 관련 상태 업데이트
@@ -99,9 +104,9 @@ const SearchPage = () => {
     if (activeTab === "mountain") {
       return <MountainResults data={data} submittedQuery={submittedQuery} />;
     }
-    if (activeTab === "review") {
-      return <ReviewResults data={data} submittedQuery={submittedQuery} />;
-    }
+    // if (activeTab === "review") {
+    //   return <ReviewResults data={data} submittedQuery={submittedQuery} />;
+    // }
 
     return null;
   };
@@ -132,7 +137,7 @@ const SearchPage = () => {
             />
           </div>
 
-          {!hasSearched && (
+          {!hasSearched ? (
             <div className="search-info">
               <RecentSearches
                 recentSearches={recentSearches}
@@ -141,11 +146,10 @@ const SearchPage = () => {
               />
               <PopularSearches onClickKeyword={handleSearch} />
             </div>
-          )}
-
-          {hasSearched && (
-            <>
-              <div className="tab-buttons">
+          ) : (
+            <div className="search-results-layout">
+              {/* 사이드바 */}
+              <aside className="search-sidebar">
                 <button
                   onClick={() => setActiveTab("mountain")}
                   className={activeTab === "mountain" ? "active" : ""}
@@ -158,15 +162,13 @@ const SearchPage = () => {
                 >
                   커뮤니티
                 </button>
-                <button
-                  onClick={() => setActiveTab("review")}
-                  className={activeTab === "review" ? "active" : ""}
-                >
-                  후기
-                </button>
+              </aside>
+
+              {/* 결과 영역 */}
+              <div className="search-results-main">
+                <div className="tab-content">{renderResultList()}</div>
               </div>
-              <div className="tab-content">{renderResultList()}</div>
-            </>
+            </div>
           )}
         </div>
       </DefaultLayout>
