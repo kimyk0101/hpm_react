@@ -1,10 +1,24 @@
+/* CSS 변수 설정 */
+:root {
+  --font-family: 'Arial', sans-serif;
+  --line-height: 1.6;
+  --text-color: #333;
+  --header-color: #2c3e50;
+  --meta-color: #7f8c8d;
+  --primary-color: #2980b9;
+  --card-bg-color: #f9f9f9;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+}
+
 /* 전체 컨테이너 스타일 */
 .mountain-detail {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  margin: 20px auto;
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  color: var(--text-color);
+  margin: auto;
   max-width: 900px;
+  padding: 20px;
 }
 
 /* 헤더 섹션 */
@@ -14,52 +28,43 @@
 }
 
 .header-section h1 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 5vw, 2.5rem); /* 반응형 폰트 크기 */
   font-weight: bold;
-  /* color: #2c3e50; */
-  color: #5d745e;
+  color: var(--header-color);
 }
 
 .meta-info {
-  margin-top: 20px;
+  margin-top: 10px;
 }
-.meta-info img {
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
+
 .meta-info span {
   display: inline-block;
   margin-right: 15px;
-  font-size: 1rem;
-  color: #7f8c8d;
+  font-size: clamp(0.9rem, 4vw, 1rem); /* 반응형 폰트 크기 */
+  color: var(--meta-color);
 }
 
 /* 지도 컨테이너 */
-
 .map-detail-container {
-  width: 100%; /* 부모 컨테이너 너비에 맞춤 */
-  height: 400px; /* 고정된 높이 */
+  width: 100%;  
+  margin-top: 10px;
+  height: min(400px, calc(100vw - 50px)); /* 반응형 높이 설정 */
 }
 
 .map-detail {
-  width: 100%; /* 부모 컨테이너 너비에 맞춤 */
-  height: 100%; /* 부모 컨테이너 높이에 맞춤 */
-  border-radius: 10px;
+  width: inherit; /* 부모 컨테이너 너비에 맞춤 */
+  height: inherit; /* 부모 컨테이너 높이에 맞춤 */
 }
-
-
-
 
 /* 날씨 섹션 */
 .weather-section {
-  margin-bottom: 30px;
+  margin-bottom: clamp(20px, 5vw, 30px); /* 반응형 간격 설정 */
+  
 }
 
 .weather-section h2 {
-  font-size: 1.8rem;
-  color: #2980b9;
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
+  color: var(--primary-color);
 }
 
 .current-weather {
@@ -68,23 +73,22 @@
 }
 
 .current-weather img {
-  width: 80px;
-  height: auto;
+  width: clamp(60px, min(10vw), max(80px)); /* 반응형 이미지 크기 */
 }
 
 .weather-info {
-  margin-left: 15px;
+  margin-left: clamp(10px, min(3vw), max(15px));
 }
 
 .weather-info p {
-  margin: 5px 0;
+  margin-bottom: clamp(4px, min(2vw), max(5px));
 }
 
 /* 날씨 예보 그리드 */
 .forecast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, auto));
+  gap: clamp(10px, min(4vw), max(15px)); /* 반응형 간격 설정 */
 }
 
 .forecast-card {
@@ -92,78 +96,101 @@
 }
 
 .forecast-card img {
-  width: 50px;
+  width: clamp(40px, 10vw, 50px); /* 반응형 이미지 크기 */
 }
 
 /* 상세 정보 섹션 */
 .info-section h3 {
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 4vw, 1.5rem);
+  color: var(--header-color);
 }
 
 .info-section p {
-  margin-top: -10px; /* 텍스트 간격 조정 */
+  margin-top: -5px; /* 텍스트 간격 조정 */
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  color: var(--text-color);
+}
+
+.courses-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* 코스 목록 섹션 */
 .courses-section h2 {
-  font-size: 1.8rem;
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
+  color: var(--primary-color);
 }
 
 .course-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
-  gap: 20px; /* 카드 간격 */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 /* 코스 카드 스타일 */
 .course-card {
-  background-color: #f9f9f9; /* 카드 배경색 */
-  border-radius: 0.7em; /* 모서리 둥글게 */
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.05) 0px 1px 3px; /* 그림자 효과 */
-  padding: 20px; /* 내부 여백 */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 클릭 및 hover 효과 */
-  cursor: pointer; /* 클릭 가능한 요소임을 표시 */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .course-card:hover {
-  transform: translateY(-5px); /* hover 시 살짝 올라감 */
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 10px, rgba(0, 0, 0, 0.1) 0px 2px 4px; /* hover 시 그림자 강화 */
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .course-card h3 {
-  font-size: 1.5rem;
-  color: #2c3e50; /* 제목 색상 */
+  font-size: clamp(1.3rem, min(4vw), max(1.5rem));
+  color: var(--header-color); /* 제목 색상 */
 }
 
 .course-info {
-  margin-top: 10px;
+  margin-top: clamp(10px, min(3vw), max(15px));
 }
 
 .course-info p {
-  margin: 5px 0;
-}
-
-/* 코스 목록 그리드 스타일 */
-.course-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, auto)); /* 반응형 그리드 */
-  gap: 20px; /* 카드 간격 */
+  margin-bottom: clamp(5px, min(2vw), max(10px));
 }
 
 /* 코스가 없을 때 메시지 스타일 */
 .no-course {
   text-align: center;
-  font-size: 1.2rem;
-  color: #7f8c8d;
+  font-size: clamp(1rem, min(4vw), max(1.2rem));
+  color: var(--meta-color);
 }
+
+
 
 /* 라벨 스타일 */
 .mountain-label {
-  background-color:rgb(255, 255, 255);
-  padding: 2px 8px;  
-  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  padding: clamp(2px, 2vw, 8px) clamp(8px, 2vw, 12px); /* 반응형 여백 */
+  border-radius: clamp(5px, 1vw, 8px); /* 반응형 모서리 둥글기 */
   font-weight: bold;
-  font-size: 13px;
+  font-size: clamp(0.8rem, 2vw, 1rem); /* 반응형 폰트 크기 */
   white-space: nowrap; /* 텍스트 줄바꿈 방지 */
   z-index: 30; /* 지도 위에 표시 */
-    }
+}
+
+.search-section {
+  margin-top: 30px;
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}

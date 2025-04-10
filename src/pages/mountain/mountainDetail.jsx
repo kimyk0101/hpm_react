@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../css/MountainDetail.css";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const weatherDescKo = {
   200: "가벼운 비를 동반한 천둥구름",
@@ -64,13 +65,38 @@ const weatherDescKo = {
 const useWeather = (lat, lon) => {
   const [weather, setWeather] = useState(null);
   const [weatherForecast, setWeatherForecast] = useState([]);
+  const [sunTimes, setSunTimes] = useState(null);
+
+  const fetchSunTimesForTomorrow = async (lat, lon) => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const formattedDate = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD 형식
+
+    try {
+      const response = await axios.get(`https://api.sunrise-sunset.org/json`, {
+        params: {
+          lat,
+          lng: lon,
+          date: formattedDate,
+          formatted: 0, // UTC 시간 반환
+        },
+      });
+
+      return {
+        sunrise: new Date(response.data.results.sunrise),
+        sunset: new Date(response.data.results.sunset),
+      };
+    } catch (error) {
+      console.error("Sunrise-Sunset API 오류:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     if (!lat || !lon) return;
 
     const fetchWeather = async () => {
       try {
-        // 현재 날씨
         const currentRes = await axios.get(
           `https://api.openweathermap.org/data/2.5/weather`,
           {
@@ -79,11 +105,11 @@ const useWeather = (lat, lon) => {
               lon,
               appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
               units: "metric",
+              lang: "kr",
             },
           }
         );
 
-        // 미래 날씨 (5일 예보)
         const forecastRes = await axios.get(
           `https://api.openweathermap.org/data/2.5/forecast`,
           {
@@ -96,7 +122,6 @@ const useWeather = (lat, lon) => {
           }
         );
 
-        // 데이터 가공
         const processedCurrent = {
           temp: Math.round(currentRes.data.main.temp),
           description:
@@ -115,6 +140,9 @@ const useWeather = (lat, lon) => {
             icon: `http://openweathermap.org/img/wn/${item.weather[0].icon}.png`,
           }));
 
+        const sunTimesForTomorrow = await fetchSunTimesForTomorrow(lat, lon);
+
+        setSunTimes(sunTimesForTomorrow);
         setWeather(processedCurrent);
         setWeatherForecast(processedForecast);
       } catch (error) {
@@ -125,7 +153,7 @@ const useWeather = (lat, lon) => {
     fetchWeather();
   }, [lat, lon]);
 
-  return { weather, weatherForecast };
+  return { weather, weatherForecast, sunTimes };
 };
 
 function MountainDetail() {
@@ -133,16 +161,22 @@ function MountainDetail() {
   const [mountain, setMountain] = useState(null);
   const [courses, setCourses] = useState([]);
   const mapRef = useRef(null);
-  const mapInstance = useRef(null);
-  const overlays = useRef([]);
 
-  // 날씨 데이터 가져오기
-  const { weather, weatherForecast } = useWeather(
+  // 오늘 기준 다음 날 계산
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const formattedDate = tomorrow.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "short",
+  });
+
+  const { weather, weatherForecast, sunTimes } = useWeather(
     mountain?.latitude,
     mountain?.longitude
   );
 
-  // 데이터 가져오기
   useEffect(() => {
     axios
       .get(`http://localhost:8088/api/mountains/${id}`)
@@ -166,132 +200,126 @@ function MountainDetail() {
       document.head.appendChild(script);
 
       script.onload = () => {
-        window.kakao.maps.load(() => {
-          const mapContainer = mapRef.current;
-          const mapOption = {
-            center: new window.kakao.maps.LatLng(
-              mountain.latitude,
-              mountain.longitude
-            ),
-            level: 5,
-          };
+        if (window.kakao && window.kakao.maps) {
+          window.kakao.maps.load(() => {
+            const mapContainer = mapRef.current;
+            if (!mapContainer) return;
 
-          const map = new window.kakao.maps.Map(mapContainer, mapOption);
-          mapInstance.current = map;
-          showMountainMarker(map);
-        });
+            const mapOption = {
+              center: new window.kakao.maps.LatLng(
+                mountain.latitude,
+                mountain.longitude
+              ),
+              level: 5,
+            };
+
+            const mapInstance = new window.kakao.maps.Map(
+              mapContainer,
+              mapOption
+            );
+
+            // 마커 설정 및 추가
+            const markerImage = new window.kakao.maps.MarkerImage(
+              "https://i.ibb.co/QZk1h2W/30x30.png",
+              new window.kakao.maps.Size(30, 30),
+              { offset: new window.kakao.maps.Point(15, 25) }
+            );
+
+            const marker = new window.kakao.maps.Marker({
+              position: new window.kakao.maps.LatLng(
+                mountain.latitude,
+                mountain.longitude
+              ),
+              map: mapInstance,
+              image: markerImage,
+            });
+
+            // 라벨 추가
+            new window.kakao.maps.CustomOverlay({
+              content: `<div class="custom-label">${mountain.name}</div>`,
+              position: marker.getPosition(),
+              yAnchor: -0.2,
+              map: mapInstance,
+            });
+          });
+        }
       };
 
       return () => document.head.removeChild(script);
     }
   }, [mountain]);
 
-  // 산 마커 표시 함수
-  const showMountainMarker = (map) => {
-    clearOverlays();
-
-    const markerPosition = new window.kakao.maps.LatLng(
-      mountain.latitude,
-      mountain.longitude
-    );
-
-    const marker = new window.kakao.maps.Marker({
-      position: markerPosition,
-      image: new window.kakao.maps.MarkerImage(
-        "https://i.ibb.co/QZk1h2W/30x30.png",
-        new window.kakao.maps.Size(30, 30)
-      ),
-    });
-
-    marker.setMap(map);
-    overlays.current.push(marker);
-
-    const labelContent = `
-      <div class="mountain-label">
-        ${mountain.name}
-      </div>
-    `;
-    const labelOverlay = new window.kakao.maps.CustomOverlay({
-      content: labelContent,
-      position: markerPosition,
-      yAnchor: -0.01,
-    });
-
-    labelOverlay.setMap(map);
-    overlays.current.push(labelOverlay);
-  };
-
-  const clearOverlays = () => {
-    overlays.current.forEach((overlay) => overlay.setMap(null));
-    overlays.current = [];
-  };
-
-  // 코스 클릭 시 네이버 지도 웹으로 이동
-  const handleCourseClick = (course) => {
-    const encodedCourseName = encodeURIComponent(course.courseName); // 검색어 URL-safe 인코딩
-    const naverMapUrl = `https://map.naver.com/v5/search/${encodedCourseName}`;
-    window.open(naverMapUrl, "_blank"); // 새 탭에서 네이버 지도 열기
-  };
-
   if (!mountain) return <div className="loading">로딩 중...</div>;
 
   return (
     <div className="mountain-detail">
-      {/* 헤더 섹션 */}
-      <div className="header-section">
-        <h1>{mountain.name}</h1>
-        <div className="meta-info">
-          <span>
-            <img src="/icons/icon_adress.png" alt="주소 아이콘" />
-            {mountain.location}
-          </span>
-          <span>
-            <img src="/icons/icon_mountain.png" alt="주소 아이콘" />
-            {mountain.height}m
-          </span>
-        </div>
-      </div>
-
-      {/* 지도 영역 */}
-      <div className="map-detail-container">
-        <div ref={mapRef} className="map-detail"></div>
-      </div>
-
-      {/* 날씨 섹션 */}
+      <h1>{mountain.name}</h1>
+      <p>
+        ⛰ 높이: {mountain.height} 📍 위치: {mountain.location}
+      </p>
+      <motion.button
+        className="search-button"
+        whileHover={{ scale: 1.1, backgroundColor: "#ff6f61" }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() =>
+          window.open(
+            `https://map.naver.com/v5/search/${mountain.name} 맛집 `,
+            "_blank"
+          )
+        }
+      >
+        주변 맛집 검색
+      </motion.button>{" "}
+      {/* 지도 표시 */}
+      <div ref={mapRef} className="map-detail-container"></div>
       {weather && (
-        <div className="weather-section">
-          <h2>⛅ 현재 날씨</h2>
-          <div className="current-weather">
-            <img src={weather.icon} alt="날씨 아이콘" />
-            <div className="weather-info">
-              <p>온도: {weather.temp}°C</p>
-              <p>{weather.description}</p>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2>현재 날씨</h2>
+          <p>온도: {weather.temp}°C</p>
+          <p>설명: {weather.description}</p>
+          <img src={weather.icon} alt="날씨 아이콘" />
+        </motion.div>
+      )}
+      {weatherForecast.length > 0 && (
+        <motion.div
+          className="forecast-section"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h3>📅 날씨 예보</h3>
+          <div className="forecast-grid">
+            {weatherForecast.map((day, index) => (
+              <motion.div
+                key={index}
+                className="forecast-card"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <p>
+                  {day.date.toLocaleDateString("ko-KR", { weekday: "short" })}
+                </p>
+                <img src={day.icon} alt="날씨 아이콘" />
+                <p>{day.temp}°C</p>
+                <p>{day.description}</p>
+              </motion.div>
+            ))}
           </div>
-
-          {weatherForecast.length > 0 && (
-            <>
-              <h3>📅 5일간 예보</h3>
-              <div className="forecast-grid">
-                {weatherForecast.map((day, index) => (
-                  <div key={index} className="forecast-card">
-                    <p>
-                      {day.date.toLocaleDateString("ko-KR", {
-                        weekday: "short",
-                      })}
-                    </p>
-                    <img src={day.icon} alt="날씨 아이콘" />
-                    <p>{day.temp}°C</p>
-                    <p>{day.description}</p>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+        </motion.div>
+      )}
+      {sunTimes && (
+        <div>
+          <h2>일출 및 일몰</h2>
+          <p>🌄 일출 시간: {sunTimes.sunrise.toLocaleTimeString()}</p>
+          <p>🌅 일몰 시간: {sunTimes.sunset.toLocaleTimeString()}</p>
+          <p className="meta-info">기준 날짜: {formattedDate}</p>
         </div>
       )}
-
-      {/* 상세 정보 섹션 */}
       <div className="info-section">
         <h3>🏔️ 선정 이유</h3>
         <p>{mountain.selection_reason}</p>
@@ -299,30 +327,30 @@ function MountainDetail() {
         <h3>🚌 대중교통 안내</h3>
         <p>{mountain.transportation_info}</p>
       </div>
-
-      {/* 등산 코스 목록 */}
       <div className="courses-section">
-        <h2>등산 코스 목록</h2>
-        {courses.length === 0 ? (
-          <p className="no-course">등산 코스가 없습니다.</p>
-        ) : (
-          <div className="course-grid">
-            {courses.map((course) => (
-              <div
-                key={course.mountainsId}
-                className="course-card"
-                onClick={() => handleCourseClick(course)}
-              >
-                <h3>{course.courseName}</h3>
-                <div className="course-info">
-                  <p>📏 길이: {course.courseLength}</p>
-                  <p>⏱️ 소요 시간: {course.courseTime}</p>
-                  <p>🧗 난이도: {course.difficultyLevel}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {/* 산 이름 + 맛집 검색 버튼 */}
+        <div className="search-section">
+          <h2>등산 코스 목록</h2>
+        </div>
+        <div className="courses-grid">
+          {courses.map((course) => (
+            <div
+              key={course.mountainsId}
+              className="course-card"
+              onClick={() =>
+                window.open(
+                  `https://map.naver.com/v5/search/${course.courseName}`,
+                  "_blank"
+                )
+              }
+            >
+              <h3>{course.courseName}</h3>
+              <p>길이: {course.courseLength}</p>
+              <p>소요 시간: {course.courseTime}</p>
+              <p>난이도: {course.difficultyLevel}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
