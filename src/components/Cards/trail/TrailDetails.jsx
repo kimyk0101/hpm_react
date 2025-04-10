@@ -6,9 +6,9 @@ const TrailDetails = ({ mountainName, cardInfo }) => {
       </p>
       <p className="trail-course">{cardInfo.name}</p>
       <div className="trail-meta">
-        <p>{cardInfo.distance}</p>
-        <p>{cardInfo.time}</p>
-        <p>{cardInfo.level}</p>
+        <span>{cardInfo.distance}</span>
+        <span>{cardInfo.time}</span>
+        <span>{cardInfo.level}</span>
       </div>
     </div>
   );

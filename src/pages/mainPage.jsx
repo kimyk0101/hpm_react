@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import DefaultLayout from "../layouts/DefaultLayout";
 import Header from "../components/Header/Header";
 import ContentContainer from "../layouts/ContentContainer";
@@ -16,6 +17,25 @@ import "../css/MainPage.css";
 import "../css/StickyButton.css";
 
 const MainHome = () => {
+  const [mountains, setMountains] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMountains = async () => {
+      try {
+        const response = await fetch("http://localhost:8088/api/mountains");
+        const data = await response.json();
+        setMountains(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("산 데이터 불러오기 실패:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchMountains();
+  }, []);
+
   return (
     <>
       <header className="header-container home-section">
@@ -38,14 +58,16 @@ const MainHome = () => {
         <div className="trail-slider-container home-section">
           <h2>추천 산행 코스</h2>
           <DefaultSlider visibleCount={4} className="trail-slider">
-            {trailData.map((trail) => (
-              <TrailCard
-                key={trail.id}
-                image={trail.image}
-                mountainName={trail.mountainName}
-                cardInfo={trail.cardInfo}
-              />
-            ))}
+            {!isLoading &&
+              mountains
+                .slice(0, 10)
+                .map((mountain) => (
+                  <TrailCard
+                    key={mountain.id}
+                    mountainId={mountain.id}
+                    mountainName={mountain.name}
+                  />
+                ))}
           </DefaultSlider>
           <ViewAllButton to="/trailDetail" />
         </div>
