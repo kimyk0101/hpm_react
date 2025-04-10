@@ -16,13 +16,19 @@
 .header-section h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #2c3e50;
+  /* color: #2c3e50; */
+  color: #5d745e;
 }
 
 .meta-info {
-  margin-top: 10px;
+  margin-top: 20px;
 }
-
+.meta-info img {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
 .meta-info span {
   display: inline-block;
   margin-right: 15px;
@@ -40,6 +46,7 @@
 .map-detail {
   width: 100%; /* 부모 컨테이너 너비에 맞춤 */
   height: 100%; /* 부모 컨테이너 높이에 맞춤 */
+  border-radius: 10px;
 }
 
 

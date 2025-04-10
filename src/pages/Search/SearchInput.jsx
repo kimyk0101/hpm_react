@@ -16,7 +16,7 @@ const SearchInput = ({ query, setQuery, onSearch }) => {
       <div className="search-input-wrapper">
         <input
           type="text"
-          placeholder="검색어를 입력하세요"
+          placeholder="어느 산으로 떠나볼까요~?"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="s-search-input"

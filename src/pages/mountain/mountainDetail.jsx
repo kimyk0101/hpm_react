@@ -241,8 +241,14 @@ function MountainDetail() {
       <div className="header-section">
         <h1>{mountain.name}</h1>
         <div className="meta-info">
-          <span>📍 {mountain.location}</span>
-          <span>⛰ {mountain.height}m</span>
+          <span>
+            <img src="/icons/icon_adress.png" alt="주소 아이콘" />
+            {mountain.location}
+          </span>
+          <span>
+            <img src="/icons/icon_mountain.png" alt="주소 아이콘" />
+            {mountain.height}m
+          </span>
         </div>
       </div>
 

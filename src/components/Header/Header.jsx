@@ -13,21 +13,49 @@ const Header = ({
   showIcons = {},
 }) => {
   return (
-    <div className="header-inner">
-      <div className="header-left">
-        {showLogo && <Logo />}
-        {showBack && <BackButton />}
-        <Title title={title} />
+    <header className="main-header">
+      {" "}
+      {/* 추가된 wrapper */}
+      <div className="header-inner">
+        <div className="header-left">
+          {showLogo && <Logo />}
+          {showBack && <BackButton />}
+          <Title title={title} />
+        </div>
+        <div className="header-center">
+          <NavMenu />
+        </div>
+        <div className="header-right">
+          <Icons showIcons={showIcons} />
+          <AuthButtons />
+        </div>
       </div>
-      <div className="header-center">
-        <NavMenu />
-      </div>
-      <div className="header-right">
-        <Icons showIcons={showIcons} />
-        <AuthButtons />
-      </div>
-    </div>
+    </header>
   );
 };
+
+// const Header = ({
+//   showLogo = false,
+//   showBack = false,
+//   title,
+//   showIcons = {},
+// }) => {
+//   return (
+//     <div className="header-inner">
+//       <div className="header-left">
+//         {showLogo && <Logo />}
+//         {showBack && <BackButton />}
+//         <Title title={title} />
+//       </div>
+//       <div className="header-center">
+//         <NavMenu />
+//       </div>
+//       <div className="header-right">
+//         <Icons showIcons={showIcons} />
+//         <AuthButtons />
+//       </div>
+//     </div>
+//   );
+// };
 
 export default Header;

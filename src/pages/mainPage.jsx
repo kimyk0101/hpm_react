@@ -78,7 +78,8 @@ const MainHome = () => {
         <div className="sticky-button">
           <Link to="/mountain/list_map" aria-label="산 목록 지도 보기">
             <img
-              src="https://i.ibb.co/6cNgZxb6/free-icon-mountain.png"
+              // src="https://i.ibb.co/6cNgZxb6/free-icon-mountain.png"
+              src="https://i.ibb.co/NdMHTgt2/icons8-100.png"
               alt="산 아이콘"
             />
           </Link>

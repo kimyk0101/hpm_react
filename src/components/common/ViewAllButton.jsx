@@ -7,7 +7,7 @@ const ViewAllButton = ({ to = "/" }) => {
   return (
     <div className="view-all-button-wrapper">
       <button className="view-all-button" onClick={() => navigate(to)}>
-        전체 보기
+        자세히 보기
       </button>
     </div>
   );
