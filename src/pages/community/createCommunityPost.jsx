@@ -87,6 +87,7 @@ const CreateCommunityPost = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("🪵 서버 응답 원문:", data);
         console.log("새로 생성된 게시글 ID:", data.id);
         console.log("업로드할 이미지 수:", images.length);
 

@@ -6,12 +6,15 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import { MdArrowBack } from "react-icons/md";
 import "../../css/DefaultLayout.css";
 import "../../css/CreateMountainReview.css";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 
 const CreateMountainReview = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 유지
   const [user, setUser] = useState([]); // 사용자 정보
   const API_URL = "http://localhost:8088/api/mountain-reviews";
+  const [images, setImages] = useState([]);
+  const photoUploaderRef = useRef();
 
   const checkLoginStatus = async () => {
     try {
@@ -37,41 +40,80 @@ const CreateMountainReview = () => {
     checkLoginStatus();
   }, []);
 
-  // 더미 산 정보
-  const dummyMountains = [
-    { id: 1, name: "한라산", location: "제주특별자치도" },
-    { id: 2, name: "지리산", location: "전라남도" },
-    { id: 3, name: "설악산", location: "강원도" },
-    { id: 4, name: "북한산", location: "서울특별시" },
-    { id: 5, name: "소백산", location: "충청북도" },
-  ];
+  const [mountains, setMountains] = useState([]); // 산 목록
+  const [courses, setCourses] = useState([]); // 선택된 산의 코스 목록
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedMountain, setSelectedMountain] = useState(null); // 선택된 산
+  const [selectedCourse, setSelectedCourse] = useState(null); // 선택된 코스
+  const [searchMountain, setSearchMountain] = useState(""); // 산 검색
+  const [searchCourse, setSearchCourse] = useState(""); // 코스 검색
+  const [filteredMountains, setFilteredMountains] = useState([]); // 필터링된 산 목록
+  const [filteredCourses, setFilteredCourses] = useState([]); // 필터링된 코스 목록
 
-  // 더미 코스 정보
-  const dummyCourses = {
-    1: [
-      // 한라산
-      { id: 2, course_name: "백록담 코스", difficulty_level: "어려움" },
-      { id: 3, course_name: "관음사 코스", difficulty_level: "중" },
-    ],
-    2: [
-      // 지리산
-      { id: 4, course_name: "어리목 코스", difficulty_level: "중" },
-    ],
-    3: [
-      // 설악산
-      { id: 5, course_name: "성판악 코스", difficulty_level: "쉬움" },
-    ],
-    4: [], // 북한산 → 아직 코스 없음
-    5: [], // 소백산 → 아직 코스 없음
-  };
+  // 산 목록 가져오기
+  useEffect(() => {
+    const fetchMountains = async () => {
+      try {
+        const response = await fetch("http://localhost:8088/api/mountains");
+        if (!response.ok) {
+          throw new Error("네트워크 응답이 정상적이지 않습니다.");
+        }
+        const data = await response.json();
+        setMountains(data);
+        setFilteredMountains(data);
+      } catch (error) {
+        console.error("산 목록을 가져오는 데 오류가 발생했습니다.", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [searchMountain, setSearchMountain] = useState("");
-  const [filteredMountains, setFilteredMountains] = useState(dummyMountains);
-  const [selectedMountain, setSelectedMountain] = useState(null);
+    fetchMountains();
+  }, []);
 
-  const [searchCourse, setSearchCourse] = useState("");
-  const [filteredCourses, setFilteredCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  // 산 검색 필터링
+  useEffect(() => {
+    setFilteredMountains(
+      mountains.filter((m) =>
+        m.name 
+      )
+    );
+  }, [searchMountain, mountains]);
+
+  useEffect(() => {
+    if (selectedMountain) {
+      const fetchCourses = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8088/api/mountains/${selectedMountain.id}/courses`
+          );
+          if (!response.ok) {
+            throw new Error("네트워크 응답이 정상적이지 않습니다.");
+          }
+          const data = await response.json();
+          console.log("Fetched Courses:", data); // 받은 데이터 확인
+          setCourses(data); // 코스 목록 설정
+          setFilteredCourses(data); // 필터링된 코스 목록 설정
+        } catch (error) {
+          console.error("코스를 가져오는 데 오류가 발생했습니다.", error);
+          setError(error.message);
+        }
+      };
+
+      fetchCourses(); // 선택된 산에 맞는 코스 목록 가져오기
+    }
+  }, [selectedMountain]); // selectedMountain이 변경될 때마다 실행
+
+  // 코스 검색 필터링
+  useEffect(() => {
+    setFilteredCourses(
+      courses.filter((course) =>
+        course.courseName
+      )
+    );
+  }, [searchCourse, courses]);
 
   // 날짜를 "yyyy-MM-dd HH:mm:ss" 형식으로 변환하는 함수
   const formatDate = (date) => {
@@ -86,7 +128,6 @@ const CreateMountainReview = () => {
   };
 
   const [newPost, setNewPost] = useState({
-    // title: "",
     content: "",
     name: "",
     location: "",
@@ -97,65 +138,6 @@ const CreateMountainReview = () => {
     mountainCoursesId: "",
   });
 
-  // const [newPost, setNewPost] = useState({
-  //   title: "",
-  //   content: "",
-  //   location: "",
-  //   updateDate: new Date(),
-  //   mountainsId: "",
-  //   mountainCoursesId: "",
-  // });
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8088/api/mountains")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       const mountainOptions = data.map((m) => ({
-  //         value: m.id,
-  //         label: m.name,
-  //       }));
-  //       setMountains(mountainOptions);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   if (newPost.mountainsId) {
-  //     fetch(
-  //       `http://localhost:8088/api/mountain-courses?mountainId=${newPost.mountainsId}`
-  //     )
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         const courseOptions = data.map((c) => ({
-  //           value: c.id,
-  //           label: `${c.name} (${c.difficultyLevel})`,
-  //         }));
-  //         setCourses(courseOptions);
-  //       });
-  //   }
-  // }, [newPost.mountainsId]);
-
-  // 산 검색 필터링
-  useEffect(() => {
-    setFilteredMountains(
-      dummyMountains.filter((m) =>
-        m.name.toLowerCase().includes(searchMountain.toLowerCase())
-      )
-    );
-  }, [searchMountain]);
-
-  // 코스 필터링
-  useEffect(() => {
-    if (selectedMountain) {
-      setFilteredCourses(
-        dummyCourses[selectedMountain.id].filter((course) =>
-          course.course_name.toLowerCase().includes(searchCourse.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredCourses([]);
-    }
-  }, [searchCourse, selectedMountain]);
-
   const handlePostSubmit = async (e) => {
     e.preventDefault();
 
@@ -165,7 +147,6 @@ const CreateMountainReview = () => {
     }
 
     const postData = {
-      // title: newPost.title,
       content: newPost.content,
       name: selectedMountain?.name,
       location: selectedMountain?.location,
@@ -177,16 +158,6 @@ const CreateMountainReview = () => {
       mountain_courses_id: selectedCourse?.id,
     };
 
-    // const postData = {
-    //   title: newPost.title,
-    //   content: newPost.content,
-    //   location: newPost.location,
-    //   update_date: formatDate(newPost.updateDate),
-    //   users_id: parseInt(user.id, 10),
-    //   mountains_id: parseInt(newPost.mountainsId, 10),
-    //   mountain_courses_id: parseInt(newPost.mountainCoursesId, 10),
-    // };
-
     try {
       const response = await fetch(API_URL, {
         method: "POST",
@@ -195,6 +166,28 @@ const CreateMountainReview = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        console.log("새로 생성된 게시글 ID:", data.id);
+        console.log("업로드할 이미지 수:", images.length);
+
+        // 이미지 업로드
+        if (images.length > 0) {
+          const formData = new FormData();
+          formData.append("reviewsId", data.id);
+
+          const fileImages = images.filter((img) => img instanceof File);
+          fileImages.forEach((img) => formData.append("photos", img));
+
+          await fetch(
+            `http://localhost:8088/api/mountain-reviews/photos/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+        }
+
+        console.log("✅ 게시글 작성 성공:", data);
         alert("게시물이 성공적으로 등록되었습니다!");
         navigate("/mountain-reviews");
       } else {
@@ -245,16 +238,6 @@ const CreateMountainReview = () => {
 
           {isLoggedIn && (
             <form onSubmit={handlePostSubmit} className="m-post-form">
-              {/* <input
-                type="text"
-                value={newPost.title}
-                onChange={(e) =>
-                  setNewPost({ ...newPost, title: e.target.value })
-                }
-                placeholder="제목"
-                required
-              /> */}
-
               <input
                 type="text"
                 placeholder="산 이름 검색"
@@ -278,7 +261,6 @@ const CreateMountainReview = () => {
                       });
                       setSearchMountain(mountain.name);
                       setSearchCourse("");
-                      setSelectedCourse(null);
                       setFilteredMountains([]);
                       setFilteredCourses([]);
                     }}
@@ -297,6 +279,7 @@ const CreateMountainReview = () => {
                     onChange={(e) => setSearchCourse(e.target.value)}
                   />
                   <ul>
+                   {/* {filteredCoursesList.length > 0 ? ( */}
                     {filteredCourses.map((course) => (
                       <li
                         key={course.id}
@@ -308,15 +291,21 @@ const CreateMountainReview = () => {
                             courseName: course.course_name,
                             difficultyLevel: course.difficulty_level,
                           });
-                          setSearchCourse(course.course_name);
+                          setSearchCourse(course.courseName);
                         }}
                       >
-                        {course.course_name} ({course.difficulty_level})
+                        {course.courseName} ({course.difficultyLevel})
                       </li>
                     ))}
                   </ul>
                 </>
               )}
+
+              <PhotoUploader
+                ref={photoUploaderRef}
+                onChange={setImages}
+                className="m-photo-column-layout"
+              />
 
               <textarea
                 className="m-post-content"

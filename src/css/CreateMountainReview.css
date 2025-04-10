@@ -5,7 +5,7 @@
 
 /* 뒤로가기 버튼 기본 스타일 */
 .m-create-back-button {
-  position: fixed;
+  position: absolute;
   background: none;
   border: none;
   cursor: pointer;
@@ -75,7 +75,7 @@
 .m-post-form input[type="text"]:focus,
 .m-post-form textarea:focus {
   border: 2px solid #8caa63;
-  outline: none; 
+  outline: none;
 }
 
 /* 댓글 입력창 (textarea) */
@@ -116,7 +116,7 @@
   font-weight: bold;
 }
 
-.m-post-form div {
+.m-post-button-container {
   display: flex;
   justify-content: space-between;
 }
@@ -187,4 +187,19 @@
 .m-post-cancel:hover::after {
   transform: translateY(0);
   opacity: 1;
+}
+
+.m-photo-column-layout {
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
+  width: 100%;
+}
+
+.m-photo-column-layout .preview-container {
+  width: 400px;
+}
+
+.m-photo-column-layout .upload-button-container {
+  align-self: flex-end;
 }

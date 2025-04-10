@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  differenceInMinutes,
-  differenceInHours,
-  differenceInDays,
-} from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { MdArrowBack, MdArrowUpward } from "react-icons/md";
 import ContentContainer from "../../layouts/ContentContainer";
@@ -80,23 +75,9 @@ const MountainReviewList = () => {
     fetchPosts();
   }, []);
 
+  
   const handleCommentChange = () => {
     fetchPosts(); // 댓글 변경 시 전체 게시글 다시 불러오기
-  };
-
-  // 상대적 날짜 변환 함수 (필요 시 카드에 넘겨줄 수 있음)
-  const formatRelativeDate = (date) => {
-    const now = new Date();
-    const parsedDate = new Date(date.replace(" ", "T"));
-    const minutesAgo = differenceInMinutes(now, parsedDate);
-    const hoursAgo = differenceInHours(now, parsedDate);
-    const daysAgo = differenceInDays(now, parsedDate);
-
-    if (minutesAgo < 60) return `${minutesAgo}분 전`;
-    if (hoursAgo < 24) return `${hoursAgo}시간 전`;
-    if (daysAgo < 7) return `${daysAgo}일 전`;
-    if (daysAgo < 30) return `${Math.floor(daysAgo / 7)}주 전`;
-    return `${Math.floor(daysAgo / 30)}개월 전`;
   };
 
   // 작성하기 버튼 클릭 시
@@ -113,7 +94,7 @@ const MountainReviewList = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 800); 
+      setShowScrollTop(window.scrollY > 2000); 
     };
 
     window.addEventListener("scroll", handleScroll);
