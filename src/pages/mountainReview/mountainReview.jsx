@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdArrowBack, MdArrowUpward } from "react-icons/md";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
@@ -11,11 +11,17 @@ import "../../css/MountainReview.css";
 const MountainReviewList = () => {
   const API_URL = "http://localhost:8088/api/mountain-reviews";
 
+  const location = useLocation(); // 라우터 location 정보 가져오기
+  const [searchQuery, setSearchQuery] = useState(
+    location.state?.mountainName || "" // 초기값에 산 이름 자동 설정
+  );
+
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
+  // const mountainName = location.state?.mountainName || "";
 
   // 로그인 상태 확인
   const checkLoginStatus = async () => {
@@ -75,7 +81,6 @@ const MountainReviewList = () => {
     fetchPosts();
   }, []);
 
-  
   const handleCommentChange = () => {
     fetchPosts(); // 댓글 변경 시 전체 게시글 다시 불러오기
   };
@@ -94,14 +99,15 @@ const MountainReviewList = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 2000); 
+      setShowScrollTop(window.scrollY > 2000);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState(""); // ← 검색어 상태 추가
+  // 초기값 설정을 위한 주석처리 ( 확인 필요 )
+  // const [searchQuery, setSearchQuery] = useState(""); // ← 검색어 상태 추가
 
   // 검색어로 필터링된 게시글
   const filteredPosts = posts.filter((post) =>

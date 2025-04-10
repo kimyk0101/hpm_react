@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 
-const RestaurantReviewList  = () => {
+const RestaurantReviewList = () => {
   const API_URL = "http://localhost:8088/api/restaurant-reviews"; // API URL
+
+  // 산 전체목록에서 특정산 이동시 검색어 별도관리를 위한 코드 ( 잠시 주석처리 )
+  // const location = useLocation(); // 라우터 location 정보 가져오기
+  // const [searchQuery, setSearchQuery] = useState(
+  //   location.state?.mountainName || "" // 초기값에 산 이름 자동 설정
+  // );
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState([]); //  login 부분
@@ -119,10 +125,7 @@ const RestaurantReviewList  = () => {
             ))}
           </ul>
           {/* 게시글 등록 */}
-          <button
-            onClick={goToPostCreate}
-            className="rReview-create-post"
-          >
+          <button onClick={goToPostCreate} className="rReview-create-post">
             작성하기
           </button>
         </div>
@@ -131,5 +134,4 @@ const RestaurantReviewList  = () => {
   );
 };
 
-export default RestaurantReviewList ;
-
+export default RestaurantReviewList;
