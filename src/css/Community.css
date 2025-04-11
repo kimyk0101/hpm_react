@@ -43,7 +43,12 @@
 }
 
 /* 자유게시판 */
-.communityPage h2 {
+.communityPage {
+  max-width: 1100px; /* 예시: 최대 넓이를 1000px로 제한 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.communityPage h2 {  
   font-size: 24px;
   margin-bottom: 50px;
   border-bottom: 3px solid black;
