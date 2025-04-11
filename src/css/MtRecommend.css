@@ -1,17 +1,17 @@
 .recommend-button {
     padding: 8px 16px;
-    background-color: #FF6600;
-    color: white;
+    background-color: yellowgreen;
+    color: black;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    animation: brightness 2s infinite alternate, scale 1.5s infinite alternate;
+    animation: brightness 0.5s infinite alternate, scale 0.5s infinite alternate;
     animation-timing-function: ease-in-out;
     transition: transform 0.3s ease;
   }
   
   @keyframes brightness {
-    from { filter: brightness(100%); }
+    from { filter: brightness(110%); }
     to { filter: brightness(120%); }
   }
   
@@ -21,6 +21,7 @@
   }
   
   .recommend-button:hover {
-    background-color: #DD4C00;
+    background-color: #a15032;
+    color: white;
     transform: scale(1.1);
   }
