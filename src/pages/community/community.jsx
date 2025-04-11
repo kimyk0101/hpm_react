@@ -138,10 +138,24 @@ const CommunityList = () => {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
-    <div>
-      <ContentContainer>
-        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
-      </ContentContainer>
+    <>
+    <header className="header-container">
+        <ContentContainer>
+            <Header
+                title="하이펜타"
+                showBack={false}
+                showLogo={true}
+                showIcons={{ search: true }}
+                menuItems={[
+                    { label: "커뮤니티", onClick: () => navigate("/communities") },
+                    { label: "등산 후기", onClick: () => navigate("/hiking-reviews") },
+                    { label: "맛집 후기", onClick: () => navigate("/restaurant-reviews") },
+                    { label: "모임", onClick: () => navigate("/clubs") },
+                ]}
+            />
+        </ContentContainer>
+    </header>
+
       <DefaultLayout>
         <div className="communityPage">
           {/* 뒤로가기 버튼을 상단에 위치시킴 */}
@@ -263,7 +277,7 @@ const CommunityList = () => {
           </div>
         </div>
       </DefaultLayout>
-    </div>
+    </>
   );
 };
 

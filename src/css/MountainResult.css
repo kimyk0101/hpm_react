@@ -8,7 +8,7 @@
 .carousel {
     position: relative;
     width: 40rem; /* $card-size */
-    height: 30rem; /* $card-size */
+    height: 35rem; /* $card-size */
     perspective: 500px;
     transform-style: preserve-3d;
 }

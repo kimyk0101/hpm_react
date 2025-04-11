@@ -24,7 +24,7 @@ const ClubComments = () => {
 
     // 페이지네이션 관련 상태 추가
     const [currentPage, setCurrentPage] = useState(1);
-    const commentsPerPage = 4;
+    const commentsPerPage = 3;
 
     // 필터링 관련 상태 추가
     const [searchTerm, setSearchTerm] = useState("");
@@ -239,11 +239,11 @@ const ClubComments = () => {
                             공지사항 등록
                         </button>
                     </div>
-                    <br/>
-                    <div className="page-header">
-                        
+                   
+                    <div className="page-header">                        
                         <h2>공지사항</h2>
                     </div>
+                    <br/>
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
 
