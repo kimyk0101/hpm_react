@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // useNavigate 추가
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../../css/MountainResult.css';
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
@@ -7,19 +7,23 @@ import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
 const MAX_VISIBILITY = 3;
 
-const MountainCard = ({ mountain, active, isCenter }) => (
+const MountainCard = ({ mountain, active, isCenter, centerColor }) => (
     <div className={`card ${isCenter ? 'center' : ''}`} style={{
-        border: isCenter ? '9px solid #EFE3CD' : 'none',
-        backgroundColor: isCenter ? '#A36F59' : 'transparent'
+        border: isCenter ? '6px solid #8EE50A' : 'none',
+        backgroundColor: isCenter ? centerColor : 'transparent'
     }}>
         <h2>{mountain.name}</h2>
         <div className="mountain-details">
-            <p><strong>[위치] </strong> {mountain.location}</p>
-            <p><strong>[난이도] </strong> {mountain.difficultyLevel}</p>
-            <p><strong>[소요시간] </strong> {mountain.courseTime}</p>
-            <p><strong>[코스이름] </strong>{mountain.courseName}</p><br/>
-            <p><strong>[특징] </strong><br/> {mountain.selectionReason}</p>
-            <p><strong>[교통수단] </strong><br/> {mountain.transportationInfo}</p>
+            <div className="left-section">
+                <p><strong>[위치]</strong><br/> {mountain.location}</p><br/>
+                <p><strong>[코스이름]</strong><br/> {mountain.courseName}</p><br/>
+                <p><strong>[소요시간]</strong><br/> {mountain.courseTime}</p><br/>
+                <p><strong>[난이도]</strong><br/> {mountain.difficultyLevel}</p>
+            </div>
+            <div className="right-section">
+                <p><strong>[산의 특징]</strong><br/> {mountain.selectionReason}</p><br/>
+                <p><strong>[교통수단]</strong><br/> {mountain.transportationInfo}</p>
+            </div>
         </div>
     </div>
 );
@@ -28,14 +32,22 @@ const MountainResult = () => {
     const location = useLocation();
     const filteredRecommend = location.state?.filteredData || [];
     const [activeCardIndex, setActiveCardIndex] = useState(0);
+    const [centerCardColorIndex, setCenterCardColorIndex] = useState(0);
     const count = filteredRecommend.length;
-    const navigate = useNavigate(); // useNavigate 훅 호출
+    const navigate = useNavigate();
+
+    const centerCardColors = ['#7D584B', '#44544A'];
 
     const getCardColor = (index) => {
         const diff = Math.abs(activeCardIndex - index);
         if (diff === 1) return 'green';
         if (diff === 2) return '#A8C9A8';
         return 'hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%))';
+    };
+
+    const handleCardChange = (newIndex) => {
+        setActiveCardIndex(newIndex);
+        setCenterCardColorIndex(prevIndex => (prevIndex + 1) % centerCardColors.length);
     };
 
     return (
@@ -56,13 +68,13 @@ const MountainResult = () => {
                     />
                 </ContentContainer>
             </header>
-            <br/><br/><br/>
+            <br/><br/>
 
             <div className="mountain-result-container">
-                <h1>당신에게 추천드리는 산은.....</h1><br/><br/>
+                <h3>당신에게 추천드리는 산은 ...</h3>
                 {filteredRecommend.length > 0 ? (
                     <div className='carousel'>
-                        {activeCardIndex > 0 && <button className='nav left' onClick={() => setActiveCardIndex(i => i - 1)}><TiChevronLeftOutline/></button>}
+                        {activeCardIndex > 0 && <button className='nav left' onClick={() => handleCardChange(activeCardIndex - 1)}><TiChevronLeftOutline/></button>}
                         {filteredRecommend.map((mountain, i) => (
                             <div className='card-container' key={mountain.name} style={{
                                 '--active': i === activeCardIndex ? 1 : 0,
@@ -74,13 +86,13 @@ const MountainResult = () => {
                                 'display': Math.abs(activeCardIndex - i) > MAX_VISIBILITY ? 'none' : 'block',
                                 'background-color': getCardColor(i)
                             }}>
-                                <MountainCard mountain={mountain} active={activeCardIndex === i} isCenter={i === activeCardIndex} />
+                                <MountainCard mountain={mountain} active={activeCardIndex === i} isCenter={i === activeCardIndex} centerColor={centerCardColors[centerCardColorIndex]} />
                             </div>
                         ))}
-                        {activeCardIndex < count - 1 && <button className='nav right' onClick={() => setActiveCardIndex(i => i + 1)}><TiChevronRightOutline/></button>}
+                        {activeCardIndex < count - 1 && <button className='nav right' onClick={() => handleCardChange(activeCardIndex + 1)}><TiChevronRightOutline/></button>}
                     </div>
                 ) : (
-                    <p className="no-data-message">데이터가 없습니다.</p>
+                    <p className="no-data-message">없습니다. 다시 선택해주세요 !</p>
                 )}
             </div>
         </>

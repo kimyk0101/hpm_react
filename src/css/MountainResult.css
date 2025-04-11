@@ -7,8 +7,8 @@
 
 .carousel {
     position: relative;
-    width: 40rem; /* $card-size */
-    height: 35rem; /* $card-size */
+    width: 55rem;
+    height: 31rem;
     perspective: 500px;
     transform-style: preserve-3d;
 }
@@ -29,23 +29,28 @@
 .card {
     width: 100%;
     height: 100%;
-    padding: 1rem;
-    border-radius: 1rem;
-    color: #9CA3AF; /* 기본 글씨색 */
-    text-align: justify;
+    padding: 0.6rem;
+    border-radius: 1.5rem;
+    color: #9CA3AF;
+    text-align: left;
     transition: all 0.3s ease-out;
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card.center { /* 가운데 카드 스타일 */
+.card.center {
     color: white;
 }
 
-.card.center .mountain-details p { /* 가운데 카드 내부 p 태그 스타일 */
+.card.center .mountain-details p {
     color: white;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
-.card.center h2 {
-    color: white;
+.card.center strong {
+    font-weight: bold;
+    color: #D1C4E9;
 }
 
 .card h2 {
@@ -53,7 +58,7 @@
     font-size: 2rem;
     font-weight: bold;
     margin: 0 0 0.7em;
-    color: #1F2937; /* $color-black */
+    color: white;
 }
 
 .card p, .card h2 {
@@ -85,6 +90,22 @@
     transform: translateX(100%) translateY(-50%);
 }
 
+.mountain-details {
+    display: flex;
+    width: 100%;
+}
+
+.mountain-details .left-section {
+    width: 50%;
+    padding-right: 1rem;
+}
+
+.mountain-details .right-section {
+    width: 50%;
+    padding-left: 1rem;
+    border-left: 1px solid #ccc;
+}
+
 .mountain-details p {
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
 }
