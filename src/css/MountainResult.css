@@ -7,8 +7,8 @@
 
 .carousel {
     position: relative;
-    width: 55rem;
-    height: 31rem;
+    width: 50rem;
+    height: 30rem;
     perspective: 500px;
     transform-style: preserve-3d;
 }
