@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { MdArrowBack } from "react-icons/md";
 import "../../css/DefaultLayout.css";
 import "../../css/CreateMountainReview.css";
 import PhotoUploader from "../../components/photoUploader/PhotoUploader";
@@ -75,11 +74,7 @@ const CreateMountainReview = () => {
 
   // 산 검색 필터링
   useEffect(() => {
-    setFilteredMountains(
-      mountains.filter((m) =>
-        m.name 
-      )
-    );
+    setFilteredMountains(mountains.filter((m) => m.name));
   }, [searchMountain, mountains]);
 
   useEffect(() => {
@@ -108,11 +103,7 @@ const CreateMountainReview = () => {
 
   // 코스 검색 필터링
   useEffect(() => {
-    setFilteredCourses(
-      courses.filter((course) =>
-        course.courseName
-      )
-    );
+    setFilteredCourses(courses.filter((course) => course.courseName));
   }, [searchCourse, courses]);
 
   // 날짜를 "yyyy-MM-dd HH:mm:ss" 형식으로 변환하는 함수
@@ -220,20 +211,6 @@ const CreateMountainReview = () => {
       </ContentContainer>
       <DefaultLayout>
         <div className="mReviewPage-create">
-          <button
-            onClick={() => navigate("/mountain-reviews")}
-            className="m-create-back-button"
-          >
-            <MdArrowBack
-              size={42}
-              className="m-create-back-button-default-icon"
-            />
-            <MdArrowBack
-              size={42}
-              className="m-create-back-button-hover-icon"
-            />
-          </button>
-
           <h2>새 게시물</h2>
 
           {isLoggedIn && (
@@ -279,7 +256,7 @@ const CreateMountainReview = () => {
                     onChange={(e) => setSearchCourse(e.target.value)}
                   />
                   <ul>
-                   {/* {filteredCoursesList.length > 0 ? ( */}
+                    {/* {filteredCoursesList.length > 0 ? ( */}
                     {filteredCourses.map((course) => (
                       <li
                         key={course.id}

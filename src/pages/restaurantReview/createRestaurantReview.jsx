@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import { MdArrowBack } from "react-icons/md";
 import "../../css/DefaultLayout.css";
 import "../../css/CreateMountainReview.css";
 import PhotoUploader from "../../components/photoUploader/PhotoUploader";
@@ -123,9 +122,9 @@ const CreateRestaurantReview = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();  
+        const data = await response.json();
         console.log("새로 생성된 게시글 ID:", data.id);
-      
+
         // 이미지 업로드
         if (images.length > 0) {
           const formData = new FormData();
@@ -176,20 +175,6 @@ const CreateRestaurantReview = () => {
       </ContentContainer>
       <DefaultLayout>
         <div className="mReviewPage-create">
-          <button
-            onClick={() => navigate("/restaurant-reviews")}
-            className="m-create-back-button"
-          >
-            <MdArrowBack
-              size={42}
-              className="m-create-back-button-default-icon"
-            />
-            <MdArrowBack
-              size={42}
-              className="m-create-back-button-hover-icon"
-            />
-          </button>
-
           <h2>새 게시물</h2>
 
           {isLoggedIn && (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { MdArrowBack, MdArrowUpward } from "react-icons/md";
+import { MdArrowUpward } from "react-icons/md";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -106,44 +106,41 @@ const MountainReviewList = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 초기값 설정을 위한 주석처리 ( 확인 필요 )
-  // const [searchQuery, setSearchQuery] = useState(""); // ← 검색어 상태 추가
-
   // 검색어로 필터링된 게시글
   const filteredPosts = posts.filter((post) =>
     post.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-<>
-            <header className="header-container">
-                <ContentContainer>
-                    <Header
-                        title="하이펜타"
-                        showBack={false}
-                        showLogo={true}
-                        showIcons={{ search: true }}
-                        menuItems={[
-                            { label: "커뮤니티", onClick: () => navigate("/communities") },
-                            { label: "등산 후기", onClick: () => navigate("/hiking-reviews") },
-                            { label: "맛집 후기", onClick: () => navigate("/restaurant-reviews") },
-                            { label: "모임", onClick: () => navigate("/clubs") },
-                        ]}
-                    />
-                </ContentContainer>
-            </header>
-            <br/><br/><br/>
+    <>
+      <header className="header-container">
+        <ContentContainer>
+          <Header
+            title="하이펜타"
+            showBack={false}
+            showLogo={true}
+            showIcons={{ search: true }}
+            menuItems={[
+              { label: "커뮤니티", onClick: () => navigate("/communities") },
+              {
+                label: "등산 후기",
+                onClick: () => navigate("/hiking-reviews"),
+              },
+              {
+                label: "맛집 후기",
+                onClick: () => navigate("/restaurant-reviews"),
+              },
+              { label: "모임", onClick: () => navigate("/clubs") },
+            ]}
+          />
+        </ContentContainer>
+      </header>
+      <br />
+      <br />
+      <br />
 
       <DefaultLayout>
         <div className="mReview-feed-page">
-          <button onClick={() => navigate("/")} className="mReview-back-button">
-            <MdArrowBack
-              size={42}
-              className="mReview-back-button-default-icon"
-            />
-            <MdArrowBack size={42} className="mReview-back-button-hover-icon" />
-          </button>
-
           <button
             onClick={goToPostCreate}
             className="create-mReview-post-button-fixed"
@@ -186,7 +183,7 @@ const MountainReviewList = () => {
           )}
         </div>
       </DefaultLayout>
-   </>
+    </>
   );
 };
 

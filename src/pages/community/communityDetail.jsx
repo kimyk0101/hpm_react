@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
-import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -465,20 +464,6 @@ function CommunityDetail() {
       </ContentContainer>
       <DefaultLayout>
         <div className="communityPage-detail">
-          {/* 뒤로가기 버튼 */}
-          <button
-            onClick={() => navigate("/communities")}
-            className="c-detail-back-button"
-          >
-            <MdArrowBack
-              size={42}
-              className="c-detail-back-button-default-icon"
-            />
-            <MdArrowBack
-              size={42}
-              className="c-detail-back-button-hover-icon"
-            />
-          </button>
           <h2>
             게시글 상세보기{" "}
             {editPost && <span className="c-edit-label"> &lt;수정중&gt;</span>}

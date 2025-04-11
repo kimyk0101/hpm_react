@@ -5,7 +5,6 @@ import {
   differenceInDays,
 } from "date-fns"; //  상대적 시간 계산 라이브러리
 import { useNavigate } from "react-router-dom";
-import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -139,40 +138,31 @@ const CommunityList = () => {
 
   return (
     <>
-    <header className="header-container">
+      <header className="header-container">
         <ContentContainer>
-            <Header
-                title="하이펜타"
-                showBack={false}
-                showLogo={true}
-                showIcons={{ search: true }}
-                menuItems={[
-                    { label: "커뮤니티", onClick: () => navigate("/communities") },
-                    { label: "등산 후기", onClick: () => navigate("/hiking-reviews") },
-                    { label: "맛집 후기", onClick: () => navigate("/restaurant-reviews") },
-                    { label: "모임", onClick: () => navigate("/clubs") },
-                ]}
-            />
+          <Header
+            title="하이펜타"
+            showBack={false}
+            showLogo={true}
+            showIcons={{ search: true }}
+            menuItems={[
+              { label: "커뮤니티", onClick: () => navigate("/communities") },
+              {
+                label: "등산 후기",
+                onClick: () => navigate("/hiking-reviews"),
+              },
+              {
+                label: "맛집 후기",
+                onClick: () => navigate("/restaurant-reviews"),
+              },
+              { label: "모임", onClick: () => navigate("/clubs") },
+            ]}
+          />
         </ContentContainer>
-    </header>
+      </header>
 
       <DefaultLayout>
         <div className="communityPage">
-          {/* 뒤로가기 버튼을 상단에 위치시킴 */}
-          <button
-            onClick={() => navigate("/")}
-            className="community-back-button"
-          >
-            <MdArrowBack
-              size={42}
-              className="community-back-button-default-icon"
-            />
-            <MdArrowBack
-              size={42}
-              className="community-back-button-hover-icon"
-            />
-          </button>
-
           <h2>자유게시판</h2>
 
           {/* 게시글 목록 표시 */}

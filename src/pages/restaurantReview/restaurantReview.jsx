@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { MdArrowBack } from "react-icons/md";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
@@ -121,14 +120,6 @@ const RestaurantReviewList = () => {
 
       <DefaultLayout>
         <div className="mReview-feed-page">
-          <button onClick={() => navigate("/")} className="mReview-back-button">
-            <MdArrowBack
-              size={42}
-              className="mReview-back-button-default-icon"
-            />
-            <MdArrowBack size={42} className="mReview-back-button-hover-icon" />
-          </button>
-
           <button
             onClick={goToPostCreate}
             className="create-mReview-post-button-fixed"

@@ -4,7 +4,6 @@ import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import PhotoUploader from "../../components/photoUploader/PhotoUploader";
-import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import "../../css/DefaultLayout.css";
 import "../../css/CreateCommunityPost.css";
 
@@ -142,20 +141,6 @@ const CreateCommunityPost = () => {
       </ContentContainer>
       <DefaultLayout>
         <div className="communityPage-create">
-          {/* 뒤로가기 버튼 */}
-          <button
-            onClick={() => navigate("/communities")}
-            className="c-create-back-button"
-          >
-            <MdArrowBack
-              size={42}
-              className="c-create-back-button-default-icon"
-            />
-            <MdArrowBack
-              size={42}
-              className="c-create-back-button-hover-icon"
-            />
-          </button>
           <h2>새 게시글 작성</h2>
           {!isLoggedIn ? (
             <div className="c-login-container">
