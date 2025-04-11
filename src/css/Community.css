@@ -4,6 +4,17 @@
   margin: 0 auto; /* 가운데 정렬 */
 }
 
+.no-posts-container {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.no-posts-image {
+  width: 600px;
+  height: 600px;
+  opacity: 0.9;
+}
+
 .communityPage h2 {  
   margin-top:57.5px;
   padding-top: 20px;

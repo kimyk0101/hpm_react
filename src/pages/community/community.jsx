@@ -165,106 +165,120 @@ const CommunityList = () => {
         <div className="communityPage">
           <h2>자유게시판</h2>
 
-          {/* 게시글 목록 표시 */}
-          <table className="community-table">
-            <thead>
-              <tr>
-                <th className="community-col-number">번호</th>
-                <th className="community-col-title">제목</th>
-                <th className="community-col-nickname">작성자</th>
-                <th className="community-col-date">날짜</th>
-                <th className="community-col-views">조회 수</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPosts.map((post, index) => (
-                <tr
-                  key={post.id}
-                  onClick={() => goToDetail(post.id)}
-                  className="community-post-row"
+          {currentPosts.length === 0 ? (
+            // 게시글이 없을 때 보여줄 이미지
+            <div className="no-posts-container">
+              <img
+                src="/post-images/noPosts.png"
+                alt="게시물이 없습니다"
+                className="no-posts-image"
+              />
+            </div>
+          ) : (
+            <>
+              {/* 게시글 목록 표시 */}
+              <table className="community-table">
+                <thead>
+                  <tr>
+                    <th className="community-col-number">번호</th>
+                    <th className="community-col-title">제목</th>
+                    <th className="community-col-nickname">작성자</th>
+                    <th className="community-col-date">날짜</th>
+                    <th className="community-col-views">조회 수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentPosts.map((post, index) => (
+                    <tr
+                      key={post.id}
+                      onClick={() => goToDetail(post.id)}
+                      className="community-post-row"
+                    >
+                      <td className="community-post-center">
+                        {posts.length -
+                          index -
+                          (currentPage - 1) * postsPerPage}
+                      </td>
+                      <td className="community-post-title">
+                        {post.title}{" "}
+                        <span style={{ color: "green" }}>
+                          [{post.commentCount}]
+                        </span>
+                      </td>
+                      <td className="community-post-center">{post.nickname}</td>
+                      <td className="community-post-center">
+                        {formatRelativeDate(post.updateDate)}
+                      </td>
+                      <td className="community-post-center">{post.views}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* 페이지네이션 */}
+              <div className="community-pagination">
+                <button
+                  className="community-pagination-btn"
+                  onClick={() => handlePageChange(1)}
                 >
-                  {/* 가장 최근 글에 마지막 번호를 부여 */}
-                  <td className="community-post-center">
-                    {posts.length - index - (currentPage - 1) * postsPerPage}
-                  </td>
-                  <td className="community-post-title">
-                    {post.title}{" "}
-                    <span style={{ color: "green" }}>
-                      [{post.commentCount}]
-                    </span>
-                  </td>
-                  <td className="community-post-center">{post.nickname}</td>
-                  <td className="community-post-center">
-                    {formatRelativeDate(post.updateDate)}
-                  </td>
-                  <td className="community-post-center">{post.views}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  처음
+                </button>
+                <button
+                  className="community-pagination-btn"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  이전
+                </button>
 
-          {/* 페이지네이션 */}
-          <div className="community-pagination">
-            <button
-              className="community-pagination-btn"
-              onClick={() => handlePageChange(1)}
-            >
-              처음
-            </button>
-            <button
-              className="community-pagination-btn"
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              이전
-            </button>
+                {(() => {
+                  let startPage = Math.max(1, currentPage - 2);
+                  let endPage = Math.min(totalPages, startPage + 4);
+                  if (endPage - startPage < 4) {
+                    startPage = Math.max(1, endPage - 4);
+                  }
 
-            {(() => {
-              let startPage = Math.max(1, currentPage - 2);
-              let endPage = Math.min(totalPages, startPage + 4);
-              if (endPage - startPage < 4) {
-                startPage = Math.max(1, endPage - 4);
-              }
+                  return [...Array(endPage - startPage + 1)].map((_, i) => {
+                    const pageNum = startPage + i;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`community-pagination-btn ${
+                          currentPage === pageNum ? "active" : ""
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  });
+                })()}
 
-              return [...Array(endPage - startPage + 1)].map((_, i) => {
-                const pageNum = startPage + i;
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => handlePageChange(pageNum)}
-                    className={`community-pagination-btn ${
-                      currentPage === pageNum ? "active" : ""
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              });
-            })()}
+                <button
+                  className="community-pagination-btn"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  다음
+                </button>
+                <button
+                  className="community-pagination-btn"
+                  onClick={() => handlePageChange(totalPages)}
+                >
+                  마지막
+                </button>
+              </div>
 
-            <button
-              className="community-pagination-btn"
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              다음
-            </button>
-            <button
-              className="community-pagination-btn"
-              onClick={() => handlePageChange(totalPages)}
-            >
-              마지막
-            </button>
-          </div>
-
-          {/* 게시글 등록 버튼 */}
-          <div className="community-button-container">
-            <button
-              onClick={goToPostCreate}
-              className="create-community-post-button"
-              data-text="작성하기"
-            >
-              <span>작성하기</span>
-            </button>
-          </div>
+              {/* 게시글 등록 버튼 */}
+              <div className="community-button-container">
+                <button
+                  onClick={goToPostCreate}
+                  className="create-community-post-button"
+                  data-text="작성하기"
+                >
+                  <span>작성하기</span>
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </DefaultLayout>
     </>
