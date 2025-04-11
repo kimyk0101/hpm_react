@@ -24,7 +24,7 @@ const ClubComments = () => {
 
     // 페이지네이션 관련 상태 추가
     const [currentPage, setCurrentPage] = useState(1);
-    const commentsPerPage = 3;
+    const commentsPerPage = 4;
 
     // 필터링 관련 상태 추가
     const [searchTerm, setSearchTerm] = useState("");
@@ -262,7 +262,7 @@ const ClubComments = () => {
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
-                                    <h5>등산 단톡방 입장 원하시는 분은 '해당 산 관리자' or '총괄매니저' 님 에게 단톡방 초대 원한다는 메세지 하나만 남겨주세요 !</h5>
+                                    <h4>등산 단톡방 입장 원하시는 분은 '해당 산 관리자' or '총괄매니저' 님 에게 단톡방 초대 원한다는 메세지 하나만 남겨주세요 !</h4>
                                 </div>
                             </div>
                             <table className="comments-table">
