@@ -29,12 +29,17 @@
 /* 산 목록 그리드 */
 .mountain-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(300px, auto)); /* 한 줄에 두 개의 카드 */
+  grid-template-columns: repeat(2, 1fr); /* 두 개씩 배치 */
+  /* grid-template-columns: repeat(2, minmax(300px, auto)); 한 줄에 두 개의 카드 */
   gap: 20px; /* 카드 간격 */
+  grid-auto-rows: 1fr;
 }
 
-/* mountain.css */
 .mountain-card {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: space-between; /* 상단 이미지와 하단 텍스트 간격 균일화 */
+  height: 100%;
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
@@ -42,21 +47,31 @@
 }
 
 .card-image {
-  height: 200px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* 가로 세로 비율 유지 */  
   background-size: cover;
-  background-position: center;
+  background-position: center;    
 }
 
 .card-content {
+  flex-grow: 1; /* 텍스트 영역이 남은 공간을 채우도록 설정 */
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 텍스트와 버튼 그룹 간격 균등 분배 */
+  text-align: left;
 }
 
 .card-content h3 {
-  font-size: 18px;
+  /* margin: 0;
+  font-size: 18px; */
+  margin-bottom: auto;
 }
 
 .card-content p {
-  margin: 5px 0;
+  /* margin: 5px 0; */
+  margin-top: auto;
 }
 
 .no-results {
@@ -82,7 +97,7 @@
   display: inline-flex; /* Flexbox를 사용하여 텍스트를 중앙에 배치 */
   align-items: center; /* 수직 중앙 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
-  width: 120px; /* 버튼 너비 고정 */
+  width: 170px; /* 버튼 너비 고정 */
   height: 40px; /* 버튼 높이 고정 */
   background-color: #3498db; /* 기본 파란색 (상세 보기) */
   color: white;
