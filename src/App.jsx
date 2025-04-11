@@ -19,6 +19,8 @@ import RestaurantReviewDetail from "./pages/restaurantReview/restaurantReviewDet
 import AllClubs from "./pages/club/allClubs";
 import ClubComments from "./pages/club/clubComments";
 import ChatSendbird from "./pages/club/chatSendbird";
+import MountainRecommend from "./pages/mountain/mountainRecommend"; // 추가
+import MountainResult from "./pages/mountain/mountainResult"; // 추가
 
 import MountainMap from "./pages/mountain/list_map";
 import MountainList from "./pages/mountain/mountainList";
@@ -95,6 +97,18 @@ function App() {
         {/* 각각의 산 모임 페이지 */}
         <Route path="/chatSendbird/:id" element={<ChatSendbird />} />{" "}
         {/* 샌드버드 채팅방 이동 페이지 */}
+
+
+
+        <Route path="/mountain-recommend" element={<MountainRecommend />} />{" "}
+        {/* 산 추천 페이지로 이동 */}
+        <Route path="/mountain-result" element={<MountainResult />} />{" "}
+        {/* 산 추천 결과 페이지로 이동 */}
+
+
+
+
+
         {/* 산 지도  */}
         <Route path="/mountain/list_map" element={<MountainMap />} />
         {/* 산 목록 */}

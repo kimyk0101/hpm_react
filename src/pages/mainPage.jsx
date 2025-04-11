@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import "../css/DefaultLayout.css";
 import "../css/MainPage.css";
 import "../css/StickyButton.css";
+import "../css/MtRecommend.css";
 
 const MainHome = () => {
   const [mountains, setMountains] = useState([]);
@@ -56,7 +57,18 @@ const MainHome = () => {
         }}
       >
         <div className="trail-slider-container home-section">
-          <h2>추천 산행 코스</h2>
+
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+            <h2 style={{ margin: 0 }}>추천 산행 코스</h2>
+            <Link to="/mountain-recommend">
+              <button className="recommend-button">
+                산을 추천해 드릴께요 !
+              </button>
+            </Link>
+          </div>
+
+
           <DefaultSlider visibleCount={4} className="trail-slider">
             {!isLoading &&
               mountains
