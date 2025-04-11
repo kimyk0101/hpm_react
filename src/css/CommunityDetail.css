@@ -100,24 +100,30 @@
   min-height: 80px;
 }
 
-/* 사진 영역 wrapper */
+/* 사진 wrapper */
 .c-detail-photos {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-top: 0.5rem; /* ✅ 본문과 너무 떨어지지 않게 조절 */
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
 }
 
-/* 사진 개별 요소 */
+/* 기본 사진 스타일 */
 .c-detail-photo {
-  width: 200px;
-  height: 200px;
   object-fit: cover;
-  border-radius: 8px;
-  /* border: 1px solid #ccc; */
+  border-radius: 12px;
+  width: calc(33.333% - 1rem);
+  aspect-ratio: 1 / 1;
+  max-width: 300px;
 }
 
+/* 사진이 한 장일 경우 - 크게 보여주기 */
+.c-detail-photos.single .c-detail-photo {
+  width: 100%;
+  max-width: 600px;
+}
 
 /* 수정, 삭제 버튼 스타일 */
 .c-detail-buttons {
@@ -193,11 +199,11 @@
 
 /* 입력 컨테이너 */
 .c-detail-input-container {
-    position: relative; 
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-  }
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
 
 /* 제목 스타일 */
 .c-detail-edit-title {
@@ -252,6 +258,27 @@
 
 .c-detail-input-container:hover .c-detail-tooltip {
   visibility: visible;
+}
+
+.c-detail-photo-column-layout {
+  margin-top: 10px;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+}
+
+.c-detail-photo-column-layout .preview-container {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.c-detail-photo-column-layout .preview-image {
+  width: 280px;
+  height: 280px;
+}
+
+.c-detail-photo-column-layout .upload-button-container {
+  align-self: flex-end;
 }
 
 /* 버튼 스타일 */
@@ -342,6 +369,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  resize: none;
+  overflow-y: hidden;
 }
 
 .c-detail-comment-input textarea {
@@ -372,7 +401,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
-align-self: flex-end;
+  align-self: flex-end;
 }
 
 .c-detail-comment-input-button > span {
@@ -460,6 +489,7 @@ align-self: flex-end;
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: none;
+  overflow-y: hidden;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -469,18 +499,6 @@ align-self: flex-end;
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-/* 댓글 수정용 textarea */
-.c-detail-comment-textarea {
-  width: 100%;
-  height: 60px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: none;
-  font-size: 14px;
-  line-height: 1.5;
 }
 
 /* 버튼 그룹 */
@@ -501,7 +519,6 @@ align-self: flex-end;
 .c-detail-comment-edit-button:hover {
   text-decoration: underline;
 }
-
 
 /* 답글 쓰기 버튼 스타일 */
 .c-detail-comment-reply-button {
@@ -525,19 +542,20 @@ align-self: flex-end;
 .c-detail-reply-input {
   margin-top: 8px;
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
 }
 
 /* textarea 설정 */
 .c-detail-reply-input textarea {
-  width: calc(100% - 130px); 
+  width: calc(100% - 130px);
   height: 50px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: none;
+  overflow-y: hidden;
   font-size: 14px;
 }
 
@@ -558,21 +576,12 @@ align-self: flex-end;
   color: #8caa63;
 }
 
-
 /* 답글 스타일 */
 .c-detail-replies {
   padding-left: 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.c-detail-reply {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 8px;
-  border-left: 2px solid #ddd;
 }
 
 /* 개별 답글 스타일 */
@@ -623,6 +632,7 @@ align-self: flex-end;
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: none;
+  overflow-y: hidden;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -632,18 +642,6 @@ align-self: flex-end;
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-/* 수정용 textarea */
-.c-detail-reply-textarea {
-  width: 100%;
-  height: 50px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: none;
-  font-size: 14px;
-  line-height: 1.5;
 }
 
 /* 수정/취소 버튼 그룹 */
@@ -665,21 +663,21 @@ align-self: flex-end;
   text-decoration: underline;
 }
 
-
 /* 댓글, 답글 수정/삭제 버튼 */
-.c-detail-comments-buttons, .c-detail-reply-buttons {
+.c-detail-comments-buttons,
+.c-detail-reply-buttons {
   display: flex;
   gap: 8px;
 }
-.c-detail-comments-edit-delete-button, .c-detail-replies-edit-delete-button {
+.c-detail-comments-edit-delete-button,
+.c-detail-replies-edit-delete-button {
   background: none;
   border: none;
   font-size: 12px;
   color: #ff4d4f;
   cursor: pointer;
 }
-.c-detail-comments-edit-delete-button:hover, .c-detail-replies-edit-delete-button:hover {
+.c-detail-comments-edit-delete-button:hover,
+.c-detail-replies-edit-delete-button:hover {
   text-decoration: underline;
 }
-
-

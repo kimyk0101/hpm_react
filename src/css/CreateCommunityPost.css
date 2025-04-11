@@ -98,6 +98,27 @@
   border-radius: 5px;
 }
 
+.c-post-photo-column-layout {
+  margin-top: 10px;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+}
+
+.c-post-photo-column-layout .preview-container {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.c-post-photo-column-layout .preview-image {
+  width: 270px;
+  height: 270px;
+}
+
+.c-post-photo-column-layout .upload-button-container {
+  align-self: flex-end;
+}
+
 /* 버튼 컨테이너 스타일 */
 .c-post-button-container {
   display: flex;

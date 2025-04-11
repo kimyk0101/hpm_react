@@ -98,7 +98,7 @@ const CreateCommunityPost = () => {
           const fileImages = images.filter((img) => img instanceof File);
           fileImages.forEach((img) => formData.append("photos", img));
 
-          await fetch("http://localhost:8088/api/communityPhoto/upload", {
+          await fetch("http://localhost:8088/api/communities/photos/upload", {
             method: "POST",
             body: formData,
           });
@@ -126,14 +126,14 @@ const CreateCommunityPost = () => {
   };
 
   const textareaRef = useRef(null);
-  
-      // 자동 높이 조정
-      useEffect(() => {
-        const textarea = textareaRef.current;
-        if (textarea) {
-          textarea.style.height = `${textarea.scrollHeight}px`;
-        }
-      }, [newPost.content]); 
+
+  // 자동 높이 조정
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [newPost.content]);
 
   return (
     <div>
@@ -193,7 +193,11 @@ const CreateCommunityPost = () => {
                 className="c-post-content"
               />
 
-              <PhotoUploader ref={photoUploaderRef} onChange={setImages} />
+              <PhotoUploader
+                ref={photoUploaderRef}
+                onChange={setImages}
+                className="c-post-photo-column-layout"
+              />
 
               <div className="c-post-button-container">
                 <button

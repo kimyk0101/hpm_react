@@ -1,4 +1,3 @@
-// ✅ components/PhotoUploader/PhotoUploader.jsx
 import React, {
   useState,
   useRef,
@@ -81,51 +80,6 @@ const PhotoUploader = forwardRef(
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
-        {/* ✅ 서버 이미지 미리보기 */}
-        {/* {serverImages.length > 0 && (
-          <>
-            <div className="preview-container">
-              {serverImages.map((photo, index) => (
-                <div key={`server-${index}`} className="preview-image">
-                  <img src={photo.file_path} alt="server" />
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={() => handleDeleteServer(photo)}
-                  >
-                    &times;
-                  </button>
-                </div>
-              ))}
-            </div>
-            <p className="image-count">
-              {serverImages.length + localImages.length} / {MAX_IMAGE_COUNT}
-            </p>
-          </>
-        )} */}
-
-        {/* ✅ 로컬 이미지 미리보기 */}
-        {/* {localImages.length > 0 && (
-          <>
-            <div className="preview-container">
-              {localImages.map((file, index) => (
-                <div key={`local-${index}`} className="preview-image">
-                  <img src={URL.createObjectURL(file)} alt="preview" />
-                  <button
-                    type="button"
-                    className="remove-btn"
-                    onClick={() => handleDeleteLocal(index)}
-                  >
-                    &times;
-                  </button>
-                </div>
-              ))}
-            </div>
-            <p className="image-count">
-              {serverImages.length + localImages.length} / {MAX_IMAGE_COUNT}
-            </p>
-          </>
-        )} */}
         {(serverImages.length > 0 || localImages.length > 0) && (
           <>
             <div className="preview-container">
@@ -141,7 +95,6 @@ const PhotoUploader = forwardRef(
                   </button>
                 </div>
               ))}
-
               {localImages.map((file, index) => (
                 <div key={`local-${index}`} className="preview-image">
                   <img src={URL.createObjectURL(file)} alt="preview" />
@@ -156,13 +109,16 @@ const PhotoUploader = forwardRef(
               ))}
             </div>
 
-            <p className="image-count">
-              {serverImages.length + localImages.length} / {MAX_IMAGE_COUNT}
-            </p>
+            {/* ✅ 프리뷰 아래 하단 바 */}
+            <div className="bottom-bar">
+              <p className="image-count">
+                {serverImages.length + localImages.length} / {MAX_IMAGE_COUNT}
+              </p>
+            </div>
           </>
         )}
 
-        {/* 등록 버튼은 항상 보이게 */}
+        {/* ✅ 업로드 버튼은 항상 보이게 */}
         <div className="upload-button-container">
           <button
             type="button"
@@ -184,5 +140,4 @@ const PhotoUploader = forwardRef(
     );
   }
 );
-
 export default PhotoUploader;

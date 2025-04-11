@@ -460,15 +460,6 @@ const MountainReviewCard = ({ post, currentUser }) => {
               <div className="mr-see-more-btn-placeholder" />
             )}
 
-            {/* {post.tags?.length > 0 && (
-              <div className="mReview-post-tags">
-                {post.tags.map((tag) => (
-                  <span key={tag} className="mReview-post-tag">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            )} */}
             <div className="mReview-post-reactions">
               <MountainReviewLikeButton
                 reviewId={post.id}

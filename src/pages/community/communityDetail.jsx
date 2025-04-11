@@ -8,16 +8,18 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import "../../css/DefaultLayout.css";
 import "../../css/CommunityDetail.css";
+// import useAutoResizeTextarea from "../../utils/useAutoResizeTextarea";/
 
 function CommunityDetail() {
+  // const textareaRef = useAutoResizeTextarea(content);
   const { id } = useParams();
   const communityId = parseInt(id, 10); // String -> Long 타입으로 변환
 
   const API_COMMUNITY_URL = `http://localhost:8088/api/communities/${communityId}`;
   const API_COMMENT_URL = `http://localhost:8088/api/communities/${communityId}/comments`;
-  const API_PHOTO_URL = `http://localhost:8088/api/communityPhoto/list/${communityId}`;
+  const API_PHOTO_URL = `http://localhost:8088/api/communities/photos/by-community/${communityId}`;
   const API_PHOTO_DELETE = (photoId) =>
-    `http://localhost:8088/api/communityPhoto/delete/photo/${photoId}`;
+    `http://localhost:8088/api/communities/photos/by-photo/${photoId}`;
 
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]); // 댓글 리스트
@@ -139,7 +141,7 @@ function CommunityDetail() {
           formData.append("communitiesId", communityId);
           newImages.forEach((img) => formData.append("photos", img));
 
-          await fetch("http://localhost:8088/api/communityPhoto/upload", {
+          await fetch("http://localhost:8088/api/communities/photos/upload", {
             method: "POST",
             body: formData,
           });
@@ -514,6 +516,7 @@ function CommunityDetail() {
                 <div className="c-detail-input-container">
                   <textarea
                     value={editPost.content}
+                    // ref={textareaRef}
                     onChange={(e) =>
                       setEditPost({ ...editPost, content: e.target.value })
                     }
@@ -525,31 +528,13 @@ function CommunityDetail() {
                     수정할 수 있는 부분입니다
                   </div>
                 </div>
-                {/* ✅ 기존 이미지 보여주기 */}
-                <div className="c-detail-edit-images">
-                  {photos.map((photo) => (
-                    <div key={photo.id} className="c-detail-edit-image-wrapper">
-                      <img
-                        src={photo.file_path}
-                        alt="업로드 이미지"
-                        className="c-detail-photo"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleDeletePhoto(photo.id)}
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  ))}
-                </div>
 
-                {/* ✅ 새 이미지 업로더 */}
                 <PhotoUploader
                   ref={uploaderRef}
-                  initialServerPhotos={photos} // ✅ 서버 이미지 전달
-                  onDeleteServerPhoto={handleDeletePhoto} // ✅ 서버 삭제 API 연결
+                  initialPhotos={photos}
+                  onDeleteServerPhoto={handleDeletePhoto}
                   onChange={() => {}}
+                  className="c-detail-photo-column-layout"
                 />
 
                 <div className="c-detail-buttons">
@@ -572,7 +557,7 @@ function CommunityDetail() {
                 </div>
               </div>
             ) : (
-              // ✨ 게시글 상세 보기
+              // 게시글 상세 보기
               <div className="c-detail-post">
                 <h3>{post.title}</h3>
                 <p className="c-detail-nickname">{post.nickname}</p>
@@ -590,11 +575,14 @@ function CommunityDetail() {
                   </p>
                   <p className="c-detail-views">조회 {post.views}</p>
                 </div>
-                <p className="c-detail-content">{post.content}</p>
 
                 {/* 이미지 렌더링 */}
                 {photos.length > 0 && (
-                  <div className="c-detail-photos">
+                  <div
+                    className={`c-detail-photos ${
+                      photos.length === 1 ? "single" : ""
+                    }`}
+                  >
                     {photos.map((photo) => (
                       <img
                         key={photo.id}
@@ -605,12 +593,12 @@ function CommunityDetail() {
                     ))}
                   </div>
                 )}
+                <p className="c-detail-content">{post.content}</p>
               </div>
             )
           ) : (
             <p>게시글을 불러오는 중...</p>
           )}
-          {/* 로그인된 사용자와 게시글 작성자가 일치할 경우에만 수정, 삭제 버튼 표시 */}
 
           {isLoggedIn && user.id === post?.usersId && !editPost && (
             <div className="c-detail-buttons">
@@ -661,6 +649,7 @@ function CommunityDetail() {
                       <textarea
                         className="c-detail-comment-textarea"
                         value={editComment.content}
+                        // ref={textareaRef}
                         onChange={(e) =>
                           setEditComment({
                             ...editComment,
@@ -684,13 +673,6 @@ function CommunityDetail() {
                       </div>
                     </div>
                   ) : (
-                    // 수정 모드 아닐 때의 댓글 내용 (클릭하면 답글 보이게)
-                    // <p
-                    //   className="c-detail-comment-content"
-                    //   onClick={() => fetchReplies(comment.id)}
-                    // >
-                    //   {comment.content}
-                    // </p>
                     <p className="c-detail-comment-content">
                       {comment.content}
                     </p>
@@ -732,6 +714,7 @@ function CommunityDetail() {
                     <div className="c-detail-reply-input">
                       <textarea
                         value={replyContent[comment.id] || ""}
+                        // ref={textareaRef}
                         onChange={(e) =>
                           setReplyContent({
                             ...replyContent,
