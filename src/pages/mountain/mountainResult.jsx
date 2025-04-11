@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import '../../css/MountainResult.css'; // CSS 파일 임포트
+import { useLocation, useNavigate } from 'react-router-dom'; // useNavigate 추가
+import '../../css/MountainResult.css';
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
-import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti'; // react-icons 임포트
+import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
-const MAX_VISIBILITY = 3; // 보여지는 카드 수 제한
+const MAX_VISIBILITY = 3;
 
 const MountainCard = ({ mountain, active, isCenter }) => (
-    <div className={`card ${isCenter ? 'center' : ''}`} style={{ 
+    <div className={`card ${isCenter ? 'center' : ''}`} style={{
         border: isCenter ? '9px solid #EFE3CD' : 'none',
-        backgroundColor: isCenter ? '#A36F59' : 'transparent' // 배경색 추가
+        backgroundColor: isCenter ? '#A36F59' : 'transparent'
     }}>
         <h2>{mountain.name}</h2>
         <div className="mountain-details">
@@ -29,12 +29,13 @@ const MountainResult = () => {
     const filteredRecommend = location.state?.filteredData || [];
     const [activeCardIndex, setActiveCardIndex] = useState(0);
     const count = filteredRecommend.length;
+    const navigate = useNavigate(); // useNavigate 훅 호출
 
     const getCardColor = (index) => {
         const diff = Math.abs(activeCardIndex - index);
-        if (diff === 1) return 'green'; // 현재 카드와 인접한 카드
-        if (diff === 2) return '#A8C9A8'; // 현재 카드에서 두 칸 떨어진 카드
-        return 'hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%))'; // 나머지 카드
+        if (diff === 1) return 'green';
+        if (diff === 2) return '#A8C9A8';
+        return 'hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%))';
     };
 
     return (
@@ -71,7 +72,7 @@ const MountainResult = () => {
                                 'pointer-events': activeCardIndex === i ? 'auto' : 'none',
                                 'opacity': Math.abs(activeCardIndex - i) >= MAX_VISIBILITY ? '0' : '1',
                                 'display': Math.abs(activeCardIndex - i) > MAX_VISIBILITY ? 'none' : 'block',
-                                'background-color': getCardColor(i) // 색상 변경
+                                'background-color': getCardColor(i)
                             }}>
                                 <MountainCard mountain={mountain} active={activeCardIndex === i} isCenter={i === activeCardIndex} />
                             </div>
