@@ -115,10 +115,24 @@ const MountainReviewList = () => {
   );
 
   return (
-    <div>
-      <ContentContainer>
-        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
-      </ContentContainer>
+<>
+            <header className="header-container">
+                <ContentContainer>
+                    <Header
+                        title="하이펜타"
+                        showBack={false}
+                        showLogo={true}
+                        showIcons={{ search: true }}
+                        menuItems={[
+                            { label: "커뮤니티", onClick: () => navigate("/communities") },
+                            { label: "등산 후기", onClick: () => navigate("/hiking-reviews") },
+                            { label: "맛집 후기", onClick: () => navigate("/restaurant-reviews") },
+                            { label: "모임", onClick: () => navigate("/clubs") },
+                        ]}
+                    />
+                </ContentContainer>
+            </header>
+            <br/><br/><br/>
 
       <DefaultLayout>
         <div className="mReview-feed-page">
@@ -173,7 +187,7 @@ const MountainReviewList = () => {
           )}
         </div>
       </DefaultLayout>
-    </div>
+   </>
   );
 };
 
