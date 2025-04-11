@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import StickyButton from "../../components/map/StickyButton"; // StickyButton 컴포넌트 임포트
 import "../../css/map.css";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 function MountainMap() {
@@ -34,6 +35,8 @@ function MountainMap() {
             127.47055598966082
           ),
           level: 13,
+          minLevel: 5,
+          maxLevel: 13, // 최대 줌 레벨 (확대 제한)
         };
         const map = new window.kakao.maps.Map(mapRef.current, options);
 
@@ -59,28 +62,41 @@ function MountainMap() {
           calculator: [10, 30, 50], // 클러스터 분할 기준
           styles: [
             {
-              width: "45px",
-              height: "45px",
-              background: "rgba(255, 100, 50, 0.9)",
-              borderRadius: "25px",
-              color: "#fff",
+              width: "60px", // 클러스터 크기 증가
+              height: "60px",
+              background: "rgba(0, 128, 255, 0.8)", // 파란색 배경
+              borderRadius: "30px", // 원형 모양
+              color: "#ffffff", // 텍스트 색상
               textAlign: "center",
-              lineHeight: "45px",
-              fontSize: "14px",
-              content: (count) => `${count}개`, // 텍스트 포맷 변경
+              lineHeight: "60px", // 텍스트 중앙 정렬
+              fontSize: "16px", // 텍스트 크기 증가
+              fontWeight: "bold", // 텍스트 굵게
+              content: (count) => `${count}개`, // 표시 텍스트 (마커 개수)
+            },
+            {
+              width: "80px",
+              height: "80px",
+              background: "rgba(255, 165, 0, 0.8)", // 주황색 배경
+              borderRadius: "40px",
+              color: "#ffffff",
+              textAlign: "center",
+              lineHeight: "80px",
+              fontSize: "18px",
+              fontWeight: "bold",
+              content: (count) => `${count}개`,
             },
           ],
         });
 
         const markerImages = {
-          default: "https://i.ibb.co/QZk1h2W/30x30.png",
+          default: "https://i.ibb.co/HThp8Wjh/icon-mountain.png",
         };
 
-        const imageSize = new window.kakao.maps.Size(30, 30),
-          imageOption = { offset: new window.kakao.maps.Point(15, 25) };
+        const imageSize = new window.kakao.maps.Size(33, 33),
+          imageOption = { offset: new window.kakao.maps.Point(18, 25) };
 
         const hoverImage = new window.kakao.maps.MarkerImage(
-          "https://i.ibb.co/hxb1GQ90/mountains.png", // hover 이미지 URL
+          "https://i.ibb.co/Fkz2GhR1/icons8-48.png", // hover 이미지 URL
           imageSize,
           imageOption
         );
@@ -109,7 +125,7 @@ function MountainMap() {
             const label = new window.kakao.maps.CustomOverlay({
               content: `<div class="custom-label">${mountain.name}</div>`,
               position: marker.getPosition(),
-              yAnchor: -0.2,
+              yAnchor: -0.3,
               map: null, // 처음에 지도에 추가하지 않음
             });
             labels[index] = label;
@@ -134,16 +150,22 @@ function MountainMap() {
             });
           });
 
+          // 초기 라벨 상태 설정 (추가)
+          markers.forEach((marker, index) => {
+            labels[index].setMap(map); // 모든 라벨을 초기 상태로 지도에 표시
+          });
+
           // 클러스터링 이벤트 리스너 추가 (라벨 표시/숨김 처리)
           window.kakao.maps.event.addListener(
             clusterer,
-            "clustered",
+            "clusterchanged", // 클러스터 상태 변경 시 트리거되는 이벤트로 수정
             function (clusters) {
               const clusteredMarkers = new Set();
-              clusters.forEach((cluster) =>
-                cluster.getMarkers().forEach((m) => clusteredMarkers.add(m))
-              );
-
+              if (Array.isArray(clusters)) {
+                clusters.forEach((cluster) =>
+                  cluster.getMarkers().forEach((m) => clusteredMarkers.add(m))
+                );
+              }
               markers.forEach((marker, index) => {
                 if (clusteredMarkers.has(marker)) {
                   labels[index].setMap(null); // 클러스터에 포함된 마커는 라벨 숨김
@@ -155,6 +177,15 @@ function MountainMap() {
           );
 
           clusterer.addMarkers(markers); // 클러스터러에 마커 추가
+
+          // 초기 상태 강제 업데이트 (추가)
+          // 없으면 축소/확대시 이상함
+          const initialClusters = clusterer.getClusters() || []; // undefined 방지
+          window.kakao.maps.event.trigger(
+            clusterer,
+            "clusterchanged",
+            initialClusters
+          );
         }
       });
     };
@@ -182,8 +213,10 @@ function MountainMap() {
             </p>
           </div>
           <div className="button-group">
-            <button
-              className="detail-map-button"
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="detail-button"
               onClick={async () => {
                 const mountainName = markerInfo.title;
                 try {
@@ -202,14 +235,29 @@ function MountainMap() {
               }}
             >
               상세보기
-            </button>
-            <button className="review-map-button">등산 후기</button>
-            <button
-              className="close-map-button"
+            </motion.button>
+            {/* <button className="review-map-button">등산 후기</button> */}
+            {/* 등산후기 버튼 */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="review-button"
+              onClick={() =>
+                navigate("/mountain-reviews", {
+                  state: { mountainName: markerInfo.title }, // 산 이름 전달
+                })
+              }
+            >
+              등산후기
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="close-button"
               onClick={() => setIsOpen(false)}
             >
               닫기
-            </button>
+            </motion.button>
           </div>
         </div>
       )}

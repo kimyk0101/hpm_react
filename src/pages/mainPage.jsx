@@ -57,9 +57,14 @@ const MainHome = () => {
         }}
       >
         <div className="trail-slider-container home-section">
-
-
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "20px",
+            }}
+          >
             <h2 style={{ margin: 0 }}>추천 산행 코스</h2>
             <Link to="/mountain-recommend">
               <button className="recommend-button">
@@ -67,7 +72,6 @@ const MainHome = () => {
               </button>
             </Link>
           </div>
-
 
           <DefaultSlider visibleCount={4} className="trail-slider">
             {!isLoading &&
@@ -110,7 +114,14 @@ const MainHome = () => {
           <ReviewSection />
         </div>
         <div className="sticky-button">
-          <Link to="/mountain/list_map" aria-label="산 목록 지도 보기">
+          <Link
+            to="/mountain/list_map"
+            aria-label="산 목록 지도 보기"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/mountain/list_map"; // 새로고침 강제
+            }}
+          >
             <img
               // src="https://i.ibb.co/6cNgZxb6/free-icon-mountain.png"
               src="https://i.ibb.co/NdMHTgt2/icons8-100.png"
