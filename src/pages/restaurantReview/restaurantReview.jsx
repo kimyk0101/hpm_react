@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { MdOutlineBackspace } from "react-icons/md"; // 뒤로가기
+import { MdArrowBack } from "react-icons/md";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
+import RestaurantReviewCard from "../restaurantReview/RestaurantReviewCard";
+import "../../css/MountainReview.css";
 
 const RestaurantReviewList = () => {
-  const API_URL = "http://localhost:8088/api/restaurant-reviews"; // API URL
+  const API_URL = "http://localhost:8088/api/restaurant-reviews";
 
   // 산 전체목록에서 특정산 이동시 검색어 별도관리를 위한 코드 ( 잠시 주석처리 )
-  // const location = useLocation(); // 라우터 location 정보 가져오기
-  // const [searchQuery, setSearchQuery] = useState(
-  //   location.state?.mountainName || "" // 초기값에 산 이름 자동 설정
-  // );
+  const location = useLocation(); // 라우터 location 정보 가져오기
+  const [searchQuery, setSearchQuery] = useState(
+    location.state?.mountainName || "" // 초기값에 산 이름 자동 설정
+  );
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState([]); //  login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+
+  const navigate = useNavigate();
 
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
@@ -54,10 +60,14 @@ const RestaurantReviewList = () => {
         name: rReview.name,
         nickname: rReview.nickname,
         location: rReview.location,
+        mountainName: rReview.mountain_name,
         rate: rReview.rate,
-        title: rReview.title,
         content: rReview.content,
         updateDate: rReview.update_date,
+        usersId: rReview.users_id,
+        mountainsId: rReview.mountains_id,
+        likes: rReview.likes,
+        commentCount: rReview.comment_count,
       }));
 
       setPosts(postData); // 상태 업데이트
@@ -71,63 +81,94 @@ const RestaurantReviewList = () => {
     fetchPosts();
   }, []);
 
-  const navigate = useNavigate();
-
-  //  상세 페이지로 이동
-  const goToDetail = (postId) => {
-    navigate(`/restaurant-reviews/${postId}`);
+  const handleCommentChange = () => {
+    fetchPosts(); // 댓글 변경 시 전체 게시글 다시 불러오기
   };
 
-  //  뒤로가기 (메인 페이지로 이동)
-  const onBack = () => {
-    navigate("/");
-  };
-
-  // 게시글 작성 페이지로 이동
+  // 작성하기 버튼 클릭 시
   const goToPostCreate = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다!");
+      navigate("/login");
+      return;
+    }
     navigate("/restaurant-reviews/new");
   };
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 2000);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // const [searchQuery, setSearchQuery] = useState("");
+
+  // 검색어로 필터링된 게시글
+  const filteredPosts = posts.filter((post) =>
+    post.mountainName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
-      <DefaultLayout
-        headerProps={{
-          title: "하이펜타",
-          showLogo: true,
-          showIcons: { search: true },
-        }}
-      >
-        <h2>자유게시판</h2>
-        <div className="restaurantReviewPage">
-          {/* 뒤로가기 버튼을 상단에 위치시킴 */}
-          <button onClick={onBack} className="rReview-back-button">
-            <MdOutlineBackspace />
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+
+      <DefaultLayout>
+        <div className="mReview-feed-page">
+          <button onClick={() => navigate("/")} className="mReview-back-button">
+            <MdArrowBack
+              size={42}
+              className="mReview-back-button-default-icon"
+            />
+            <MdArrowBack size={42} className="mReview-back-button-hover-icon" />
           </button>
 
-          {/* 게시글 목록 표시 */}
-          {/* TODO: 목록 표시 변경 */}
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <div
-                  className="rReview-card"
-                  onClick={() => goToDetail(post.id)} // post.id를 전달
-                  style={{ cursor: "pointer" }}
-                >
-                  <h3>{post.title}</h3>
-                  <p>{post.content}</p>
-                  <p>작성자: {post.nickname}</p>
-                  <p>
-                    작성일: {new Date(post.updateDate).toLocaleDateString()}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          {/* 게시글 등록 */}
-          <button onClick={goToPostCreate} className="rReview-create-post">
-            작성하기
+          <button
+            onClick={goToPostCreate}
+            className="create-mReview-post-button-fixed"
+            data-text="작성하기"
+          >
+            <span>작성하기</span>
           </button>
+
+          {/* 검색창 */}
+          <div className="mReview-search-container">
+            <input
+              type="text"
+              placeholder="산 이름으로 검색"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mReview-search-input"
+            />
+          </div>
+
+          {/* 게시글 리스트 */}
+          <div className="mReview-post-list">
+            {filteredPosts.map((post) => (
+              <RestaurantReviewCard
+                key={post.id}
+                post={post}
+                currentUser={user}
+                onCommentChange={handleCommentChange}
+              />
+            ))}
+          </div>
+
+          {/* 상단 이동 버튼 */}
+          {showScrollTop && (
+            <button
+              className="mReview-scroll-top-button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <MdArrowUpward />
+            </button>
+          )}
         </div>
       </DefaultLayout>
     </div>

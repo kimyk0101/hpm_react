@@ -15,7 +15,7 @@ import CreateMountainReview from "./pages/mountainReview/createMountainReview";
 import MountainReviewCard from "./pages/mountainReview/mountainReviewCard";
 import RestaurantReviewList from "./pages/restaurantReview/restaurantReview";
 import CreateRestaurantReview from "./pages/restaurantReview/createRestaurantReview";
-import RestaurantReviewDetail from "./pages/restaurantReview/restaurantReviewDetail";
+import RestaurantReviewCard from "./pages/restaurantReview/RestaurantReviewCard";
 import AllClubs from "./pages/club/allClubs";
 import ClubComments from "./pages/club/clubComments";
 import ChatSendbird from "./pages/club/chatSendbird";
@@ -40,57 +40,22 @@ function App() {
         <Route path="/mypage/mypostspage" element={<MyPostsPage />} />
         <Route path="/mypage/edit" element={<EditProfile />} />
         <Route path="/search" element={<SearchPage />} />
+
         {/* 자유 게시판 */}
         <Route path="/communities" element={<CommunityList />} />{" "}
-        {/* 자유 게시판 목록 */}
         <Route path="/communities/new" element={<CreateCommunityPost />} />{" "}
-        {/* 자유 게시판 작성 */}
         <Route path="/communities/:id" element={<CommunityDetail />} />{" "}
-        {/* 자유 게시판 상세 */}
+
         {/* 등산 후기 */}
         <Route path="/mountain-reviews" element={<MountainReviewList />} />{" "}
-        {/* 등산 후기 목록 */}
-        <Route
-          path="/mountain-reviews/new"
-          element={<CreateMountainReview />}
-        />{" "}
-        {/* 등산 후기 작성 */}
-        <Route
-          path="/mountain-reviews"
-          element={<MountainReviewCard />}
-        />{" "}
-        {/* 등산 후기 상세 */}
+        <Route path="/mountain-reviews/new" element={<CreateMountainReview />} />{" "}
+        <Route path="/mountain-reviews" element={<MountainReviewCard />} />{" "}
+
         {/* 맛집 후기 */}
-        <Route
-          path="/restaurant-reviews"
-          element={<RestaurantReviewList />}
-        />{" "}
-        {/* 맛집 후기 목록 */}
-        <Route
-          path="/restaurant-reviews/new"
-          element={<CreateRestaurantReview />}
-        />{" "}
-        {/* 맛집 후기 작성 */}
-        <Route
-          path="/restaurant-reviews/:id"
-          element={<RestaurantReviewDetail />}
-        />{" "}
-        {/* 맛집 후기 상세 */}
-        <Route
-          path="/restaurant-reviews"
-          element={<RestaurantReviewList />}
-        />{" "}
-        {/* 맛집 후기 목록 */}
-        <Route
-          path="/restaurant-reviews/new"
-          element={<CreateRestaurantReview />}
-        />{" "}
-        {/* 맛집 후기 작성 */}
-        <Route
-          path="/restaurant-reviews/:id"
-          element={<RestaurantReviewDetail />}
-        />{" "}
-        {/* 맛집 후기 상세 */}
+        <Route path="/restaurant-reviews" element={<RestaurantReviewList />} />{" "}
+        <Route path="/restaurant-reviews/new" element={<CreateRestaurantReview />} />{" "}
+        <Route path="/restaurant-reviews" element={<RestaurantReviewCard />} />{" "}
+
         {/* 모임 */}
         <Route path="/clubs" element={<AllClubs />} /> {/* 산 모임들 목록 */}
         <Route path="/clubs/:id" element={<ClubComments />} />{" "}
@@ -98,16 +63,10 @@ function App() {
         <Route path="/chatSendbird/:id" element={<ChatSendbird />} />{" "}
         {/* 샌드버드 채팅방 이동 페이지 */}
 
-
-
         <Route path="/mountain-recommend" element={<MountainRecommend />} />{" "}
         {/* 산 추천 페이지로 이동 */}
         <Route path="/mountain-result" element={<MountainResult />} />{" "}
         {/* 산 추천 결과 페이지로 이동 */}
-
-
-
-
 
         {/* 산 지도  */}
         <Route path="/mountain/list_map" element={<MountainMap />} />

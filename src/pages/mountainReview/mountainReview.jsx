@@ -166,7 +166,6 @@ const MountainReviewList = () => {
           {/* 게시글 리스트 */}
           <div className="mReview-post-list">
             {filteredPosts.map((post) => (
-              // {posts.map((post) => (
               <MountainReviewCard
                 key={post.id}
                 post={post}

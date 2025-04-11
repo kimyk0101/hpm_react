@@ -1,27 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
+import { MdArrowBack } from "react-icons/md";
 import "../../css/DefaultLayout.css";
+import "../../css/CreateMountainReview.css";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 
 const CreateRestaurantReview = () => {
-  const API_URL = "http://localhost:8088/api/restaurant-reviews"; // API URL
   const navigate = useNavigate();
-  const [user, setUser] = useState([]); //  login 부분
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 유지
+  const [user, setUser] = useState([]); // 사용자 정보
+  const API_URL = "http://localhost:8088/api/restaurant-reviews";
+  const [images, setImages] = useState([]);
+  const photoUploaderRef = useRef();
 
-  // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
     try {
       const response = await fetch("http://localhost:8088/api/users/session", {
         method: "GET",
-        credentials: "include", // 쿠키를 포함하여 요청
+        credentials: "include",
       });
 
       if (response.ok) {
         const data = await response.json();
         setIsLoggedIn(true);
-        setUser(data); // 로그인된 사용자 정보 저장
-        console.log(data);
+        setUser(data);
       } else {
         setIsLoggedIn(false);
       }
@@ -32,20 +37,63 @@ const CreateRestaurantReview = () => {
   };
 
   useEffect(() => {
-    checkLoginStatus(); // 컴포넌트가 마운트될 때 로그인 상태 확인
+    checkLoginStatus();
   }, []);
 
+  const [mountains, setMountains] = useState([]); // 산 목록
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedMountain, setSelectedMountain] = useState(null); // 선택된 산
+  const [searchMountain, setSearchMountain] = useState(""); // 산 검색
+  const [filteredMountains, setFilteredMountains] = useState([]); // 필터링된 산 목록
+
+  // 산 목록 가져오기
+  useEffect(() => {
+    const fetchMountains = async () => {
+      try {
+        const response = await fetch("http://localhost:8088/api/mountains");
+        if (!response.ok) {
+          throw new Error("네트워크 응답이 정상적이지 않습니다.");
+        }
+        const data = await response.json();
+        setMountains(data);
+        setFilteredMountains(data);
+      } catch (error) {
+        console.error("산 목록을 가져오는 데 오류가 발생했습니다.", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMountains();
+  }, []);
+
+  // 산 검색 필터링
+  useEffect(() => {
+    setFilteredMountains(mountains.filter((m) => m.name));
+  }, [searchMountain, mountains]);
+
+  // 날짜를 "yyyy-MM-dd HH:mm:ss" 형식으로 변환하는 함수
   const formatDate = (date) => {
-    return new Date(date).toISOString().slice(0, 16).replace("T", " ");
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    const seconds = String(d.getSeconds()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; // 초까지 포함된 형식
   };
 
   const [newPost, setNewPost] = useState({
     name: "",
     location: "",
+    mountainName: "",
     rate: "",
-    title: "",
     content: "",
-    updateDate: formatDate(new Date()),
+    updateDate: new Date(),
+    mountainsId: "",
   });
 
   const handlePostSubmit = async (e) => {
@@ -57,15 +105,14 @@ const CreateRestaurantReview = () => {
     }
 
     const postData = {
-      id: newPost.id || null,
       name: newPost.name,
-      location: newPost.location,
+      location: selectedMountain?.location,
+      mountainName: selectedMountain?.name,
       rate: newPost.rate,
-      title: newPost.title,
       content: newPost.content,
       update_date: formatDate(newPost.updateDate),
-      users_id: parseInt(user.id, 10), // String → Number 변환
-    //   mountains_id: 1,
+      users_id: parseInt(user.id, 10),
+      mountains_id: selectedMountain?.id,
     };
 
     try {
@@ -75,88 +122,151 @@ const CreateRestaurantReview = () => {
         body: JSON.stringify(postData),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`❌ 서버 응답 오류: ${errorText}`);
+      if (response.ok) {
+        const data = await response.json();  
+        console.log("새로 생성된 게시글 ID:", data.id);
+      
+        // 이미지 업로드
+        if (images.length > 0) {
+          const formData = new FormData();
+          formData.append("restaurantsId", data.id);
+
+          const fileImages = images.filter((img) => img instanceof File);
+          fileImages.forEach((img) => formData.append("photos", img));
+
+          await fetch(
+            `http://localhost:8088/api/restaurant-reviews/photos/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+        }
+
+        console.log("✅ 게시글 작성 성공:", data);
+        alert("게시물이 성공적으로 등록되었습니다!");
+        navigate("/restaurant-reviews");
+      } else {
+        alert("게시글 등록 실패");
       }
-
-      // ✅ 응답이 비어있는 경우를 대비
-      const text = await response.text();
-      const data = text ? JSON.parse(text) : {}; // 빈 응답이면 빈 객체로 처리
-
-      console.log("✅ 게시글 작성 성공:", data);
-      alert("게시물이 성공적으로 등록되었습니다!");
-      navigate("/restaurant-reviews");
     } catch (error) {
       console.error("❌ 게시글 작성 실패:", error);
-      alert("게시물 등록 중 오류가 발생했습니다.");
     }
   };
 
   const handleCancel = () => {
-    navigate("/restaurant-reviews"); // 취소 시 리스트 페이지로 이동
+    navigate("/restaurant-reviews");
   };
+
+  const textareaRef = useRef(null);
+
+  // 자동 높이 조정
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "150px";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [newPost.content]);
 
   return (
     <div>
-      <DefaultLayout
-        headerProps={{
-          title: "하이펜타",
-          showLogo: true,
-          showIcons: { search: true },
-        }}
-      >
-        <h3>새 게시글 작성</h3>
-        {!isLoggedIn && (
-          <div>
-            <p>
-              로그인한 사용자만 게시물을 작성할 수 있습니다. 로그인 해주세요.
-            </p>
-          </div>
-        )}
-        <form onSubmit={handlePostSubmit}>
-          <input
-            type="text"
-            value={newPost.title}
-            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-            placeholder="제목"
-            required
-          />
-          <input
-            type="text"
-            value={newPost.name}
-            onChange={(e) => setNewPost({ ...newPost, name: e.target.value })}
-            placeholder="맛집 이름"
-          />
-          <textarea
-            value={newPost.location}
-            onChange={(e) =>
-              setNewPost({ ...newPost, location: e.target.value })
-            }
-            placeholder="맛집 위치"
-          />
-          <input
-            type="text"
-            value={newPost.rate}
-            onChange={(e) => setNewPost({ ...newPost, rate: e.target.value })}
-            placeholder="별점"
-          />
-          {/* TODO: 별점 산 아이콘으로 변경 */}
-          <textarea
-            value={newPost.content}
-            onChange={(e) =>
-              setNewPost({ ...newPost, content: e.target.value })
-            }
-            placeholder="내용"
-            required
-          />
-          <button type="submit" disabled={!isLoggedIn}>
-            게시글 등록
+      <ContentContainer>
+        <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
+      </ContentContainer>
+      <DefaultLayout>
+        <div className="mReviewPage-create">
+          <button
+            onClick={() => navigate("/restaurant-reviews")}
+            className="m-create-back-button"
+          >
+            <MdArrowBack
+              size={42}
+              className="m-create-back-button-default-icon"
+            />
+            <MdArrowBack
+              size={42}
+              className="m-create-back-button-hover-icon"
+            />
           </button>
-          <button type="button" onClick={handleCancel}>
-            취소
-          </button>
-        </form>
+
+          <h2>새 게시물</h2>
+
+          {isLoggedIn && (
+            <form onSubmit={handlePostSubmit} className="m-post-form">
+              <input
+                type="text"
+                placeholder="맛집 이름"
+                value={newPost.name}
+                onChange={(e) =>
+                  setNewPost({ ...newPost, name: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="산 이름 검색"
+                value={searchMountain}
+                onChange={(e) => setSearchMountain(e.target.value)}
+              />
+              <ul>
+                {filteredMountains.map((mountain) => (
+                  <li
+                    key={mountain.id}
+                    onClick={() => {
+                      setSelectedMountain(mountain);
+                      setNewPost({
+                        ...newPost,
+                        mountainsId: mountain.id,
+                        mountainName: mountain.name,
+                      });
+                      setSearchMountain(mountain.name);
+                      // setSearchCourse("");
+                      setFilteredMountains([]);
+                      // setFilteredCourses([]);
+                    }}
+                  >
+                    {mountain.name}
+                  </li>
+                ))}
+              </ul>
+
+              <PhotoUploader
+                ref={photoUploaderRef}
+                onChange={setImages}
+                className="m-photo-column-layout"
+              />
+
+              <textarea
+                className="m-post-content"
+                value={newPost.content}
+                ref={textareaRef}
+                onChange={(e) =>
+                  setNewPost({ ...newPost, content: e.target.value })
+                }
+                placeholder="내용"
+                required
+              />
+
+              <div className="m-post-button-container">
+                <button
+                  type="submit"
+                  className="m-post-save"
+                  data-text="게시글 등록"
+                >
+                  <span>게시글 등록</span>
+                </button>
+                <button
+                  type="button"
+                  className="m-post-cancel"
+                  onClick={handleCancel}
+                  data-text="취소"
+                >
+                  <span>취소</span>
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </DefaultLayout>
     </div>
   );
