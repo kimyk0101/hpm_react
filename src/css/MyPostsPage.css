@@ -1,102 +1,100 @@
 /* ================= MyPostsPage.jsx ================= */
 .mypage-posts-page {
-    padding: 2rem;
-    background-color: #fdfdfd;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    margin-top: 90px;
-  }
-  
-  .mypage-posts-page h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    color: #222;
-  }
-  
-  .tab-wrapper {
-    margin-top: 1rem;
-  }
-  
-  /* ================= CommunityTab.jsx ================= */
-  .community-tab .sub-tab-buttons {
-    display: flex;
-    /* justify-content: center; */
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .community-tab .sub-tab-buttons button {
-    padding: 0.5rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #e0e0e0;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .community-tab .sub-tab-buttons button.active {
-    background-color: #1976d2;
-    color: white;
-  }
-  
-  .community-tab .sub-tab-buttons button:hover {
-    background-color: #1565c0;
-    color: white;
-  }
-  
-    /* ===== 공통 포스트 스타일링 ===== */
-    .post-item {
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
-        font-size: 0.95rem;
-        display: flex;
-        flex-direction: column;
-  }
-  
-  .post-title {
-    font-weight: 600;
-    font-size: 1rem;
-    /* margin-bottom: 0.5rem; */
-    color: #333;
-  }
-  
-  .post-meta {
-    color: #777;
-    font-size: 0.85rem;
-  }
+  padding: 2rem;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 90px;
+}
 
-  .post-meta span {
-    margin-right: 5px;
-  }
+.mypage-posts-page h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
 
-  /* ================= CommunityPosts.jsx ================= */
-  .community-tab .sub-tab-content li {
-    padding: 1rem 0;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-  
-  .community-tab .sub-tab-content li p {
-    margin: 0;
-    font-weight: 500;
-    font-size: 1rem;
-    color: #222;
-  }
-  
-  .community-tab .sub-tab-content li .post-meta {
-    font-size: 0.85rem;
-    color: #888;
-    display: block;
-    text-align: left;
-  }
-  
-  .community-tab .sub-tab-content li .c-post-title {
-    display: block;
-    font-size: 0.85rem;
-    color: #888;
-    padding: 0;
-    text-align: left;
-  }
+.tab-wrapper {
+  margin-top: 1rem;
+}
+
+/* ================= 공통 탭 스타일 ================= */
+.history-tabs,
+.community-tab .sub-tab-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.history-tabs button,
+.community-tab .sub-tab-buttons button {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.history-tabs button.active,
+.community-tab .sub-tab-buttons button.active {
+  background-color: #1976d2;
+  color: white;
+}
+
+.history-tabs button:hover,
+.community-tab .sub-tab-buttons button:hover {
+  background-color: #1565c0;
+  color: white;
+}
+
+/* ================= 공통 포스트 스타일 ================= */
+.sub-tab-content,
+.history-content {
+  background-color: white;
+  padding: 1.5rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  min-height: 320px;
+}
+
+.post-item,
+.community-tab .sub-tab-content li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: background-color 0.2s ease;
+}
+
+.post-item:hover,
+.community-tab .sub-tab-content li:hover {
+  background-color: #f9f9f9;
+}
+
+.post-title,
+.community-tab .sub-tab-content li p {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+}
+
+.post-meta,
+.community-tab .sub-tab-content li .post-meta {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.post-meta span {
+  margin-right: 10px;
+}
+
+.community-tab .sub-tab-content li .c-post-title {
+  display: block;
+  font-size: 0.85rem;
+  color: #888;
+  padding: 0;
+  text-align: left;
+}
