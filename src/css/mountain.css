@@ -93,7 +93,8 @@
 }
 
 .detail-button,
-.review-button {
+.review-button,
+.close-button {
   display: inline-flex; /* Flexbox를 사용하여 텍스트를 중앙에 배치 */
   align-items: center; /* 수직 중앙 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
@@ -112,4 +113,6 @@
   background-color: #4CAF50; /* 초록색 계열 */
 }
 
-
+.close-button{
+  background-color: #f9b32e; /* 노란색 계열 */
+}
