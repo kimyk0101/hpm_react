@@ -6,13 +6,16 @@ import "../../../css/CommunitySection.css";
 const CommunitySection = () => {
   const navigate = useNavigate();
 
+  const handleGoCommunity = () => {
+    window.scrollTo(0, 0); // 스크롤 위치를 맨 위로 설정
+    navigate("/communities"); // 페이지 이동
+  };
+
   return (
     <section className="community-section-container">
       <div className="community-left">
         <CommunityPreview />
       </div>
-
-      {/* <div className="community-arrow">→</div> */}
 
       <div className="community-right">
         <h3>등산만큼, 수다도 필요하니까</h3>
@@ -24,7 +27,7 @@ const CommunitySection = () => {
 
         <button
           className="go-community-btn"
-          onClick={() => navigate("/communities")}
+          onClick={handleGoCommunity} // 수정된 핸들러 함수 사용
         >
           <FiArrowRight />
         </button>
