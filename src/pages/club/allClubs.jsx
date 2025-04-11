@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { MdArrowBack } from "react-icons/md"; // 뒤로가기 버튼
 import "../../css/AllClubs.css";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
@@ -49,7 +48,7 @@ const AllClubs = () => {
         checkLoginStatus();
     }, []);
 
-    const handleImageClick = async (clubId) => {
+    const handleCardClick = async (clubId) => {
         if (!isLoggedIn) {
             if (window.confirm("로그인한 사용자만 모임에 참여할 수 있습니다. 로그인 하시겠습니까?")) {
                 navigate("/login");
@@ -77,9 +76,8 @@ const AllClubs = () => {
         }
     };
 
-
     return (
-        <div className="all-clubs-container">
+        <>
             <header className="header-container">
                 <ContentContainer>
                     <Header
@@ -97,24 +95,25 @@ const AllClubs = () => {
                 </ContentContainer>
             </header>
 
-            <br/>
+            <br />
             <ContentContainer>
                 <div className="clubs-page">
+                    <br /><br />
                     <div className="page-header">
                         <h2>모임 목록</h2>
                     </div>
-                   
+                    <br />
+
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {clubs.length > 0 ? (
                         <div className="club-cards-container">
                             {clubs.map((club) => (
-                                <div key={club.id} className="club-card">
+                                <div key={club.id} className="club-card" onClick={() => handleCardClick(club.id)} style={{ cursor: "pointer" }}> 
                                     <h3>{club.name}</h3>
                                     <img
                                         src={`${import.meta.env.BASE_URL}clubs-images/${club.id}.jpg`}
                                         alt={club.name}
-                                        onClick={() => handleImageClick(club.id)}
-                                        style={{ cursor: "pointer" }}
+                                        
                                     />
                                     <p className="club-title">{club.title}</p>
                                     <p>{club.content}</p><br />
@@ -127,7 +126,7 @@ const AllClubs = () => {
                     )}
                 </div>
             </ContentContainer>
-        </div>
+        </>
     );
 };
 

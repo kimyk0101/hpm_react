@@ -9,12 +9,13 @@ const MAX_VISIBILITY = 3; // 보여지는 카드 수 제한
 
 const MountainCard = ({ mountain, active, isCenter }) => (
     <div className={`card ${isCenter ? 'center' : ''}`} style={{ 
-        border: isCenter ? '6px solid #8B4513' : 'none',
-        backgroundColor: isCenter ? '#8B4513' : 'transparent' // 배경색 추가
+        border: isCenter ? '9px solid #EFE3CD' : 'none',
+        backgroundColor: isCenter ? '#A36F59' : 'transparent' // 배경색 추가
     }}>
         <h2>{mountain.name}</h2>
         <div className="mountain-details">
             <p><strong>[위치] </strong> {mountain.location}</p>
+            <p><strong>[난이도] </strong> {mountain.difficultyLevel}</p>
             <p><strong>[소요시간] </strong> {mountain.courseTime}</p>
             <p><strong>[코스이름] </strong>{mountain.courseName}</p><br/>
             <p><strong>[특징] </strong><br/> {mountain.selectionReason}</p>
@@ -54,10 +55,10 @@ const MountainResult = () => {
                     />
                 </ContentContainer>
             </header>
-            <br/><br/><br/><br/>
+            <br/><br/><br/>
 
             <div className="mountain-result-container">
-                <h1>당신에게 추천드리는 산은.....</h1><br/>
+                <h1>당신에게 추천드리는 산은.....</h1><br/><br/>
                 {filteredRecommend.length > 0 ? (
                     <div className='carousel'>
                         {activeCardIndex > 0 && <button className='nav left' onClick={() => setActiveCardIndex(i => i - 1)}><TiChevronLeftOutline/></button>}
