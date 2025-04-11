@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* 전체 화면 높이 사용 */
-  
 }
 
 .map {
@@ -11,7 +10,7 @@
   max-width: 1200px;
   margin: 20px auto; /* 중앙 정렬 */
   border-radius: 15px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);;
 }
 
 .header-map-container {
@@ -20,7 +19,7 @@
   left: 0;
   width: 100%;
   z-index: 1000; /* 헤더가 다른 요소 위에 표시되도록 설정 */
-  background-color: white; /* 배경색 추가 */
+  background-color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
@@ -37,6 +36,7 @@
   padding: 20px; /* 여백 추가 */
   border-radius: 12px;
   box-shadow: 0px 8px 30px rgba(0, 0, 0, .1);
+  background-color: #f9f9f9;
 
   /* 애니메이션 효과 */
   transition: bottom 0.3s ease, opacity 0.3s ease;

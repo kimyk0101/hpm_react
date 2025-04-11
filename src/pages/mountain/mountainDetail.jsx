@@ -1,65 +1,12 @@
+// MountainDetail.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../css/MountainDetail.css";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 const weatherDescKo = {
-  200: "가벼운 비를 동반한 천둥구름",
-  201: "비를 동반한 천둥구름",
-  202: "강한 비를 동반한 천둥구름",
-  210: "약한 천둥구름",
-  211: "천둥구름",
-  212: "강한 천둥구름",
-  221: "불규칙적인 천둥구름",
-  230: "약한 비를 동반한 천둥구름",
-  231: "진눈깨비를 동반한 천둥구름",
-  232: "강한 진눈깨비를 동반한 천둥구름",
-  300: "가벼운 안개비",
-  301: "안개비",
-  302: "강한 안개비",
-  310: "가벼운 적은비",
-  311: "적은비",
-  312: "강한 적은비",
-  313: "소나기성 적은비",
-  314: "강한 소나기성 적은비",
-  321: "소나기성 안개비",
-  500: "약한 비",
-  501: "중간 비",
-  502: "강한 비",
-  503: "매우 강한 비",
-  504: "극심한 비",
-  511: "진눈깨비",
-  520: "약한 소나기성 비",
-  521: "소나기성 비",
-  522: "강한 소나기성 비",
-  531: "불규칙적인 소나기성 비",
-  600: "약한 눈",
-  601: "눈",
-  602: "강한 눈",
-  611: "진눈깨비",
-  612: "소나기성 진눈깨비",
-  613: "소나기성 눈",
-  615: "약한 비와 눈",
-  616: "비와 눈",
-  620: "약한 소나기성 눈",
-  621: "소나기성 눈",
-  622: "강한 소나기성 눈",
-  701: "박무",
-  711: "연기",
-  721: "안개",
-  731: "모래, 먼지",
-  741: "안개",
-  751: "모래",
-  761: "먼지",
-  762: "화산재",
-  771: "돌풍",
-  781: "토네이도",
-  800: "맑음",
-  801: "약간 흐린 구름",
-  802: "흐린 구름",
-  803: "매우 흐린 구름",
-  804: "흐림",
+  // 생략
 };
 
 const useWeather = (lat, lon) => {
@@ -70,18 +17,12 @@ const useWeather = (lat, lon) => {
   const fetchSunTimesForTomorrow = async (lat, lon) => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const formattedDate = tomorrow.toISOString().split("T")[0]; // YYYY-MM-DD 형식
+    const formattedDate = tomorrow.toISOString().split("T")[0];
 
     try {
-      const response = await axios.get(`https://api.sunrise-sunset.org/json`, {
-        params: {
-          lat,
-          lng: lon,
-          date: formattedDate,
-          formatted: 0, // UTC 시간 반환
-        },
+      const response = await axios.get("https://api.sunrise-sunset.org/json", {
+        params: { lat, lng: lon, date: formattedDate, formatted: 0 },
       });
-
       return {
         sunrise: new Date(response.data.results.sunrise),
         sunset: new Date(response.data.results.sunset),
@@ -94,7 +35,6 @@ const useWeather = (lat, lon) => {
 
   useEffect(() => {
     if (!lat || !lon) return;
-
     const fetchWeather = async () => {
       try {
         const currentRes = await axios.get(
@@ -118,6 +58,7 @@ const useWeather = (lat, lon) => {
               lon,
               appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
               units: "metric",
+              lang: "kr",
             },
           }
         );
@@ -162,7 +103,6 @@ function MountainDetail() {
   const [courses, setCourses] = useState([]);
   const mapRef = useRef(null);
 
-  // 오늘 기준 다음 날 계산
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const formattedDate = tomorrow.toLocaleDateString("ko-KR", {
@@ -180,16 +120,15 @@ function MountainDetail() {
   useEffect(() => {
     axios
       .get(`http://localhost:8088/api/mountains/${id}`)
-      .then((response) => setMountain(response.data))
-      .catch((error) => console.error("산 정보 불러오기 오류:", error));
+      .then((res) => setMountain(res.data))
+      .catch((err) => console.error("산 정보 오류:", err));
 
     axios
       .get(`http://localhost:8088/api/mountains/${id}/courses`)
-      .then((response) => setCourses(response.data))
-      .catch((error) => console.error("코스 정보 불러오기 오류:", error));
+      .then((res) => setCourses(res.data))
+      .catch((err) => console.error("코스 정보 오류:", err));
   }, [id]);
 
-  // 카카오맵 초기화
   useEffect(() => {
     if (mountain) {
       const script = document.createElement("script");
@@ -202,44 +141,35 @@ function MountainDetail() {
       script.onload = () => {
         if (window.kakao && window.kakao.maps) {
           window.kakao.maps.load(() => {
-            const mapContainer = mapRef.current;
-            if (!mapContainer) return;
+            const container = mapRef.current;
+            if (!container) return;
 
-            const mapOption = {
+            const map = new window.kakao.maps.Map(container, {
               center: new window.kakao.maps.LatLng(
                 mountain.latitude,
                 mountain.longitude
               ),
               level: 5,
-            };
-
-            const mapInstance = new window.kakao.maps.Map(
-              mapContainer,
-              mapOption
-            );
-
-            // 마커 설정 및 추가
-            const markerImage = new window.kakao.maps.MarkerImage(
-              "https://i.ibb.co/QZk1h2W/30x30.png",
-              new window.kakao.maps.Size(30, 30),
-              { offset: new window.kakao.maps.Point(15, 25) }
-            );
+            });
 
             const marker = new window.kakao.maps.Marker({
               position: new window.kakao.maps.LatLng(
                 mountain.latitude,
                 mountain.longitude
               ),
-              map: mapInstance,
-              image: markerImage,
+              image: new window.kakao.maps.MarkerImage(
+                "https://i.ibb.co/QZk1h2W/30x30.png",
+                new window.kakao.maps.Size(30, 30),
+                { offset: new window.kakao.maps.Point(15, 25) }
+              ),
+              map,
             });
 
-            // 라벨 추가
             new window.kakao.maps.CustomOverlay({
               content: `<div class="custom-label">${mountain.name}</div>`,
               position: marker.getPosition(),
               yAnchor: -0.2,
-              map: mapInstance,
+              map,
             });
           });
         }
@@ -254,36 +184,66 @@ function MountainDetail() {
   return (
     <div className="mountain-detail">
       <h1>{mountain.name}</h1>
-      <p>
-        ⛰ 높이: {mountain.height} 📍 위치: {mountain.location}
-      </p>
+      <div className="meta-info">
+        <span>
+          <img src="/icons/icon_mountain.png" alt="산 아이콘" />
+          {mountain.height}
+        </span>
+        <span>
+          <img src="/icons/icon_adress.png" alt="위치 아이콘" />
+          {mountain.location}
+        </span>
+        <p>{mountain.selection_reason}</p>
+      </div>
+
+      <div ref={mapRef} className="map-detail-container"></div>
+
       <motion.button
         className="search-button"
-        whileHover={{ scale: 1.1, backgroundColor: "#ff6f61" }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() =>
           window.open(
-            `https://map.naver.com/v5/search/${mountain.name} 맛집 `,
+            `https://map.naver.com/v5/search/${mountain.name} 맛집`,
             "_blank"
           )
         }
       >
-        주변 맛집 검색
-      </motion.button>{" "}
-      {/* 지도 표시 */}
-      <div ref={mapRef} className="map-detail-container"></div>
-      {weather && (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2>현재 날씨</h2>
-          <p>온도: {weather.temp}°C</p>
-          <p>설명: {weather.description}</p>
-          <img src={weather.icon} alt="날씨 아이콘" />
-        </motion.div>
+        주변 맛집 검색하기
+      </motion.button>
+
+      {(weather || sunTimes) && (
+        <div className="weather-sun-container">
+          {weather && (
+            <motion.div
+              className="weather-section"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2>현재 날씨</h2>
+              <p>온도: {weather.temp}°C</p>
+              <p>설명: {weather.description}</p>
+              <img src={weather.icon} alt="날씨 아이콘" />
+            </motion.div>
+          )}
+
+          {sunTimes && (
+            <motion.div
+              className="sun-times-section"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2>일출 및 일몰</h2>
+              <p>🌄 일출: {sunTimes.sunrise.toLocaleTimeString()}</p>
+              <p>🌅 일몰: {sunTimes.sunset.toLocaleTimeString()}</p>
+              <p className="meta-info">기준 날짜: {formattedDate}</p>
+            </motion.div>
+          )}
+        </div>
       )}
+
       {weatherForecast.length > 0 && (
         <motion.div
           className="forecast-section"
@@ -302,7 +262,9 @@ function MountainDetail() {
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
                 <p>
-                  {day.date.toLocaleDateString("ko-KR", { weekday: "short" })}
+                  {day.date.toLocaleDateString("ko-KR", {
+                    weekday: "short",
+                  })}
                 </p>
                 <img src={day.icon} alt="날씨 아이콘" />
                 <p>{day.temp}°C</p>
@@ -312,23 +274,35 @@ function MountainDetail() {
           </div>
         </motion.div>
       )}
-      {sunTimes && (
-        <div>
-          <h2>일출 및 일몰</h2>
-          <p>🌄 일출 시간: {sunTimes.sunrise.toLocaleTimeString()}</p>
-          <p>🌅 일몰 시간: {sunTimes.sunset.toLocaleTimeString()}</p>
-          <p className="meta-info">기준 날짜: {formattedDate}</p>
-        </div>
-      )}
-      <div className="info-section">
-        <h3>🏔️ 선정 이유</h3>
-        <p>{mountain.selection_reason}</p>
 
-        <h3>🚌 대중교통 안내</h3>
-        <p>{mountain.transportation_info}</p>
-      </div>
-      <div className="courses-section">
-        {/* 산 이름 + 맛집 검색 버튼 */}
+      <img
+        src="/icons/icon_trans.png"
+        alt="버스 아이콘"
+        class="transport-icon bus-drive"
+      />
+
+      <motion.div
+        className="info-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <span>
+          <div class="transport-text">
+            <strong>대중교통 안내</strong>
+
+            <br />
+            {mountain.transportation_info}
+          </div>
+        </span>
+      </motion.div>
+
+      <motion.div
+        className="courses-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="search-section">
           <h2>등산 코스 목록</h2>
         </div>
@@ -351,7 +325,7 @@ function MountainDetail() {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
