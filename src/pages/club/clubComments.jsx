@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Modal from "react-modal";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const ClubComments = () => {
     const { id } = useParams();
@@ -406,6 +407,7 @@ const ClubComments = () => {
                     )}
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

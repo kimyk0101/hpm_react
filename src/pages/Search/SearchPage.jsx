@@ -9,6 +9,7 @@ import MountainResults from "./Results/MountainResults";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
 import "../../css/SearchPage.css";
+import Footer from "../../components/Footer/Footer";
 
 const SearchPage = () => {
   // 검색창에 입력되는 값
@@ -172,6 +173,7 @@ const SearchPage = () => {
           )}
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

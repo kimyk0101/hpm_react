@@ -16,6 +16,7 @@ import "../css/DefaultLayout.css";
 import "../css/MainPage.css";
 import "../css/StickyButton.css";
 import "../css/MtRecommend.css";
+import Footer from "../components/Footer/Footer";
 
 const MainHome = () => {
   const [mountains, setMountains] = useState([]);
@@ -85,7 +86,7 @@ const MainHome = () => {
                   />
                 ))}
           </DefaultSlider>
-          <ViewAllButton to="/trailDetail" />
+          <ViewAllButton to="/mountain/list" />
         </div>
 
         <div className="commu-section-full-bg home-section">
@@ -130,6 +131,7 @@ const MainHome = () => {
           </Link>
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

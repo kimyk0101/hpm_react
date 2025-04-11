@@ -7,6 +7,7 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import "../../css/DefaultLayout.css";
 import "../../css/CommunityDetail.css";
+import Footer from "../../components/Footer/Footer";
 // import useAutoResizeTextarea from "../../utils/useAutoResizeTextarea";/
 
 function CommunityDetail() {
@@ -840,6 +841,7 @@ function CommunityDetail() {
           </div>
         </div>
       </DefaultLayout>
+      <Footer />
     </div>
   );
 }

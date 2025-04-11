@@ -3,6 +3,7 @@ import MypageContent from "./MypageContent";
 import MypageFooter from "./MypageFooter";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import ContentContainer from "../../layouts/ContentContainer";
 import "../../css/Mypage.css";
 import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
@@ -35,6 +36,7 @@ const Mypage = () => {
                     <MypageFooter />
                 </div>
             </DefaultLayout>
+            <Footer />
         </>
     );
 };

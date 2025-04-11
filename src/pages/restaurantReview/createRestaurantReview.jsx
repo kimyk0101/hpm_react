@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 import "../../css/CreateMountainReview.css";
@@ -253,6 +254,7 @@ const CreateRestaurantReview = () => {
           )}
         </div>
       </DefaultLayout>
+      <Footer />
     </div>
   );
 };

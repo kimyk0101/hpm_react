@@ -5,6 +5,7 @@ import ContentContainer from "../layouts/ContentContainer";
 import Header from "../components/Header/Header";
 import DefaultLayout from "../layouts/DefaultLayout";
 import "../css/LoginPage.css";
+import Footer from "../components/Footer/Footer";
 
 const API_URL = "http://localhost:8088/api/users/login";
 
@@ -104,6 +105,7 @@ const Login = () => {
           </div>
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

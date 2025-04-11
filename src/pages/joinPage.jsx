@@ -6,6 +6,7 @@ import ContentContainer from "../layouts/ContentContainer";
 import Header from "../components/Header/Header";
 import DefaultLayout from "../layouts/DefaultLayout";
 import "../css/joinPage.css";
+import Footer from "../components/Footer/Footer";
 
 const JoinPage = () => {
   const API_USER_URL = `http://localhost:8088/api/users`;
@@ -627,6 +628,7 @@ const JoinPage = () => {
           </div>
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

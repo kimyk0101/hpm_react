@@ -10,6 +10,7 @@ import Header from "../../components/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 import "../../css/Community.css";
+import Footer from "../../components/Footer/Footer";
 
 const CommunityList = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
@@ -281,6 +282,7 @@ const CommunityList = () => {
           )}
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

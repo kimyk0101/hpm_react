@@ -21,7 +21,7 @@ const ReviewSection = () => {
       <ReviewColumn
         title="맛집 후기"
         description="등산하고 찾아가는 나만의 맛집을 알려주세요."
-        link="/food-reviews"
+        link="/restaurant-reviews"
       />
     </section>
   );

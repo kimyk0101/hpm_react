@@ -7,6 +7,7 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 import MountainReviewCard from "../mountainReview/mountainReviewCard";
 import "../../css/MountainReview.css";
+import Footer from "../../components/Footer/Footer";
 
 const MountainReviewList = () => {
   const API_URL = "http://localhost:8088/api/mountain-reviews";
@@ -193,6 +194,7 @@ const MountainReviewList = () => {
           )}
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

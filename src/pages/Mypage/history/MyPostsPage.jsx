@@ -5,6 +5,7 @@ import MountainTab from "./mountain/MountainTab";
 import RestaurentTab from "./restaurant/RestaurantTab";
 import DefaultLayout from "../../../layouts/DefaultLayout";
 import Header from "../../../components/Header/Header";
+import Footer from "../../../components/Footer/Footer";
 import ContentContainer from "../../../layouts/ContentContainer";
 import "../../../css/MyPostsPage.css";
 
@@ -48,6 +49,7 @@ const MyPostsPage = () => {
           <div className="tab-wrapper">{renderTabContent()}</div>
         </div>
       </DefaultLayout>
+      <Footer />
     </>
   );
 };

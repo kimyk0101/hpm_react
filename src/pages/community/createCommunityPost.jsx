@@ -6,6 +6,7 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import "../../css/DefaultLayout.css";
 import "../../css/CreateCommunityPost.css";
+import Footer from "../../components/Footer/Footer";
 
 const CreateCommunityPost = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
@@ -206,6 +207,7 @@ const CreateCommunityPost = () => {
           )}
         </div>
       </DefaultLayout>
+      <Footer />
     </div>
   );
 };

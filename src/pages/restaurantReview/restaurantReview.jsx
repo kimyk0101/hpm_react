@@ -6,6 +6,7 @@ import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../css/DefaultLayout.css";
 import RestaurantReviewCard from "../restaurantReview/RestaurantReviewCard";
 import "../../css/MountainReview.css";
+import Footer from "../../components/Footer/Footer";
 
 const RestaurantReviewList = () => {
   const API_URL = "http://localhost:8088/api/restaurant-reviews";
@@ -171,6 +172,7 @@ const RestaurantReviewList = () => {
           )}
         </div>
       </DefaultLayout>
+      <Footer />
     </div>
   );
 };
