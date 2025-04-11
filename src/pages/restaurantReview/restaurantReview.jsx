@@ -138,17 +138,26 @@ const RestaurantReviewList = () => {
               className="mReview-search-input"
             />
           </div>
-
           {/* 게시글 리스트 */}
           <div className="mReview-post-list">
-            {filteredPosts.map((post) => (
-              <RestaurantReviewCard
-                key={post.id}
-                post={post}
-                currentUser={user}
-                onCommentChange={handleCommentChange}
-              />
-            ))}
+            {filteredPosts.length === 0 ? (
+              <div className="no-posts-container">
+                <img
+                  src="/post-images/noPosts.png"
+                  alt="게시물이 없습니다"
+                  className="no-posts-image"
+                />
+              </div>
+            ) : (
+              filteredPosts.map((post) => (
+                <RestaurantReviewCard
+                  key={post.id}
+                  post={post}
+                  currentUser={user}
+                  onCommentChange={handleCommentChange}
+                />
+              ))
+            )}
           </div>
 
           {/* 상단 이동 버튼 */}
