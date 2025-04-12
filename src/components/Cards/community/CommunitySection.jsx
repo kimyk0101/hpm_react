@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
 import CommunityPreview from "./CommunityPreview";
-import "../../../css/CommunitySection.css";
+import "../../../styles/components/communitySection.css";
 
 const CommunitySection = () => {
   const navigate = useNavigate();

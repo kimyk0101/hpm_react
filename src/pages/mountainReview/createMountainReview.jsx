@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import DefaultLayout from "../../layouts/DefaultLayout";
-import "../../css/DefaultLayout.css";
-import "../../css/CreateMountainReview.css";
-import PhotoUploader from "../../components/photoUploader/PhotoUploader";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+import "../../styles/pages/createMountainReview.css";
+import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
 
 const CreateMountainReview = () => {
   const navigate = useNavigate();
@@ -317,7 +315,6 @@ const CreateMountainReview = () => {
           )}
         </div>
       </DefaultLayout>
-      <Footer />
     </div>
   );
 };

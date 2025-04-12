@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdArrowUpward } from "react-icons/md";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import DefaultLayout from "../../layouts/DefaultLayout";
-import "../../css/DefaultLayout.css";
-import MountainReviewCard from "../mountainReview/mountainReviewCard";
-import "../../css/MountainReview.css";
-import Footer from "../../components/Footer/Footer";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+import MountainReviewCard from "./MountainReviewCard";
+import "../../styles/pages/mountainReview.css";
 
 const MountainReviewList = () => {
   const API_URL = "http://localhost:8088/api/mountain-reviews";
@@ -166,7 +164,7 @@ const MountainReviewList = () => {
             {filteredPosts.length === 0 ? (
               <div className="no-posts-container">
                 <img
-                  src="/post-images/noPosts.png"
+                  src="/images/noPosts.png"
                   alt="게시물이 없습니다"
                   className="no-posts-image"
                 />
@@ -194,7 +192,6 @@ const MountainReviewList = () => {
           )}
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

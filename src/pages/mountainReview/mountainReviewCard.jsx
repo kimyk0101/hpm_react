@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import CommentSection from "./CommentSection.jsx";
-import "../../css/MountainReviewCard.css";
+import "../../styles/pages/mountainReviewCard.css";
 import MountainReviewLikeButton from "./MountainReviewLikeButton.jsx";
-import PhotoUploader from "../../components/photoUploader/PhotoUploader";
+import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader.jsx";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const MountainReviewCard = ({ post, currentUser }) => {

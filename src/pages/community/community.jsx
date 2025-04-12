@@ -5,12 +5,10 @@ import {
   differenceInDays,
 } from "date-fns"; //  상대적 시간 계산 라이브러리
 import { useNavigate } from "react-router-dom";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import DefaultLayout from "../../layouts/DefaultLayout";
-import "../../css/DefaultLayout.css";
-import "../../css/Community.css";
-import Footer from "../../components/Footer/Footer";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+import "../../styles/pages/community.css";
 
 const CommunityList = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
@@ -170,7 +168,7 @@ const CommunityList = () => {
             // 게시글이 없을 때 보여줄 이미지
             <div className="no-posts-container">
               <img
-                src="/post-images/noPosts.png"
+                src="/images/noPosts.png"
                 alt="게시물이 없습니다"
                 className="no-posts-image"
               />
@@ -282,7 +280,6 @@ const CommunityList = () => {
           )}
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

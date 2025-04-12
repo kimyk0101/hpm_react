@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../css/Modal.css";
+import "../../styles/components/modal.css";
 
 const PasswordModal = ({ onSubmit, onCancel }) => {
   const [password, setPassword] = useState("");

@@ -1,4 +1,3 @@
-// ✅ components/common/PreviewModal.jsx
 const PreviewModal = ({ imageUrl, onConfirm, onCancel }) => {
   return (
     <div className="modal-backdrop" onClick={onCancel}>

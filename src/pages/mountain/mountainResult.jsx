@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../../css/MountainResult.css';
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
+import "../../styles/pages/mountainResult.css";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
 const MAX_VISIBILITY = 3;

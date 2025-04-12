@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "../../css/CommentInput.css";
+import "../../styles/pages/commentInput.css";
 import { MdArrowUpward } from "react-icons/md";
 
 const CommentInput = ({ content, setContent, onSubmit }) => {

@@ -1,7 +1,6 @@
-// ✅ components/mypage/ProfileImage.jsx
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import PreviewModal from "../../components/modal/PreviewModal";
+import PreviewModal from "../../Components/Modal/PreviewModal";
 import { FaEdit } from "react-icons/fa";
 
 //  s3 버킷 주소

@@ -1,8 +1,8 @@
-import Header from "../components/Header/Header";
+import Header from "./Header/Header";
 import ContentContainer from "./ContentContainer";
-import "../css/DefaultLayout.css";
+import "../styles/layouts/defaultLayout.css";
 
-// import Footer from "./Footer";
+import Footer from "./Footer/Footer";
 
 const DefaultLayout = ({ children, headerProps }) => (
   <>
@@ -15,7 +15,7 @@ const DefaultLayout = ({ children, headerProps }) => (
     <ContentContainer>
       <main className="main-content">{children}</main>
     </ContentContainer>
-    {/* <Footer /> */}
+    <Footer />
   </>
 );
 

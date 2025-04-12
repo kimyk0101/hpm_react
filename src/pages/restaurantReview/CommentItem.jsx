@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import ReplyInput from "./ReplyInput";
-import "../../css/CommentItem.css";
+import "../../styles/pages/commentItem.css";
 
 const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
   const [showReplyInput, setShowReplyInput] = useState(false);

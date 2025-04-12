@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactSelect from "react-dropdown-select"; // ReactSelect 임포트
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 눈 아이콘을 import
-import ContentContainer from "../layouts/ContentContainer";
-import Header from "../components/Header/Header";
-import DefaultLayout from "../layouts/DefaultLayout";
-import "../css/joinPage.css";
-import Footer from "../components/Footer/Footer";
+import ContentContainer from "../Layouts/ContentContainer";
+import Header from "../Layouts/Header/Header";
+import DefaultLayout from "../Layouts/DefaultLayout";
+import "../styles/pages/joinPage.css";
 
 const JoinPage = () => {
   const API_USER_URL = `http://localhost:8088/api/users`;
@@ -628,7 +627,6 @@ const JoinPage = () => {
           </div>
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

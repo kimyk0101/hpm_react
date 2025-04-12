@@ -1,15 +1,13 @@
-// SearchPage.jsx
 import React, { useState, useEffect } from "react";
-import DefaultLayout from "../../layouts/DefaultLayout";
+import DefaultLayout from "../../Layouts/DefaultLayout";
 import SearchInput from "./SearchInput";
 import RecentSearches from "./RecentSearches";
 import PopularSearches from "./PopularSearches";
 import CommunityResults from "./Results/CommunityResults";
 import MountainResults from "./Results/MountainResults";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import "../../css/SearchPage.css";
-import Footer from "../../components/Footer/Footer";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";;
+import "../../styles/pages/searchPage.css";
 
 const SearchPage = () => {
   // 검색창에 입력되는 값
@@ -173,7 +171,6 @@ const SearchPage = () => {
           )}
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

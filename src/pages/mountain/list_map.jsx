@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import StickyButton from "../../components/map/StickyButton"; // StickyButton 컴포넌트 임포트
-import "../../css/map.css";
+import StickyButton from "../../Components/Map/StickyButton"; // StickyButton 컴포넌트 임포트
+import "../../styles/pages/map.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 

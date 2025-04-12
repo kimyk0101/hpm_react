@@ -4,7 +4,7 @@ import {
   differenceInHours,
   differenceInDays,
 } from "date-fns";
-import "../../../css/CommunitySection.css";
+import "../../../styles/components/communitySection.css"
 import { useNavigate } from "react-router-dom";
 
 const CommunityPreview = () => {

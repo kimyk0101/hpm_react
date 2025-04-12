@@ -1,7 +1,7 @@
 import ResReviewHeader from "./ResReviewHeader";
 import ResReviewContent from "./ResReviewContent";
 import ResReviewFooter from "./ResReviewFooter";
-import "../../../../css/MtReviewCard.css";
+import "../../../../styles/components/mtReviewCard.css";
 
 const ResReviewCard = ({
   mountainName,

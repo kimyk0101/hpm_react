@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
-import DefaultLayout from "../layouts/DefaultLayout";
-import Header from "../components/Header/Header";
-import ContentContainer from "../layouts/ContentContainer";
-import DefaultSlider from "../components/slider/DefaultSlider";
-import TrailCard from "../components/Cards/trail/TrailCard";
-import CommunitySection from "../components/Cards/community/CommunitySection";
-import ReviewSection from "../components/section/ReviewSection";
-import MtReviewCard from "../components/Cards/Review/Mountain/MtReviewCard";
+import DefaultLayout from "../Layouts/DefaultLayout";
+import Header from "../Layouts/Header/Header";
+import ContentContainer from "../Layouts/ContentContainer";
+import DefaultSlider from "../Components/Slider/DefaultSlider";
+import TrailCard from "../Components/Cards/Trail/TrailCard";
+import CommunitySection from "../Components/Cards/Community/CommunitySection";
+import ReviewSection from "../Components/Section/ReviewSection";
+import MtReviewCard from "../Components/Cards/Review/Mountain/MtReviewCard";
 import trailData from "../data/trailData";
 import mtReviewData from "../data/mtReviewData";
-import MainHeaderImage from "./main/MainHeaderImage";
-import ViewAllButton from "../components/common/ViewAllButton";
+import MainHeaderImage from "./Main/MainHeaderImage";
+import ViewAllButton from "../Layouts/Common/ViewAllButton";
 import { Link } from "react-router-dom";
-import "../css/DefaultLayout.css";
-import "../css/MainPage.css";
-import "../css/StickyButton.css";
-import "../css/MtRecommend.css";
-import Footer from "../components/Footer/Footer";
+import "../styles/pages/mainPage.css";
+import "../styles/components/stickyButton.css";
+import "../styles/pages/mtRecommend.css";
 
 const MainHome = () => {
   const [mountains, setMountains] = useState([]);
@@ -131,7 +129,6 @@ const MainHome = () => {
           </Link>
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

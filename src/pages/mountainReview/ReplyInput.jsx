@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdArrowUpward } from "react-icons/md"; 
-import "../../css/ReplyInput.css";
+import "../../styles/pages/replyInput.css";
 
 const ReplyInput = ({ parentId, mReviewId, user, onReplySubmit, handleReplySubmit }) => {
   const [replyContent, setReplyContent] = useState("");

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ConfirmModal from "../../components/modal/ConfirmModal";
-import PasswordModal from "../../components/modal/PasswordModal";
+import ConfirmModal from "../../Components/Modal/ConfirmModal";
+import PasswordModal from "../../Components/Modal/PasswordModal";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 

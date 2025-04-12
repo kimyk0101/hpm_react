@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import DefaultLayout from "../../layouts/DefaultLayout";
-import "../../css/DefaultLayout.css";
-import RestaurantReviewCard from "../restaurantReview/RestaurantReviewCard";
-import "../../css/MountainReview.css";
-import Footer from "../../components/Footer/Footer";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+import RestaurantReviewCard from "./RestaurantReviewCard";
+import "../../styles/pages/mountainReview.css";
 
 const RestaurantReviewList = () => {
   const API_URL = "http://localhost:8088/api/restaurant-reviews";
@@ -144,7 +142,7 @@ const RestaurantReviewList = () => {
             {filteredPosts.length === 0 ? (
               <div className="no-posts-container">
                 <img
-                  src="/post-images/noPosts.png"
+                  src="/images/noPosts.png"
                   alt="게시물이 없습니다"
                   className="no-posts-image"
                 />
@@ -172,7 +170,6 @@ const RestaurantReviewList = () => {
           )}
         </div>
       </DefaultLayout>
-      <Footer />
     </div>
   );
 };

@@ -135,7 +135,7 @@
 }
 
 .login-right {
-  /* background: url("https://source.unsplash.com/400x500/?nature,water") no-repeat center; */
+  background: url("/images/LoginPage-image.png") no-repeat center;
   background-size: cover;
   position: relative;
 }

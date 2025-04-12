@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../css/AllClubs.css";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import "../../styles/pages/allClubs.css";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
 
 const AllClubs = () => {
     const API_URL = "http://localhost:8088/api/clubs";
@@ -127,7 +126,6 @@ const AllClubs = () => {
                     )}
                 </div>
             </ContentContainer>
-            <Footer />
         </>
     );
 };

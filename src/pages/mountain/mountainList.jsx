@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import StickyButton from "../../components/map/StickyButton";
-import "../../css/mountain.css";
+import StickyButton from "../../Components/Map/StickyButton";
+import "../../styles/pages/mountain.css";
 
 function MountainList() {
   const [mountains, setMountains] = useState([]);

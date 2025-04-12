@@ -1,18 +1,16 @@
-// /pages/Mypage/Mypage.jsx
 import { useState } from "react";
 import MypageHeader from "./MypageHeader";
 import MypageContent from "./MypageContent";
 import MypageFooter from "./MypageFooter";
 import ProfileBox from "./ProfileBox";
-import MyPostsPage from "./history/MyPostsPage";
-import CommunityTab from "./history/community/CommunityTab";
-import MountainTab from "./history/mountain/MountainTab";
-import RestaurantTab from "./history/restaurant/RestaurantTab";
-import DefaultLayout from "../../layouts/DefaultLayout";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import ContentContainer from "../../layouts/ContentContainer";
-import "../../css/Mypage.css";
+import MyPostsPage from "./History/MyPostsPage";
+import CommunityTab from "./History/Community/CommunityTab";
+import MountainTab from "./History/Mountain/MountainTab";
+import RestaurantTab from "./History/Restaurant/RestaurantTab";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+import Header from "../../Layouts/Header/Header";
+import ContentContainer from "../../Layouts/ContentContainer";
+import "../../styles/pages/myPage.css";
 import { useNavigate } from "react-router-dom";
 
 const Mypage = () => {

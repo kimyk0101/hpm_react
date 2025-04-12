@@ -4,7 +4,7 @@ import NavMenu from "./NavMenu";
 import Icons from "./Icons";
 import AuthButtons from "./AuthButtons";
 import BackButton from "./BackButton";
-import "../../css/Header.css";
+import "../../styles/layouts/header.css";
 
 const Header = ({
   showLogo = false,

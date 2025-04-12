@@ -1,8 +1,7 @@
-// components/Main/TrailCard.jsx
 import { useEffect, useState } from "react";
 import TrailImage from "./TrailImage";
 import TrailDetails from "./TrailDetails";
-import "../../../css/TrailCard.css";
+import "../../../styles/components/trailCard.css";
 
 const TrailCard = ({ mountainId, mountainName }) => {
   const [imageUrl, setImageUrl] = useState(null);

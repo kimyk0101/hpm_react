@@ -1,7 +1,7 @@
 import MtReviewHeader from "./MtReviewHeader";
 import MtReviewContent from "./MtReviewContent";
 import MtReviewFooter from "./MtReviewFooter";
-import "../../../../css/MtReviewCard.css";
+import "../../../../styles/components/mtReviewCard.css";
 
 const MtReviewCard = ({
   mountainName,

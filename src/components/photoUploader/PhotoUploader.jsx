@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   useEffect,
 } from "react";
-import "../../css/PhotoUploader.css";
+import "../../styles/components/photoUploader.css";
 
 const PhotoUploader = forwardRef(
   (

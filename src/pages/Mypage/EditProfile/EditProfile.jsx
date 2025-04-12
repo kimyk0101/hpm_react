@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import DefaultLayout from "../../../layouts/DefaultLayout";
-import "../../../css/EditProfile.css";
+import DefaultLayout from "../../../Layouts/DefaultLayout";
+import "../../../styles/pages/editProfile.css";
 
 const EditProfile = () => {
   const { user, setUser } = useAuth();

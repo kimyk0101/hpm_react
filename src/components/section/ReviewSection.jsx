@@ -1,6 +1,6 @@
 import ReviewColumn from "./ReviewColumn";
 import { GiMountainCave } from "react-icons/gi";
-import "../../css/ReviewSection.css";
+import "../../styles/components/reviewSection.css";
 
 const ReviewSection = () => {
   return (

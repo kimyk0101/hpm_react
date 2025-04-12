@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import DefaultLayout from "../../layouts/DefaultLayout";
-import PhotoUploader from "../../components/photoUploader/PhotoUploader";
-import "../../css/DefaultLayout.css";
-import "../../css/CreateCommunityPost.css";
-import Footer from "../../components/Footer/Footer";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
+import "../../styles/pages/createCommunityPost.css";
 
 const CreateCommunityPost = () => {
   const API_URL = "http://localhost:8088/api/communities"; // API URL
@@ -207,7 +205,6 @@ const CreateCommunityPost = () => {
           )}
         </div>
       </DefaultLayout>
-      <Footer />
     </div>
   );
 };

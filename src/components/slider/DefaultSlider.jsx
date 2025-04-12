@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import "../../css/DefaultSlider.css";
+import "../../styles/components/defaultSlider.css";
 
 //  children: 카드 요소들
 //  visibleCount: 한번에 보일 카드 수

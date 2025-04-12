@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import ContentContainer from "../layouts/ContentContainer";
-import Header from "../components/Header/Header";
-import DefaultLayout from "../layouts/DefaultLayout";
-import "../css/LoginPage.css";
-import Footer from "../components/Footer/Footer";
+import ContentContainer from "../Layouts/ContentContainer";
+import Header from "../Layouts/Header/Header";
+import DefaultLayout from "../Layouts/DefaultLayout";
+import "../styles/pages/loginPage.css";
 
 const API_URL = "http://localhost:8088/api/users/login";
 
@@ -105,7 +104,6 @@ const Login = () => {
           </div>
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

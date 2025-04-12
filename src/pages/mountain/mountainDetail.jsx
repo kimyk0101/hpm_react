@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../../css/MountainDetail.css";
+import "../../styles/pages/mountainDetail.css";
 import { motion } from "framer-motion";
 
 const weatherDescKo = {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../css/MountainRecommend.css';
+import "../../styles/pages/mountainRecommend.css";
 
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
 
 const MountainRecommend = () => {
     const [recommend, setRecommend] = useState([]);

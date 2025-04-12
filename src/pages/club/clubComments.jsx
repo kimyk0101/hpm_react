@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../../css/ClubComments.css";
+import "../../styles/pages/clubComments.css";
 import { useAuth } from "../../contexts/AuthContext";
 import Modal from "react-modal";
-import ContentContainer from "../../layouts/ContentContainer";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import ContentContainer from "../../Layouts/ContentContainer";
+import Header from "../../Layouts/Header/Header";
 
 const ClubComments = () => {
     const { id } = useParams();
@@ -407,7 +406,6 @@ const ClubComments = () => {
                     )}
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

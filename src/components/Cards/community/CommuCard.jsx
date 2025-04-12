@@ -1,7 +1,7 @@
 import CommuTitle from "./CommuTitle";
 import CommuContent from "./CommuContent";
 import CommuAuthor from "./CommuAuthor";
-import "../../../css/CommuCard.css";
+import "../../../styles/components/commuCard.css";
 
 const CommuCard = ({ title, content, author }) => {
   return (

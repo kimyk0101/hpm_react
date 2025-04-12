@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import "../../css/Mypage.css";
+import "../../styles/pages/myPage.css";
 
 const ProfileBox = () => {
   const { user } = useAuth();

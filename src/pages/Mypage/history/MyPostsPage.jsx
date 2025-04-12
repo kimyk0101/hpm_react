@@ -1,13 +1,11 @@
-// components/mypage/MyPostsPage.jsx
 import { useSearchParams } from "react-router-dom";
-import CommunityTab from "./community/CommunityTab";
-import MountainTab from "./mountain/MountainTab";
-import RestaurentTab from "./restaurant/RestaurantTab";
-import DefaultLayout from "../../../layouts/DefaultLayout";
-import Header from "../../../components/Header/Header";
-import Footer from "../../../components/Footer/Footer";
-import ContentContainer from "../../../layouts/ContentContainer";
-import "../../../css/MyPostsPage.css";
+import CommunityTab from "./Community/CommunityTab";
+import MountainTab from "./Mountain/MountainTab";
+import RestaurentTab from "./Restaurant/RestaurantTab";
+import DefaultLayout from "../../../Layouts/DefaultLayout";
+import Header from "../../../Layouts/Header/Header";
+import ContentContainer from "../../../Layouts/ContentContainer";
+import "../../../styles/pages/myPostsPage.css";
 
 const MyPostsPage = () => {
   const [searchParams] = useSearchParams();
@@ -49,7 +47,6 @@ const MyPostsPage = () => {
           <div className="tab-wrapper">{renderTabContent()}</div>
         </div>
       </DefaultLayout>
-      <Footer />
     </>
   );
 };

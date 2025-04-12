@@ -1,5 +1,5 @@
 // 한라산, 지리산 ... : 날씨정보 불러오기 -> import 부분
-import useWeather from "./useWeather"; // useWeather Hook import
+import useWeather from "./UseWeather"; // useWeather Hook import
 
 // 한라산, 지리산 ... : 날씨정보 불러오기 -> return 윗부분
 const { weather, cityName, weatherForecast, setLatitude, setLongitude } =

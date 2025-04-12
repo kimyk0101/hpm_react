@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./ViewAllButton.css";
+import "../../styles/layouts/viewAllButton.css";
 
 const ViewAllButton = ({ to = "/" }) => {
   const navigate = useNavigate();
