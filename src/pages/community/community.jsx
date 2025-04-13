@@ -265,19 +265,18 @@ const CommunityList = () => {
                   마지막
                 </button>
               </div>
-
-              {/* 게시글 등록 버튼 */}
-              <div className="community-button-container">
-                <button
-                  onClick={goToPostCreate}
-                  className="create-community-post-button"
-                  data-text="작성하기"
-                >
-                  <span>작성하기</span>
-                </button>
-              </div>
             </>
           )}
+          {/* 게시글 등록 버튼 */}
+          <div className="community-button-container">
+            <button
+              onClick={goToPostCreate}
+              className="create-community-post-button"
+              data-text="작성하기"
+            >
+              <span>작성하기</span>
+            </button>
+          </div>
         </div>
       </DefaultLayout>
     </>

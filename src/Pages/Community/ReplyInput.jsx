@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdArrowUpward } from "react-icons/md"; 
-import "../../styles/pages/replyInput.css";
+import "../../styles/pages/communityReplyInput.css";
 
-const ReplyInput = ({ parentId, mReviewId, user, onReplySubmit, handleReplySubmit }) => {
+const ReplyInput = ({
+  parentId,
+  communityId,
+  user,
+  onReplySubmit,
+  handleReplySubmit,
+}) => {
   const [replyContent, setReplyContent] = useState("");
 
   const textareaRef = useRef(null); // 자동 높이 조정용 참조
@@ -30,19 +35,24 @@ const ReplyInput = ({ parentId, mReviewId, user, onReplySubmit, handleReplySubmi
 
   const handleReply = async (e) => {
     e.preventDefault(); // 기본 폼 제출 동작 방지
-    if (!replyContent.trim()) return;
+
+    // replyContent는 객체 형태이므로, communityId에 해당하는 값만 추출하여 사용
+    const content = replyContent[communityId];
+
+    // content가 비어있거나 trim이 안되면 처리하지 않음
+    if (!content || !content.trim()) return;
 
     const reply = {
-      content: replyContent,
+      content,
       users_id: user.id,
-      reviews_id: mReviewId,
+      communities_id: communityId,
       parent_id: parentId,
       update_date: formatDate(new Date()),
     };
 
     try {
       const res = await fetch(
-        `http://localhost:8088/api/mountain-reviews/${mReviewId}/comments`,
+        `http://localhost:8088/api/communities/${communityId}/comments`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -60,16 +70,23 @@ const ReplyInput = ({ parentId, mReviewId, user, onReplySubmit, handleReplySubmi
   };
 
   return (
-    <form onSubmit={handleReply} className="review-create-reply-input">
+    <form
+      onSubmit={(e) => handleReply(e, communityId)}
+      className="community-reply-input"
+    >
       <textarea
         ref={textareaRef}
+        value={replyContent[communityId] || ""}
+        onChange={(e) =>
+          setReplyContent({
+            ...replyContent,
+            [communityId]: e.target.value,
+          })
+        }
         placeholder="답글을 입력하세요."
-        value={replyContent}
-        onChange={(e) => setReplyContent(e.target.value)}
-        className="review-reply-input-field"
       />
-      <button type="submit" className="review-create-reply-input-button">
-        <MdArrowUpward />
+      <button type="submit" className="community-reply-input-button">
+        답글 작성
       </button>
     </form>
   );

@@ -24,7 +24,7 @@ const CommentInput = ({ content, setContent, onSubmit }) => {
       <textarea
         type="text"
         ref={textareaRef}
-        placeholder="댓글을 입력하세요..."
+        placeholder="댓글을 입력하세요."
         value={content}
         onChange={(e) => setContent(e.target.value)}
         className="review-comment-input-field"

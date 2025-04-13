@@ -63,7 +63,7 @@ const ReplyInput = ({ parentId, rReviewId, user, onReplySubmit, handleReplySubmi
     <form onSubmit={handleReply} className="review-create-reply-input">
       <textarea
         ref={textareaRef}
-        placeholder="답글을 입력하세요..."
+        placeholder="답글을 입력하세요."
         value={replyContent}
         onChange={(e) => setReplyContent(e.target.value)}
         className="review-reply-input-field"

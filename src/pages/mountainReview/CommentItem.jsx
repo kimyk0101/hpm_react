@@ -148,7 +148,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
                   <div className="review-comment-edit-delete-button">
                     <button
                       onClick={handleEdit}
-                      className="mreviewr-comment-edit-button"
+                      className="review-comment-edit-button"
                     >
                       수정
                     </button>

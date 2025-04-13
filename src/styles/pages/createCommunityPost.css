@@ -31,6 +31,7 @@
 /* 제목 포커스 시 부드러운 테두리 */
 .c-post-title:focus {
   border-bottom: 2px solid #8caa63;
+  outline: none;
 }
 
 /* 내용 입력 박스 */
@@ -52,6 +53,7 @@
   border: 2px solid #8caa63;
   background: #f8f9fa;
   border-radius: 5px;
+  outline: none;
 }
 
 .c-post-photo-column-layout {
