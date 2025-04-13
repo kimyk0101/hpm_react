@@ -34,10 +34,10 @@ const MountainResults = ({ data, submittedQuery }) => {
     );
   }
   return (
-    <ul className="mountain-list">
+    <ul className="s-smountain-list">
       {data.map((item) => (
-        <li key={item.id} className="mountain-item">
-          <div className="mountain-item-content">
+        <li key={item.id} className="s-mountain-item">
+          <div className="s-mountain-item-content">
             <div className="mountain-thumbnail-wrapper">
               <img
                 src={images[item.id]}
@@ -45,8 +45,8 @@ const MountainResults = ({ data, submittedQuery }) => {
                 className="mountain-thumbnail"
               />
             </div>
-            <div className="mountain-info">
-              <h4 className="mountain-title">{item.name}</h4>
+            <div className="s-mountain-info">
+              <h4 className="s-mountain-title">{item.name}</h4>
               <p className="mountain-meta">
                 {item.height || "-"} | {item.location || "-"}
               </p>

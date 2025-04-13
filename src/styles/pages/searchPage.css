@@ -260,20 +260,21 @@
 /* ===================== */
 /* MountainResults 스타일 */
 /* ===================== */
-.mountain-list {
+.s-mountain-list {
   margin-top: 20px;
   padding: 0;
   list-style: none;
 }
 
-.mountain-item {
+.s-mountain-item {
   display: flex;
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
-.mountain-item-content {
+.s-mountain-item-content {
   display: flex;
+  align-items: flex-start;
   flex: 1;
   gap: 20px;
 }
@@ -289,15 +290,22 @@
   object-fit: cover;
 }
 
-.mountain-info {
+.s-mountain-info {
   flex: 1;
+  display: block;
+  text-align: left;
 }
 
-.mountain-title {
+.s-mountain-title {
+  display: block;
+  text-align: left;
   font-weight: bold;
   font-size: 16px;
   color: #2e4d1f;
+  margin: 0;
   margin-bottom: 6px;
+  
+  
 }
 
 .mountain-meta {
