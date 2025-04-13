@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ContentContainer from "../../Layouts/ContentContainer";
+import { MdArrowUpward } from "react-icons/md";
+import { FiSearch } from "react-icons/fi";
 import Header from "../../Layouts/Header/Header";
 import DefaultLayout from "../../Layouts/DefaultLayout";
 import RestaurantReviewCard from "./RestaurantReviewCard";
@@ -128,15 +130,30 @@ const RestaurantReviewList = () => {
           </button>
 
           {/* 검색창 */}
-          <div className="mReview-search-container">
-            <input
-              type="text"
-              placeholder="산 이름으로 검색"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="mReview-search-input"
-            />
+          <div className="mReview-search-form">
+            <div className="mReview-search-wrapper">
+              <input
+                type="text"
+                placeholder="산 이름으로 게시물 검색"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="mReview-search-input"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="mReview-search-clear-button"
+                >
+                  ✕
+                </button>
+              )}
+              <button type="button" className="mReview-search-icon-button">
+                <FiSearch />
+              </button>
+            </div>
           </div>
+
           {/* 게시글 리스트 */}
           <div className="mReview-post-list">
             {filteredPosts.length === 0 ? (

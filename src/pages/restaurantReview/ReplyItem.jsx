@@ -42,16 +42,16 @@ const ReplyItem = ({ reply, user, onReplyUpdate }) => {
   };
 
   return (
-    <div className="mr-reply-item">
-      <div className="mr-reply-header">
+    <div className="review-reply-item">
+      <div className="review-reply-header">
         <strong>{reply.nickname}</strong>
-        <span className="mr-reply-date">
+        <span className="review-reply-date">
           {new Date(reply.update_date).toLocaleString()}
         </span>
       </div>
 
       {isEditing ? (
-        <div className="mr-reply-edit-form">
+        <div className="review-reply-edit-form">
           <textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
@@ -60,11 +60,11 @@ const ReplyItem = ({ reply, user, onReplyUpdate }) => {
           <button onClick={() => setIsEditing(false)}>취소</button>
         </div>
       ) : (
-        <div className="mr-reply-content">{reply.content}</div>
+        <div className="review-reply-content">{reply.content}</div>
       )}
 
       {user?.id === reply.users_id && !isEditing && (
-        <div className="mr-reply-actions">
+        <div className="review-reply-actions">
           <button onClick={() => setIsEditing(true)}>수정</button>
           <button onClick={handleDelete}>삭제</button>
         </div>

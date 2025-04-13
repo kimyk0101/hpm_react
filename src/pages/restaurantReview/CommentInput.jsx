@@ -20,16 +20,16 @@ const CommentInput = ({ content, setContent, onSubmit }) => {
     };
 
   return (
-    <form onSubmit={handleSubmit} className="mr-create-comment-input">
+    <form onSubmit={handleSubmit} className="review-create-comment-input">
       <textarea
         type="text"
         ref={textareaRef}
         placeholder="댓글을 입력하세요..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        className="mr-comment-input-field"
+        className="review-comment-input-field"
       />
-      <button type="submit" className="mr-create-comment-input-button">
+      <button type="submit" className="review-create-comment-input-button">
         <MdArrowUpward />
       </button>
     </form>

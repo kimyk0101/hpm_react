@@ -1,5 +1,5 @@
 /* 댓글 입력 부분을 가로로 배치 */
-.mr-create-comment-input {
+.review-create-comment-input {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 /* 댓글 입력창 (textarea) */
-.mr-comment-input-field {
+.review-comment-input-field {
   width: 350px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -22,7 +22,7 @@
 }
 
 /* 댓글 등록 버튼 */
-.mr-create-comment-input-button {
+.review-create-comment-input-button {
   width: 60px;
   height: 30px; 
   padding: 0; /* 패딩 제거 */

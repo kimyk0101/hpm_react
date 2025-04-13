@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
 const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
   const [isLiked, setIsLiked] = useState(false);

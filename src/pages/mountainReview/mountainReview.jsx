@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdArrowUpward } from "react-icons/md";
+import { FiSearch } from "react-icons/fi";
 import ContentContainer from "../../Layouts/ContentContainer";
 import Header from "../../Layouts/Header/Header";
 import DefaultLayout from "../../Layouts/DefaultLayout";
@@ -20,7 +21,6 @@ const MountainReviewList = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
-  // const mountainName = location.state?.mountainName || "";
 
   // 로그인 상태 확인
   const checkLoginStatus = async () => {
@@ -95,10 +95,11 @@ const MountainReviewList = () => {
   };
 
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 2000);
+      setShowScrollTop(true);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -109,6 +110,13 @@ const MountainReviewList = () => {
   const filteredPosts = posts.filter((post) =>
     post.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // 예시: 검색어를 포함한 게시글만 서버에서 가져오기
+  // const fetchSearchResults = async () => {
+  //   const response = await fetch(`http://localhost:8088/api/mountain-reviews?query=${searchQuery}`);
+  //   const data = await response.json();
+  //   setPosts(data);
+  // };
 
   return (
     <>
@@ -138,7 +146,9 @@ const MountainReviewList = () => {
       <br />
       <br />
 
-      <DefaultLayout>
+     
+
+ <DefaultLayout>
         <div className="mReview-feed-page">
           <button
             onClick={goToPostCreate}
@@ -149,14 +159,28 @@ const MountainReviewList = () => {
           </button>
 
           {/* 검색창 */}
-          <div className="mReview-search-container">
-            <input
-              type="text"
-              placeholder="산 이름으로 검색"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="mReview-search-input"
-            />
+          <div className="mReview-search-form">
+            <div className="mReview-search-wrapper">
+              <input
+                type="text"
+                placeholder="산 이름으로 게시물 검색"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="mReview-search-input"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="mReview-search-clear-button"
+                >
+                  ✕
+                </button>
+              )}
+              <button type="button" className="mReview-search-icon-button">
+                <FiSearch />
+              </button>
+            </div>
           </div>
 
           {/* 게시글 리스트 */}

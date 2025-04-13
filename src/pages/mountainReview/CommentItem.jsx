@@ -121,22 +121,22 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
   };
 
   return (
-    <div className="mr-comment-item">
-      <div className="mr-comment-header">
+    <div className="review-comment-item">
+      <div className="review-comment-header">
         <strong>{comment.nickname}</strong>
-        <span className="mr-comment-date">
+        <span className="review-comment-date">
           {formatRelativeDate(comment.update_date)}
         </span>
 
         {/* 댓글 작성자만 볼 수 있는 수정/삭제 버튼 */}
         {user?.id === comment.users_id && (
-          <div className="mr-comment-owner-actions">
+          <div className="review-comment-owner-actions">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setShowOptions((prev) => !prev);
               }}
-              className="mr-comment-more-button"
+              className="review-comment-more-button"
             >
               <FiMoreVertical />
             </button>
@@ -145,15 +145,15 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
             {showOptions && (
               <div>
                 {!isEditing ? (
-                  <div className="mr-comment-edit-delete-button">
+                  <div className="review-comment-edit-delete-button">
                     <button
                       onClick={handleEdit}
-                      className="mr-comment-edit-button"
+                      className="mreviewr-comment-edit-button"
                     >
                       수정
                     </button>
                     <button
-                      className="mr-comment-delete-button"
+                      className="review-comment-delete-button"
                       onClick={() => {
                         handleDelete();
                         setShowOptions(false);
@@ -163,9 +163,9 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
                     </button>
                   </div>
                 ) : (
-                  <div className="mr-comment-save-cancel-button">
+                  <div className="review-comment-save-cancel-button">
                     <button
-                      className="mr-comment-save-button"
+                      className="review-comment-save-button"
                       onClick={() => {
                         handleSaveEdit();
                         setShowOptions(false);
@@ -174,7 +174,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
                       저장
                     </button>
                     <button
-                      className="mr-comment-cancel-button"
+                      className="review-comment-cancel-button"
                       onClick={() => {
                         handleCancelEdit();
                         setShowOptions(false);
@@ -190,14 +190,14 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
         )}
       </div>
 
-      <div className="mr-comment-content">
+      <div className="review-comment-content">
         {isEditing ? (
           <textarea
             ref={textareaRef} // ref 연결
             value={editContent}
             placeholder="수정할 내용을 입력하세요"
             onChange={(e) => setEditContent(e.target.value)}
-            className="mr-comment-edit-textarea"
+            className="review-comment-edit-textarea"
           />
         ) : (
           getTruncatedContent(comment.content)
@@ -205,22 +205,22 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
       </div>
 
       {/* 더보기 버튼 */}
-      <div className="mr-comment-more-text-box">
+      <div className="review-comment-more-text-box">
       {comment.content.length > 55 && !isEditing && (
         <button
           onClick={handleToggleContent}
-          className="mr-comment-more-text-button"
+          className="review-comment-more-text-button"
         >
           {isContentTruncated ? "더보기" : "간략히 보기"}
         </button>
       )}
       </div>
 
-      <div className="mr-comment-actions">
+      <div className="review-comment-actions">
         {!comment.parent_id && (
           <button
             onClick={handleToggleReplyInput}
-            className="mr-comment-input-button"
+            className="review-comment-input-button"
           >
             답장쓰기
           </button>
@@ -230,7 +230,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
         {comment.replies.length > 0 && (
           <button
             onClick={handleToggleReplies}
-            className="mr-comment-hidden-button"
+            className="review-comment-hidden-button"
           >
             {showReplies
               ? "답글 숨기기"
@@ -241,7 +241,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
 
       {/* 답글 리스트 */}
       {showReplies && (
-        <div className="mr-reply-list">
+        <div className="review-reply-list">
           {comment.replies.map((reply) => (
             <div key={reply.id}>
               <CommentItem

@@ -93,7 +93,7 @@ const CommentSection = ({ mReviewId, user, onCommentChange }) => {
 
   return (
     <div>
-      <ul className="mr-comment-scroll">
+      <ul className="review-comment-scroll">
         {comments.map((comment) => (
           <CommentItem
             key={comment.id}

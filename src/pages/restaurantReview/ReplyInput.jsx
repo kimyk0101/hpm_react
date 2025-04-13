@@ -60,15 +60,15 @@ const ReplyInput = ({ parentId, rReviewId, user, onReplySubmit, handleReplySubmi
   };
 
   return (
-    <form onSubmit={handleReply} className="mr-create-reply-input">
+    <form onSubmit={handleReply} className="review-create-reply-input">
       <textarea
         ref={textareaRef}
         placeholder="답글을 입력하세요..."
         value={replyContent}
         onChange={(e) => setReplyContent(e.target.value)}
-        className="mr-reply-input-field"
+        className="review-reply-input-field"
       />
-      <button type="submit" className="mr-create-reply-input-button">
+      <button type="submit" className="review-create-reply-input-button">
         <MdArrowUpward />
       </button>
     </form>
