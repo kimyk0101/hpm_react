@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactSelect from "react-dropdown-select"; // ReactSelect 임포트
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // 눈 아이콘을 import
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 import ContentContainer from "../Layouts/ContentContainer";
 import Header from "../Layouts/Header/Header";
 import DefaultLayout from "../Layouts/DefaultLayout";

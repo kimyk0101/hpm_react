@@ -6,7 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import Header from "../../Layouts/Header/Header";
 import DefaultLayout from "../../Layouts/DefaultLayout";
 import RestaurantReviewCard from "./RestaurantReviewCard";
-import "../../styles/pages/mountainReview.css";
+import "../../styles/pages/restaurantReview.css";
 
 const RestaurantReviewList = () => {
   const API_URL = "http://localhost:8088/api/restaurant-reviews";
@@ -106,8 +106,6 @@ const RestaurantReviewList = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // const [searchQuery, setSearchQuery] = useState("");
-
   // 검색어로 필터링된 게시글
   const filteredPosts = posts.filter((post) =>
     post.mountainName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -120,42 +118,42 @@ const RestaurantReviewList = () => {
       </ContentContainer>
 
       <DefaultLayout>
-        <div className="mReview-feed-page">
+        <div className="rReview-feed-page">
           <button
             onClick={goToPostCreate}
-            className="create-mReview-post-button-fixed"
+            className="create-rReview-post-button-fixed"
             data-text="작성하기"
           >
             <span>작성하기</span>
           </button>
 
           {/* 검색창 */}
-          <div className="mReview-search-form">
-            <div className="mReview-search-wrapper">
+          <div className="rReview-search-form">
+            <div className="rReview-search-wrapper">
               <input
                 type="text"
                 placeholder="산 이름으로 게시물 검색"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="mReview-search-input"
+                className="rReview-search-input"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="mReview-search-clear-button"
+                  className="rReview-search-clear-button"
                 >
                   ✕
                 </button>
               )}
-              <button type="button" className="mReview-search-icon-button">
+              <button type="button" className="rReview-search-icon-button">
                 <FiSearch />
               </button>
             </div>
           </div>
 
           {/* 게시글 리스트 */}
-          <div className="mReview-post-list">
+          <div className="rReview-post-list">
             {filteredPosts.length === 0 ? (
               <div className="no-posts-container">
                 <img
@@ -179,7 +177,7 @@ const RestaurantReviewList = () => {
           {/* 상단 이동 버튼 */}
           {showScrollTop && (
             <button
-              className="mReview-scroll-top-button"
+              className="rReview-scroll-top-button"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               <MdArrowUpward />

@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import CommentSection from "./CommentSection.jsx";
-import "../../styles/pages/mountainReviewCard.css";
+import "../../styles/pages/restaurantReviewCard.css";
 import RestaurantReviewLikeButton from "./RestaurantReviewLikeButton.jsx";
 import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader.jsx";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import mtEmpty from "../../../public/icons/mt-Empty.png";
+import mtFilled from "../../../public/icons/mt-Filled.png";
 
 const RestaurantReviewCard = ({ post, currentUser }) => {
   const [showOptions, setShowOptions] = useState(false);
@@ -13,7 +15,9 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
   const [commentCount, setCommentCount] = useState(post.commentCount ?? 0);
   const [isEditing, setIsEditing] = useState(false);
   const [editPost, setEditPost] = useState({
+    name: post.name,
     rate: post.rate,
+    location: post.location,
     content: post.content,
     mountainsId: post.mountainsId,
   });
@@ -21,7 +25,6 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
   const isAuthor = user?.id === post.usersId;
 
   const [mountains, setMountains] = useState([]); // 산 목록
-  const [courses, setCourses] = useState([]); // 선택된 산의 코스 목록
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedMountain, setSelectedMountain] = useState(null); // 선택된 산
@@ -117,8 +120,9 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
     e.preventDefault();
 
     const updatedPost = {
-      id: post.id,
-      rate: post.rate,
+      name: editPost.name,
+      rate: editPost.rate,
+      location: editPost.location,
       mountains_id: selectedMountain?.id ?? editPost.mountainsId,
       content: editPost.content,
     };
@@ -231,23 +235,28 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
     setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
   };
 
+  // 별점 클릭 시 호출되는 함수
+  const handleClick = (rating) => {
+    setEditPost({ ...editPost, rate: rating });
+  };
+
   return (
-    <div className="mReview-card-wrapper">
-      <div className="mReview-post-card">
+    <div className="rReview-card-wrapper">
+      <div className="rReview-post-card">
         {isAuthor && (
-          <div className="mReview-card-options">
+          <div className="rReview-card-options">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setShowOptions((prev) => !prev);
               }}
-              className="mReview-card-options-button"
+              className="rReview-card-options-button"
             >
               <FiMoreVertical />
             </button>
 
             {showOptions && (
-              <div className="mReview-card-dropdown">
+              <div className="rReview-card-dropdown">
                 <button onClick={handleEditClick}>수정</button>
                 <button
                   onClick={(e) => {
@@ -263,7 +272,19 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
         )}
 
         {isEditing ? (
-          <form className="mReview-edit-form" onSubmit={handleEditSubmit}>
+          <form className="rReview-edit-form" onSubmit={handleEditSubmit}>
+            <label>맛집 이름:</label>
+            <input
+              type="text"
+              placeholder="맛집 이름을 입력하세요"
+              value={editPost.name}
+              onChange={(e) =>
+                setEditPost({ ...editPost, name: e.target.value })
+              }
+              className="rReview-input"
+            />
+
+            <label>산 이름:</label>
             <input
               type="text"
               placeholder="산 이름 검색"
@@ -277,12 +298,15 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
                   )
                 );
               }}
+              className="rReview-input"
             />
-            <ul>
+            <ul className="rReview-mountain-list">
               {filteredMountains.map((m) => (
                 <li
                   key={m.id}
-                  className={selectedMountain?.id === m.id ? "selected" : ""}
+                  className={`rReview-mountain-item ${
+                    selectedMountain?.id === m.id ? "selected" : ""
+                  }`}
                   onClick={() => {
                     setSelectedMountain(m);
                     setSearchMountain(m.name);
@@ -294,28 +318,56 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
               ))}
             </ul>
 
+            <label>맛집 위치:</label>
+            <input
+              type="text"
+              placeholder="맛집 위치를 입력하세요"
+              name="location"
+              value={editPost.location}
+              onChange={(e) =>
+                setEditPost({ ...editPost, location: e.target.value })
+              }
+              className="rReview-input"
+            />
+
+            <label>별점:</label>
+            <div className="rReview-rate-input">
+              {[1, 2, 3, 4, 5].map((index) => (
+                <img
+                  key={index}
+                  src={index <= editPost.rate ? mtFilled : mtEmpty}
+                  alt={`mountain-${index}`}
+                  onClick={() => handleClick(index)}
+                  className="rReview-rate-img"
+                />
+              ))}
+            </div>
+
+            <label>사진 등록:</label>
             <PhotoUploader
               ref={photoUploaderRef}
               initialPhotos={photos}
               onChange={() => {}}
               onDeleteServerPhoto={handleDeletePhoto}
-              className="mReview-photo-column-layout"
+              className="rReview-photo-column-layout"
             />
 
+            <label>게시글 내용:</label>
             <textarea
               value={editPost.content}
               onChange={handleEditChange}
               rows={5}
               required
+              className="rReview-textarea"
             />
 
-            <div>
-              <button type="submit" className="mReview-submit-button">
+            <div className="rReview-buttons">
+              <button type="submit" className="rReview-submit-button">
                 저장
               </button>
               <button
                 type="button"
-                className="mReview-cancel-button"
+                className="rReview-cancel-button"
                 onClick={() => setIsEditing(false)}
               >
                 취소
@@ -324,39 +376,49 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
           </form>
         ) : (
           <>
-            <div className="mReview-post-header">
-              <span className="mReview-post-nickname">{post.nickname}</span>
-              <span className="mReview-post-meta">
-                {post.mountainName} ·{" "}
+            <div className="rReview-post-header">
+              <span className="rReview-post-nickname">{post.nickname}</span>
+              <span className="rReview-post-meta">
+                {post.mountainName} · {post.location} ·{" "}
                 {formatRelativeDate(post.updateDate)}
               </span>
+              <div className="rReview-rate-display">
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <img
+                    key={index}
+                    src={index <= post.rate ? mtFilled : mtEmpty}
+                    alt={`mountain-${index}`}
+                    className="rReview-rate-display-img"
+                  />
+                ))}
+              </div>
             </div>
-            <div className="mReview-photo-wrapper">
-              <div className="mReview-photo-slider">
+            <div className="rReview-photo-wrapper">
+              <div className="rReview-photo-slider">
                 {photos.length > 0 ? (
-                  <div className="mReview-photo-slide">
+                  <div className="rReview-photo-slide">
                     <img
                       src={photos[currentIndex].file_path}
                       alt="후기 이미지"
-                      className="mReview-photo-img"
+                      className="rReview-photo-img"
                     />
                   </div>
                 ) : (
-                  <div className="mReview-photo-slide mReview-photo-empty">
-                    <span className="mReview-photo-placeholder">사진 없음</span>
+                  <div className="rReview-photo-slide rReview-photo-empty">
+                    <span className="rReview-photo-placeholder">사진 없음</span>
                   </div>
                 )}
 
                 {photos.length > 1 && (
                   <>
                     <button
-                      className="mReview-photo-nav left"
+                      className="rReview-photo-nav left"
                       onClick={handlePrev}
                     >
                       <ChevronLeft size={20} />
                     </button>
                     <button
-                      className="mReview-photo-nav right"
+                      className="rReview-photo-nav right"
                       onClick={handleNext}
                     >
                       <ChevronRight size={20} />
@@ -364,11 +426,11 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
                   </>
                 )}
               </div>
-              <div className="mReview-photo-pagination">
+              <div className="rReview-photo-pagination">
                 {photos.map((_, index) => (
                   <button
                     key={index}
-                    className={`mReview-dot ${
+                    className={`rReview-dot ${
                       index === currentIndex ? "active" : ""
                     }`}
                     onClick={() => setCurrentIndex(index)}
@@ -380,19 +442,19 @@ const RestaurantReviewCard = ({ post, currentUser }) => {
               </div>
             </div>
 
-            <div className={isExpanded ? "" : "mr-content-preview"}>
+            <div className={isExpanded ? "" : "rReview-content-preview"}>
               {post.content}
             </div>
 
             {post.content.length > 75 ? (
-              <button onClick={toggleExpanded} className="mr-see-more-btn">
+              <button onClick={toggleExpanded} className="rReview-see-more-btn">
                 {isExpanded ? "접기" : "더보기"}
               </button>
             ) : (
-              <div className="mr-see-more-btn-placeholder" />
+              <div className="rReview-see-more-btn-placeholder" />
             )}
 
-            <div className="mReview-post-reactions">
+            <div className="rReview-post-reactions">
               <RestaurantReviewLikeButton
                 reviewId={post.id}
                 currentUserId={currentUser?.id}

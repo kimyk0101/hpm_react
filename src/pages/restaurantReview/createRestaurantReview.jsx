@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import ContentContainer from "../../Layouts/ContentContainer";
 import Header from "../../Layouts/Header/Header";
 import DefaultLayout from "../../Layouts/DefaultLayout";
-import "../../styles/pages/createMountainReview.css";
+import "../../styles/pages/createRestaurantReview.css";
 import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
+import mtEmpty from "../../../public/icons/mt-Empty.png";
+import mtFilled from "../../../public/icons/mt-Filled.png";
 
 const CreateRestaurantReview = () => {
   const navigate = useNavigate();
@@ -88,7 +90,7 @@ const CreateRestaurantReview = () => {
     name: "",
     location: "",
     mountainName: "",
-    rate: "",
+    rate: 0,
     content: "",
     updateDate: new Date(),
     mountainsId: "",
@@ -104,7 +106,7 @@ const CreateRestaurantReview = () => {
 
     const postData = {
       name: newPost.name,
-      location: selectedMountain?.location,
+      location: newPost.location,
       mountainName: selectedMountain?.name,
       rate: newPost.rate,
       content: newPost.content,
@@ -167,35 +169,46 @@ const CreateRestaurantReview = () => {
     }
   }, [newPost.content]);
 
+  // 별점 클릭 시 호출되는 함수
+  const handleClick = (rating) => {
+    setNewPost({ ...newPost, rate: rating });
+  };
+
   return (
     <div>
       <ContentContainer>
         <Header title="하이펜타" showLogo={true} showIcons={{ search: true }} />
       </ContentContainer>
       <DefaultLayout>
-        <div className="mReviewPage-create">
+        <div className="rReviewPage-create">
           <h2>새 게시물</h2>
 
           {isLoggedIn && (
-            <form onSubmit={handlePostSubmit} className="m-post-form">
+            <form onSubmit={handlePostSubmit} className="r-post-form">
+              <label>맛집 이름:</label>
               <input
                 type="text"
-                placeholder="맛집 이름"
+                placeholder="맛집 이름을 입력하세요"
                 value={newPost.name}
                 onChange={(e) =>
                   setNewPost({ ...newPost, name: e.target.value })
                 }
+                className="r-post-input"
               />
+
+              <label>산 이름:</label>
               <input
                 type="text"
-                placeholder="산 이름 검색"
+                placeholder="산 이름을 입력하세요"
                 value={searchMountain}
                 onChange={(e) => setSearchMountain(e.target.value)}
+                className="r-post-input"
               />
-              <ul>
+              <ul className="r-post-mountain-list">
                 {filteredMountains.map((mountain) => (
                   <li
                     key={mountain.id}
+                    className={`r-post-mountain-item ${selectedMountain?.id === mountain.id ? "selected" : ""}`} 
                     onClick={() => {
                       setSelectedMountain(mountain);
                       setNewPost({
@@ -204,24 +217,49 @@ const CreateRestaurantReview = () => {
                         mountainName: mountain.name,
                       });
                       setSearchMountain(mountain.name);
-                      // setSearchCourse("");
                       setFilteredMountains([]);
-                      // setFilteredCourses([]);
                     }}
                   >
-                    {mountain.name}
+                    {mountain.name} ({mountain.location})
                   </li>
                 ))}
               </ul>
 
+              <label>맛집 위치:</label>
+              <input
+                type="text"
+                placeholder="맛집 위치를 입력하세요"
+                name="location"
+                value={newPost.location}
+                onChange={(e) =>
+                  setNewPost({ ...newPost, location: e.target.value })
+                }
+                className="r-post-input"
+              />
+
+              <label>별점:</label>
+              <div className="r-post-rate-input">
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <img
+                    key={index}
+                    src={index <= newPost.rate ? mtFilled : mtEmpty} // 채워진 별/빈 별 아이콘 표시
+                    alt={`mountain-${index}`}
+                    onClick={() => handleClick(index)} // 아이콘 클릭 시 별점 설정
+                    className="r-post-rate-img"
+                  />
+                ))}
+              </div>
+
+              <label>사진 등록:</label>
               <PhotoUploader
                 ref={photoUploaderRef}
                 onChange={setImages}
-                className="m-photo-column-layout"
+                className="r-photo-column-layout"
               />
 
+              <label>게시글 내용:</label>
               <textarea
-                className="m-post-content"
+                className="r-post-content"
                 value={newPost.content}
                 ref={textareaRef}
                 onChange={(e) =>
@@ -231,17 +269,17 @@ const CreateRestaurantReview = () => {
                 required
               />
 
-              <div className="m-post-button-container">
+              <div className="r-post-button-container">
                 <button
                   type="submit"
-                  className="m-post-save"
+                  className="r-post-save"
                   data-text="게시글 등록"
                 >
                   <span>게시글 등록</span>
                 </button>
                 <button
                   type="button"
-                  className="m-post-cancel"
+                  className="r-post-cancel"
                   onClick={handleCancel}
                   data-text="취소"
                 >

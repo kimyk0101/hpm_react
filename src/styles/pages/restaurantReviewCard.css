@@ -1,8 +1,8 @@
-.mReview-card-wrapper {
+.rReview-card-wrapper {
   position: relative;
 }
 
-.mReview-post-card {
+.rReview-post-card {
   position: relative;
   padding: 1rem;
   border: 1px solid #ddd;
@@ -14,21 +14,21 @@
   flex-direction: column;
 }
 
-.mReview-card-options {
+.rReview-card-options {
   position: absolute;
   top: 12px;
   right: 12px;
   z-index: 5;
 }
 
-.mReview-card-options-button {
+.rReview-card-options-button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 20px;
 }
 
-.mReview-card-dropdown {
+.rReview-card-dropdown {
   position: absolute;
   top: 30px;
   right: -20px;
@@ -41,7 +41,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.mReview-card-dropdown button {
+.rReview-card-dropdown button {
   padding: 10px 14px;
   border: none;
   background: none;
@@ -50,35 +50,40 @@
   width: 80px;
 }
 
-.mReview-card-dropdown button:hover {
+.rReview-card-dropdown button:hover {
   background-color: #f0f0f0;
 }
 
-.mReview-post-header {
+.rReview-post-header {
   font-weight: bold;
   margin-bottom: 8px;
   display: flex;
   flex-direction: column;
 }
 
-.mReview-post-nickname {
+.rReview-post-nickname {
   font-size: 18px;
 }
 
-.mReview-post-meta {
+.rReview-post-meta {
   font-size: 12px;
   color: #888;
   margin-top: 3px;
   margin-bottom: 10px;
 }
 
-.mReview-photo-wrapper {
+.rReview-rate-display-img {
+  width: 20px;
+  height: 20px;
+}
+
+.rReview-photo-wrapper {
   width: 100%;
   margin: 0 auto;
   margin-bottom: 20px;
 }
 
-.mReview-photo-slider {
+.rReview-photo-slider {
   width: 100%;
   height: 450px;
   position: relative;
@@ -90,7 +95,7 @@
   align-items: center;
 }
 
-.mReview-photo-slide {
+.rReview-photo-slide {
   width: 100%;
   height: 100%;
   display: flex;
@@ -98,13 +103,13 @@
   align-items: center;
 }
 
-.mReview-photo-img {
+.rReview-photo-img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-.mReview-photo-empty {
+.rReview-photo-empty {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,11 +118,11 @@
   background-color: #f0f0f0;
 }
 
-.mReview-photo-placeholder {
+.rReview-photo-placeholder {
   opacity: 0.6;
 }
 
-.mReview-photo-delete {
+.rReview-photo-delete {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -130,7 +135,7 @@
   cursor: pointer;
 }
 
-.mReview-photo-nav {
+.rReview-photo-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -147,21 +152,21 @@
   align-items: center;
 }
 
-.mReview-photo-nav.left {
+.rReview-photo-nav.left {
   left: 10px;
 }
-.mReview-photo-nav.right {
+.rReview-photo-nav.right {
   right: 10px;
 }
 
-.mReview-photo-pagination {
+.rReview-photo-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 30px;
 }
 
-.mReview-dot {
+.rReview-dot {
   width: 10px;
   height: 10px;
   margin: 0 5px;
@@ -172,14 +177,14 @@
   transition: all 0.2s ease; /* 부드러운 애니메이션 */
 }
 
-.mReview-dot:hover,
-.mReview-dot.active {
+.rReview-dot:hover,
+.rReview-dot.active {
   width: 12px;
   height: 12px;
   background-color: #4caf50;
 }
 
-.mReview-content-preview {
+.rReview-content-preview {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -192,22 +197,22 @@
   min-height: 4.5em;
 }
 
-.mReview-see-more-btn {
+.rReview-see-more-btn {
   color: rgb(119, 119, 119);
   font-size: 10px;
   cursor: pointer;
   text-align: right;
 }
 
-.mReview-see-more-btn-placeholder {
+.rReview-see-more-btn-placeholder {
   height: 13.6px;
 }
 
-.mReview-post-tags {
+.rReview-post-tags {
   margin-bottom: 8px;
 }
 
-.mReview-post-tag {
+.rReview-post-tag {
   background-color: #eef1f4;
   color: #333;
   font-size: 0.85rem;
@@ -216,7 +221,7 @@
   margin-right: 4px;
 }
 
-.mReview-post-reactions {
+.rReview-post-reactions {
   display: flex;
   font-size: 13px;
   color: #666;
@@ -225,15 +230,14 @@
 }
 
 /* 수정 폼 */
-.mReview-edit-form {
+.rReview-edit-form {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
   gap: 12px;
 }
 
-.mReview-edit-form input[type="text"],
-.mReview-edit-form textarea {
+.rReview-input {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -242,13 +246,27 @@
   box-sizing: border-box;
 }
 
-.mReview-edit-form input[type="text"]:focus,
-.mReview-edit-form textarea:focus {
+.rReview-input:focus {
   border: 2px solid #8caa63;
   outline: none;
 }
 
-.mReview-edit-form ul {
+.rReview-textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.rReview-textarea:focus {
+  border: 2px solid #8caa63;
+  outline: none;
+}
+
+.rReview-mountain-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -260,27 +278,46 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.mReview-edit-form li {
+.rReview-mountain-item {
   padding: 8px 10px;
   cursor: pointer;
 }
 
-.mReview-edit-form li:hover {
+.rReview-mountain-item:hover {
   background-color: #f0f0f0;
 }
 
-.mReview-edit-form li.selected {
+.rReview-mountain-item.selected {
   background-color: #d2f3e0;
   font-weight: bold;
 }
 
-.mReview-edit-form div {
+.rReview-form-button-container {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.mReview-submit-button {
+.rReview-rate-input {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.rReview-rate-img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.rReview-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+.rReview-submit-button {
   padding: 8px 12px;
   border: none;
   background: #4caf50;
@@ -289,7 +326,7 @@
   cursor: pointer;
 }
 
-.mReview-cancel-button {
+.rReview-cancel-button {
   padding: 8px 12px;
   border: none;
   background: #999;
@@ -298,23 +335,23 @@
   cursor: pointer;
 }
 
-.mReview-photo-column-layout {
+.rReview-photo-column-layout {
   margin-top: 10px;
   flex-direction: column;
   padding: 0;
   width: 100%;
 }
 
-.mReview-photo-column-layout .preview-container {
+.rReview-photo-column-layout .preview-container {
   justify-content: flex-start;
   width: 100%;
 }
 
-.mReview-photo-column-layout .preview-image {
+.rReview-photo-column-layout .preview-image {
   width: 116px;
   height: 116px;
 }
 
-.mReview-photo-column-layout .upload-button-container {
+.rReview-photo-column-layout .upload-button-container {
   align-self: flex-end;
 }

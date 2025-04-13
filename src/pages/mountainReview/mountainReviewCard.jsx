@@ -448,16 +448,16 @@ const MountainReviewCard = ({ post, currentUser }) => {
               </div>
             </div>
 
-            <div className={isExpanded ? "" : "mr-content-preview"}>
+            <div className={isExpanded ? "" : "mReview-content-preview"}>
               {post.content}
             </div>
 
             {post.content.length > 75 ? (
-              <button onClick={toggleExpanded} className="mr-see-more-btn">
+              <button onClick={toggleExpanded} className="mReview-see-more-btn">
                 {isExpanded ? "접기" : "더보기"}
               </button>
             ) : (
-              <div className="mr-see-more-btn-placeholder" />
+              <div className="mReview-see-more-btn-placeholder" />
             )}
 
             <div className="mReview-post-reactions">
