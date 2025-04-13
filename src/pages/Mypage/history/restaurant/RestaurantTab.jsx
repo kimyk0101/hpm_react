@@ -1,12 +1,12 @@
 import { useState } from "react";
-import RestaurentPosts from "./RestaurantPosts";
-import RestaurentComments from "./RestaurantComments";
+import RestaurantPosts from "./RestaurantPosts";
+import RestaurantComments from "./RestaurantComments";
 
 const RestaurentTab = () => {
   const [subTab, setSubTab] = useState("posts");
 
   return (
-    <div className="restaurent-tab">
+    <div className="community-tab">
       <div className="sub-tab-buttons">
         <button
           className={subTab === "posts" ? "active" : ""}
@@ -23,7 +23,7 @@ const RestaurentTab = () => {
       </div>
 
       <div className="sub-tab-content">
-        {subTab === "posts" ? <RestaurentPosts /> : <RestaurentComments />}
+        {subTab === "posts" ? <RestaurantPosts /> : <RestaurantComments />}
       </div>
     </div>
   );

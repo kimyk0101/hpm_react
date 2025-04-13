@@ -32,23 +32,26 @@ const RestaurantPosts = () => {
   }, [user]);
 
   return (
-    <div>
-      <h4>내가 쓴 커뮤니티 글</h4>
+    <div className="review-list">
+      {/* <h4>내가 쓴 커뮤니티 글</h4> */}
       <ul>
         {posts.map((post) => (
           <li
             key={post.id}
-            className="post-item"
-            onClick={() => navigate(`/restaurant-reviews/${post.id}`)}
+            className="review-item"
+            onClick={() => navigate(`/restaurant-reviews/`)}
             style={{ cursor: "pointer" }}
           >
-            <strong className="post-title">{post.title}</strong>
-            <div className="post-meta">
-              {/* <span>{post.nickname}</span> */}
-              <span>{post.update_date?.slice(0, 10)}</span>
-              <span>조회수 {post.views}</span>
-              <span>댓글 수 {post.comment_count}</span>
+           <div className="review-content">
+              <p className="review-text">{post.content}</p>
+              <span className="review-date">{post.update_date?.slice(0, 10)}</span>
             </div>
+
+            {post.imageUrl && (
+              <div className="review-thumbnail">
+                <img src={post.imageUrl} alt="후기 이미지" />
+              </div>
+            )}
           </li>
         ))}
       </ul>

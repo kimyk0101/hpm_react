@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
+import "../../../../styles/pages/myPostsPage.css"; // CSS가 여기 들어있다고 가정
 
 const MountainPosts = () => {
   const { user } = useAuth();
@@ -8,7 +9,6 @@ const MountainPosts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TODO: API 연동 예정
     const fetchPosts = async () => {
       try {
         const response = await fetch(
@@ -33,22 +33,24 @@ const MountainPosts = () => {
 
   return (
     <div>
-      <h4>내가 쓴 커뮤니티 글</h4>
-      <ul>
+      {/* <h4>내가 쓴 등산 후기</h4> */}
+      <ul className="review-list">
         {posts.map((post) => (
           <li
             key={post.id}
-            className="post-item"
-            onClick={() => navigate(`/mountain-reviews/${post.id}`)}
-            style={{ cursor: "pointer" }}
+            className="review-item"
+            onClick={() => navigate(`/mountain-reviews/`)}
           >
-            <strong className="post-title">{post.title}</strong>
-            <div className="post-meta">
-              {/* <span>{post.nickname}</span> */}
-              <span>{post.update_date?.slice(0, 10)}</span>
-              <span>조회수 {post.views}</span>
-              <span>댓글 수 {post.comment_count}</span>
+            <div className="review-content">
+              <p className="review-text">{post.content}</p>
+              <span className="review-date">{post.update_date?.slice(0, 10)}</span>
             </div>
+
+            {post.imageUrl && (
+              <div className="review-thumbnail">
+                <img src={post.imageUrl} alt="후기 이미지" />
+              </div>
+            )}
           </li>
         ))}
       </ul>

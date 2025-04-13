@@ -7,6 +7,7 @@ import MyPostsPage from "./History/MyPostsPage";
 import CommunityTab from "./History/Community/CommunityTab";
 import MountainTab from "./History/Mountain/MountainTab";
 import RestaurantTab from "./History/Restaurant/RestaurantTab";
+import EditProfile from "./EditProfile/EditProfile"
 import DefaultLayout from "../../Layouts/DefaultLayout";
 import Header from "../../Layouts/Header/Header";
 import ContentContainer from "../../Layouts/ContentContainer";
@@ -15,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const Mypage = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("community");
 
   return (
     <>
@@ -45,10 +46,10 @@ const Mypage = () => {
         <div className="mypage-layout">
           <aside className="mypage-sidebar">
             <div className="sidebar-profile">
-              <MypageHeader />
+              <MypageHeader setActiveTab={setActiveTab}/>
             </div>
             <div className="sidebar-menu">
-              <MypageContent setActiveTab={setActiveTab} />
+              <MypageContent activeTab={activeTab} setActiveTab={setActiveTab} />
             </div>
             <div className="sidebar-footer">
               <MypageFooter />
@@ -56,10 +57,11 @@ const Mypage = () => {
           </aside>
 
           <main className="mypage-main-content">
-            {activeTab === "home" && <ProfileBox />}
+            {/* {activeTab === "home" && <ProfileBox />} */}
             {activeTab === "community" && <CommunityTab />}
             {activeTab === "mountain" && <MountainTab />}
-            {activeTab === "restaurant" && <RestaurantTab />}
+            {activeTab === "restaurant" && <RestaurantTab />} 
+            {activeTab === "edit" && <EditProfile />}
           </main>
         </div>
       </DefaultLayout>

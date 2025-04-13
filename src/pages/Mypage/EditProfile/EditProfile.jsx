@@ -25,7 +25,7 @@ const EditProfile = () => {
         nickname: user.nickname || "",
         password: "",
         birth: user.birth || "",
-        phone_number: user.phone_number || "",
+        phone_number: user.phone_number?.replace(/[^0-9]/g, "") || "",
         email: user.email || "",
         address: user.address || "",
       });
@@ -34,8 +34,14 @@ const EditProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const cleanedValue =
+    name === "phone_number" ? value.replace(/[^0-9]/g, "") : value;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: cleanedValue,
+  }));
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();

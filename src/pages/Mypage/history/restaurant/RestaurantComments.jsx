@@ -44,20 +44,19 @@ const RestaurantComments = () => {
   if (error) return <p>에러: {error}</p>;
 
   return (
-    <div>
-      <h4>내가 쓴 커뮤니티 댓글</h4>
+    <div className="review-list">
       {comments.length === 0 ? (
         <p>작성한 댓글이 없습니다.</p>
       ) : (
         <ul>
           {comments.map((comment) => (
-            <li key={comment.id}>
-              <Link to={`/restaurant-reviews/${comment.restaurants_id}`}>
-                <p>{comment.content}</p>
-                <span className="post-meta">
-                  {comment.update_date.slice(0, 10)}
-                </span>
-                <span className="c-post-title">{comment.title}</span>
+            <li className="review-item" 
+            key={comment.id}>
+              <Link to={`/restaurant-reviews/`}>
+              <div className="review-content">
+              <p className="review-text">{comment.content}</p>
+              <span className="review-date">{comment.update_date?.slice(0, 10)}</span>
+            </div>
               </Link>
             </li>
           ))}

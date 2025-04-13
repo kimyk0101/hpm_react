@@ -6,7 +6,7 @@ const MountainTab = () => {
   const [subTab, setSubTab] = useState("posts");
 
   return (
-    <div className="mountain-tab">
+    <div className="community-tab">
       <div className="sub-tab-buttons">
         <button
           className={subTab === "posts" ? "active" : ""}
