@@ -26,7 +26,6 @@ import MountainMap from "./Pages/Mountain/List_map";
 import MountainList from "./Pages/Mountain/MountainList";
 import MountainDetail from "./Pages/Mountain/MountainDetail";
 import "./styles/base/reset.css";
-// import Board from "../src/components/Board";
 
 function App() {
   return (

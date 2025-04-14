@@ -99,13 +99,6 @@ const MountainReviewList = () => {
     post.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // 예시: 검색어를 포함한 게시글만 서버에서 가져오기
-  // const fetchSearchResults = async () => {
-  //   const response = await fetch(`http://localhost:8088/api/mountain-reviews?query=${searchQuery}`);
-  //   const data = await response.json();
-  //   setPosts(data);
-  // };
-
   return (
     <>
       <header className="header-container">

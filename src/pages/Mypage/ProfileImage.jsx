@@ -22,7 +22,7 @@ const ProfileImage = () => {
     const fetchPhoto = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8088/api/userPhoto/view/${user.id}`
+          `http://localhost:8088/api/users/photos/by-user/${user.id}`
         );
         const data = (await res.ok) ? await res.json() : null;
 
@@ -98,7 +98,7 @@ const ProfileImage = () => {
       formData.append("usersId", user.id);
       formData.append("photo", file);
 
-      const res = await fetch("http://localhost:8088/api/userPhoto/upload", {
+      const res = await fetch("http://localhost:8088/api/users/photos/upload", {
         method: "POST",
         body: formData,
       });
@@ -120,7 +120,7 @@ const ProfileImage = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8088/api/userPhoto/delete/${user.id}`,
+        `http://localhost:8088/api/users/photos/by-id/${user.id}`,
         {
           method: "DELETE",
         }

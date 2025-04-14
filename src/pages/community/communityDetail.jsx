@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
-import ContentContainer from "../../Layouts/ContentContainer";
-import Header from "../../Layouts/Header/Header";
-import DefaultLayout from "../../Layouts/DefaultLayout";
-import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
+import ContentContainer from "../../Layouts/ContentContainer.jsx";
+import Header from "../../Layouts/Header/Header.jsx";
+import DefaultLayout from "../../Layouts/DefaultLayout.jsx";
+import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader.jsx";
 import "../../styles/pages/communityDetail.css";
 import CommentSection from "./CommentSection.jsx";
 
