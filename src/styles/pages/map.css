@@ -76,29 +76,50 @@
   font-size: .9rem;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-}
-
 .button-group button {
-  flex-grow: auto;
-
-  padding: 10px 20px; /* 버튼 크기 조정 */
-  border-radius: 8px; /* 둥근 모서리 */
+  padding: 10px 16px;
   border: none;
-  
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.review-map-button{  
-  background-color:white;
-  }
-  
-  .close-map-button:hover{
-  background-color:white;
-  
-  }
+/* 상세보기 버튼 */
+.detail-map-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.detail-map-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* 등산후기 버튼 */
+.review-map-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.review-map-button:hover {
+  background-color: #1e88e5;
+  transform: scale(1.05);
+}
+
+/* 닫기 버튼 */
+.close-map-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.close-map-button:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
+}
+
   
 
 /* 라벨 스타일 */

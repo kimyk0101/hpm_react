@@ -122,9 +122,9 @@ const MainHome = () => {
             }}
           >
             <img
-              // src="https://i.ibb.co/6cNgZxb6/free-icon-mountain.png"
               src="https://i.ibb.co/NdMHTgt2/icons8-100.png"
               alt="산 아이콘"
+              title="산 지도 보기"
             />
           </Link>
         </div>
