@@ -6,6 +6,13 @@
   padding-bottom: 20px;
 }
 
+.communityPage-create {
+  padding-top: 80px;
+  margin: 0 auto; /* 가운데 정렬 */
+  max-width: 1100px; /* 예시: 최대 넓이를 1000px로 제한 */
+}
+
+
 /* 전체 폼 스타일 */
 .c-post-form {
   display: flex;
