@@ -119,6 +119,7 @@ const CommunityList = () => {
   // 게시글 작성 페이지로 이동
   const goToPostCreate = () => {
     navigate("/communities/new");
+    window.scrollTo(0, 0); // 스크롤 위치를 맨 위로 설정
   };
 
   // 페이지 변경 함수
