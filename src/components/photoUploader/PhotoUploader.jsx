@@ -1,3 +1,18 @@
+/*
+ * 파일명: PhotoUploader.jsx, PhotoUploader.css
+ * 작성자: 김경민
+ * 작성일: 2025-03-24 ~ 03-28
+ *
+ * 설명:
+ * - 게시글 등록/수정 시 이미지 업로드를 지원하는 컴포넌트
+ * - 드래그&드롭을 통해 파일 업로드 가능
+ * - 미리보기 기능을 통해, 기존에 서버에 올라간 이미지와 새로 추가될 이미지 모두 관리
+ *
+ * 수정자: 김연경
+ * 수정내용:
+ * 수정일:
+ */
+
 import React, {
   useState,
   useRef,
@@ -7,6 +22,7 @@ import React, {
 } from "react";
 import "../../styles/components/photoUploader.css";
 
+// 부모가 ref를 통해 내부 메서드에 접근 가능하게 하기 위해 forwardRef 사용
 const PhotoUploader = forwardRef(
   (
     { onChange, initialPhotos = [], onDeleteServerPhoto, className = "" },
@@ -25,6 +41,7 @@ const PhotoUploader = forwardRef(
 
     const MAX_IMAGE_COUNT = 8; // 최대 이미지 개수
 
+    // 파일 업로드 처리
     const handleFiles = (files) => {
       const newFiles = Array.from(files);
 
@@ -45,12 +62,14 @@ const PhotoUploader = forwardRef(
       onChange([...serverImages, ...updatedLocal]);
     };
 
+    //  로컬 이미지 삭제
     const handleDeleteLocal = (index) => {
       const updated = localImages.filter((_, i) => i !== index);
       setLocalImages(updated);
       onChange([...serverImages, ...updated]);
     };
 
+    //  서버 이미지 삭제
     const handleDeleteServer = (photo) => {
       if (onDeleteServerPhoto) {
         onDeleteServerPhoto(photo.id);
@@ -60,6 +79,7 @@ const PhotoUploader = forwardRef(
       onChange([...updated, ...localImages]);
     };
 
+    //  드래그 앤 드롭 처리
     const handleDrop = (e) => {
       e.preventDefault();
       handleFiles(e.dataTransfer.files);
@@ -69,6 +89,7 @@ const PhotoUploader = forwardRef(
       handleFiles(e.target.files);
     };
 
+    //  외부에서 ref를 통해 접근 가능하도록 공개 메서드 설정
     useImperativeHandle(ref, () => ({
       getFiles: () => localImages,
       getServerPhotos: () => serverImages.map((photo) => photo.file_name), // 또는 photo.id
