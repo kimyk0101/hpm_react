@@ -325,11 +325,9 @@ const JoinPage = () => {
 
     // 전송할 데이터 필터링
     const {
-      confirmPassword,
       userId,
       phoneNumber,
       updateDate,
-      addressDetail, // 주소 상세 필드는 삭제
       ...formDataToSend
     } = formData;
 
@@ -339,7 +337,7 @@ const JoinPage = () => {
       user_id: userId,
       phone_number: phoneNumber,
       update_date: updateDate,
-      address: fullAddress, // 결합된 주소 추가
+      address: fullAddress,
     };
 
     try {
@@ -429,7 +427,7 @@ const JoinPage = () => {
               </div>
             </div>
             <div className="join-right">
-              <h2 className="join-title">회원가입!</h2>
+              <h2 className="join-title">회원가입</h2>
 
               <form className="join-form" onSubmit={handleSignup}>
                 <label>

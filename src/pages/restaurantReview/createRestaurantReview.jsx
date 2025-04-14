@@ -100,7 +100,7 @@ const CreateRestaurantReview = () => {
     e.preventDefault();
 
     if (!isLoggedIn) {
-      alert("로그인이 필요합니다!");
+      alert("로그인 후 사용 가능합니다");
       return;
     }
 
@@ -143,8 +143,7 @@ const CreateRestaurantReview = () => {
           );
         }
 
-        console.log("✅ 게시글 작성 성공:", data);
-        alert("게시물이 성공적으로 등록되었습니다!");
+        alert("게시글이 등록되었습니다");
         navigate("/restaurant-reviews");
       } else {
         alert("게시글 등록 실패");
@@ -208,7 +207,9 @@ const CreateRestaurantReview = () => {
                 {filteredMountains.map((mountain) => (
                   <li
                     key={mountain.id}
-                    className={`r-post-mountain-item ${selectedMountain?.id === mountain.id ? "selected" : ""}`} 
+                    className={`r-post-mountain-item ${
+                      selectedMountain?.id === mountain.id ? "selected" : ""
+                    }`}
                     onClick={() => {
                       setSelectedMountain(mountain);
                       setNewPost({

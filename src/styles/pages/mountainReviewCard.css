@@ -232,8 +232,7 @@
   gap: 12px;
 }
 
-.mReview-edit-form input[type="text"],
-.mReview-edit-form textarea {
+.mReview-input {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -242,13 +241,28 @@
   box-sizing: border-box;
 }
 
-.mReview-edit-form input[type="text"]:focus,
-.mReview-edit-form textarea:focus {
+.mReview-input:focus {
   border: 2px solid #8caa63;
   outline: none;
 }
 
-.mReview-edit-form ul {
+.mReview-textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  overflow-y: hidden;
+}
+
+.mReview-textarea:focus {
+  border: 2px solid #8caa63;
+  outline: none;
+}
+
+.mReview-mountain-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -260,24 +274,51 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.mReview-edit-form li {
+.mReview-mountain-item {
   padding: 8px 10px;
   cursor: pointer;
 }
 
-.mReview-edit-form li:hover {
+.mReview-mountain-item:hover {
   background-color: #f0f0f0;
 }
 
-.mReview-edit-form li.selected {
+.mReview-mountain-item.selected {
   background-color: #d2f3e0;
   font-weight: bold;
 }
 
-.mReview-edit-form div {
+.mReview-course-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mReview-course-item {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.mReview-course-item:hover {
+  background-color: #f0f0f0;
+}
+
+.mReview-course-item.selected {
+  background-color: #d2f3e0;
+  font-weight: bold;
+}
+
+.mReview-buttons {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 15px;
 }
 
 .mReview-submit-button {

@@ -132,7 +132,7 @@ const CreateMountainReview = () => {
     e.preventDefault();
 
     if (!isLoggedIn) {
-      alert("로그인이 필요합니다!");
+      alert("로그인 후 사용 가능합니다");
       return;
     }
 
@@ -177,8 +177,7 @@ const CreateMountainReview = () => {
           );
         }
 
-        console.log("✅ 게시글 작성 성공:", data);
-        alert("게시물이 성공적으로 등록되었습니다!");
+        alert("게시글이 등록되었습니다");
         navigate("/mountain-reviews");
       } else {
         alert("게시글 등록 실패");
@@ -214,16 +213,21 @@ const CreateMountainReview = () => {
 
           {isLoggedIn && (
             <form onSubmit={handlePostSubmit} className="m-post-form">
+              <label>산 이름:</label>
               <input
                 type="text"
                 placeholder="산 이름 검색"
                 value={searchMountain}
                 onChange={(e) => setSearchMountain(e.target.value)}
+                className="m-post-input"
               />
-              <ul>
+              <ul className="r-post-mountain-list">
                 {filteredMountains.map((mountain) => (
                   <li
                     key={mountain.id}
+                    className={`m-post-mountain-item ${
+                      selectedMountain?.id === mountain.id ? "selected" : ""
+                    }`}
                     onClick={() => {
                       setSelectedMountain(mountain);
                       setNewPost({
@@ -248,17 +252,21 @@ const CreateMountainReview = () => {
 
               {selectedMountain && (
                 <>
+                  <label>등산 코스:</label>
                   <input
                     type="text"
                     placeholder="등산 코스 검색"
                     value={searchCourse}
                     onChange={(e) => setSearchCourse(e.target.value)}
+                    className="m-post-input"
                   />
-                  <ul>
-                    {/* {filteredCoursesList.length > 0 ? ( */}
+                  <ul className="m-post-course-list">
                     {filteredCourses.map((course) => (
                       <li
                         key={course.id}
+                        className={`m-post-course-item ${
+                          selectedCourse?.id === course.id ? "selected" : ""
+                        }`}
                         onClick={() => {
                           setSelectedCourse(course);
                           setNewPost({
@@ -277,12 +285,14 @@ const CreateMountainReview = () => {
                 </>
               )}
 
+              <label>사진 등록:</label>
               <PhotoUploader
                 ref={photoUploaderRef}
                 onChange={setImages}
                 className="m-photo-column-layout"
               />
 
+              <label>게시글 내용:</label>
               <textarea
                 className="m-post-content"
                 value={newPost.content}

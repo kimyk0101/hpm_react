@@ -16,6 +16,8 @@ const ReplyItem = ({ reply, user, onReplyUpdate }) => {
         },
         body: JSON.stringify({ content: editContent }),
       });
+
+      alert("수정되었습니다.");
       setIsEditing(false);
       onReplyUpdate();
     } catch (error) {
@@ -35,6 +37,8 @@ const ReplyItem = ({ reply, user, onReplyUpdate }) => {
         },
         body: JSON.stringify({ usersId: user.id }), // 본인 확인용
       });
+
+      alert("삭제되었습니다.");
       onReplyUpdate();
     } catch (error) {
       console.error("답글 삭제 실패:", error);

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import StickyButton from "../../Components/Map/StickyButton"; // StickyButton 컴포넌트 임포트
+import StickyButton from "../../Components/Map/StickyButton";
 import "../../styles/pages/map.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -261,7 +261,18 @@ function MountainMap() {
           </div>
         </div>
       )}
-      <StickyButton className="no-style" />
+      <StickyButton
+        className="no-style"
+        showHome={true}
+        showBack={true}
+        showMap={false}
+        showList={true}
+        showScrollTop={false}
+        showWrite={false}
+        homePath="/"
+        backPath="/previous"
+        listPath="/mountain/list"
+      />
     </div>
   );
 }

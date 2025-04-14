@@ -94,6 +94,8 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
           }),
         }
       );
+
+      alert("수정되었습니다.");
       setIsEditing(false);
       onCommentUpdate();
     } catch (error) {
@@ -114,6 +116,8 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
           body: JSON.stringify({ usersId: user.id }), // 본인 확인
         }
       );
+
+      alert("삭제되었습니다.");
       onCommentUpdate();
     } catch (error) {
       console.error("댓글 삭제 실패:", error);

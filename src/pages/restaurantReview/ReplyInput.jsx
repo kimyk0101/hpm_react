@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdArrowUpward } from "react-icons/md"; 
+import { MdArrowUpward } from "react-icons/md";
 import "../../styles/pages/replyInput.css";
 
-const ReplyInput = ({ parentId, rReviewId, user, onReplySubmit, handleReplySubmit }) => {
+const ReplyInput = ({
+  parentId,
+  rReviewId,
+  user,
+  onReplySubmit,
+  handleReplySubmit,
+}) => {
   const [replyContent, setReplyContent] = useState("");
 
   const textareaRef = useRef(null); // 자동 높이 조정용 참조

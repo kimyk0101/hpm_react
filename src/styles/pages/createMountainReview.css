@@ -18,8 +18,8 @@
   margin: 70px auto 50px;
 }
 
-.m-post-form input[type="text"],
-.m-post-form textarea {
+.m-post-input,
+.m-post-textarea {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -28,25 +28,24 @@
   box-sizing: border-box;
 }
 
-.m-post-form input[type="text"]:focus,
-.m-post-form textarea:focus {
+.m-post-content {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  resize: none;
+  overflow-y: hidden;
+}
+
+.m-post-input:focus,
+.m-post-textarea:focus,
+.m-post-content:focus {
   border: 2px solid #8caa63;
   outline: none;
 }
 
-/* 댓글 입력창 (textarea) */
-.m-post-content {
-  width: 350px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  resize: none;
-  overflow-y: hidden;
-  font-size: 15px;
-}
-
-.m-post-form ul {
+.m-post-mountain-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -58,16 +57,42 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.m-post-form li {
+.m-post-mountain-item {
   padding: 8px 10px;
   cursor: pointer;
 }
 
-.m-post-form li:hover {
+.m-post-mountain-item:hover {
   background-color: #f0f0f0;
 }
 
-.m-post-form li.selected {
+.m-post-mountain-item.selected {
+  background-color: #d2f3e0;
+  font-weight: bold;
+}
+
+.m-post-course-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.m-post-course-item {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.m-post-course-item:hover {
+  background-color: #f0f0f0;
+}
+
+.m-post-course-item.selected {
   background-color: #d2f3e0;
   font-weight: bold;
 }

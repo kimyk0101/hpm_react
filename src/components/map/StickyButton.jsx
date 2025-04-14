@@ -3,18 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { Box, Grow } from "@mui/material";
 
 const StickyButton = ({
-  showHome = false,
-  showWrite = false,
-  showBack = false,
-  showMap = false,
-  showScrollTop = false,
-  showList = false,
+  showHome,
+  showBack,
+  showMap,
+  showWrite,
+  showScrollTop,
+  showList,
+  homePath,
+  backPath,
+  mapPath,
+  listPath,
+  writePath,
+  onWriteClick,
 }) => {
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const toggleMenu = () => setOpen((prev) => !prev);
+
+  const handleBackClick = () => {
+    if (backPath === "/previous") {
+      navigate(-1); // 브라우저 이전 페이지로 이동
+    } else {
+      navigate(backPath);
+    }
+  };
 
   return (
     <Box sx={{ position: "fixed", bottom: 20, right: 20, zIndex: 10 }}>
@@ -34,7 +48,7 @@ const StickyButton = ({
           }}
         >
           {showHome && (
-            <Box onClick={() => navigate("/")}>
+            <Box onClick={() => navigate(homePath)}>
               <img
                 src="/icons/icons_home.png"
                 alt="home"
@@ -44,8 +58,20 @@ const StickyButton = ({
             </Box>
           )}
 
+          {/* {showWrite && (
+            <Box onClick={() => navigate(writePath)}>
+              <img
+                src="/icons/icons_write.png"
+                alt="write"
+                className="sticky-icon"
+                title="작성하기"
+              />
+            </Box>
+          )} */}
           {showWrite && (
-            <Box onClick={() => navigate("/")}>
+            <Box
+              onClick={onWriteClick ? onWriteClick : () => navigate(writePath)}
+            >
               <img
                 src="/icons/icons_write.png"
                 alt="write"
@@ -56,7 +82,7 @@ const StickyButton = ({
           )}
 
           {showBack && (
-            <Box onClick={() => navigate(-1)}>
+            <Box onClick={handleBackClick}>
               <img
                 src="/icons/icons_back.png"
                 alt="back"
@@ -67,7 +93,7 @@ const StickyButton = ({
           )}
 
           {showMap && (
-            <Box onClick={() => navigate("/mountain/list_map")}>
+            <Box onClick={() => navigate(mapPath)}>
               <img
                 src="/icons/icons_map.png"
                 alt="map"
@@ -89,7 +115,7 @@ const StickyButton = ({
           )}
 
           {showList && (
-            <Box onClick={() => navigate("/mountain/list")}>
+            <Box onClick={() => navigate(listPath)}>
               <img
                 src="/icons/icons_layard.png"
                 alt="list"

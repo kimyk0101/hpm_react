@@ -3,7 +3,12 @@ import { FiMoreVertical } from "react-icons/fi";
 import ReplyInput from "./ReplyInput";
 import "../../styles/pages/commentItem.css";
 
-const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
+const CommentItem = ({
+  comment,
+  user,
+  onCommentUpdate,
+  rReviewId,
+}) => {
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -59,7 +64,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
 
   // 댓글 내용의 길이에 따라 잘라서 보여주기
   const getTruncatedContent = (content) => {
-    const maxLength = 55; 
+    const maxLength = 55;
     if (content.length > maxLength && isContentTruncated) {
       return content.substring(0, maxLength) + "..."; // 내용 자르고 '...' 추가
     }
@@ -94,6 +99,8 @@ const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
           }),
         }
       );
+
+      alert("수정되었습니다.");
       setIsEditing(false);
       onCommentUpdate();
     } catch (error) {
@@ -114,6 +121,8 @@ const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
           body: JSON.stringify({ usersId: user.id }), // 본인 확인
         }
       );
+
+      alert("삭제되었습니다.");
       onCommentUpdate();
     } catch (error) {
       console.error("댓글 삭제 실패:", error);
@@ -138,7 +147,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
               }}
               className="review-comment-more-button"
             >
-            <FiMoreVertical />
+              <FiMoreVertical />
             </button>
 
             {/* 수정/삭제 버튼들 */}
@@ -206,14 +215,14 @@ const CommentItem = ({ comment, user, onCommentUpdate, rReviewId }) => {
 
       {/* 더보기 버튼 */}
       <div className="review-comment-more-text-box">
-      {comment.content.length > 55 && !isEditing && (
-        <button
-          onClick={handleToggleContent}
-          className="review-comment-more-text-button"
-        >
-          {isContentTruncated ? "더보기" : "간략히 보기"}
-        </button>
-      )}
+        {comment.content.length > 55 && !isEditing && (
+          <button
+            onClick={handleToggleContent}
+            className="review-comment-more-text-button"
+          >
+            {isContentTruncated ? "더보기" : "간략히 보기"}
+          </button>
+        )}
       </div>
 
       <div className="review-comment-actions">

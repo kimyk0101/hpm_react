@@ -168,7 +168,18 @@ function MountainList() {
             </motion.p>
           )}
         </AnimatePresence>
-        <StickyButton className="no-style" />
+        <StickyButton
+          className="no-style"
+          showHome={true}
+          showBack={true}
+          showMap={true}
+          showList={false}
+          showScrollTop={true}
+          showWrite={false}
+          homePath="/"
+          backPath="/previous"
+          mapPath="/mountain/list_map"
+        />
       </div>
     </div>
   );

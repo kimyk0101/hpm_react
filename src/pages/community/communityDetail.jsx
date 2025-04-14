@@ -148,7 +148,7 @@ function CommunityDetail() {
         setEditPost(null); // 수정 완료 후 수정 폼 초기화
         fetchPhotos();
         // 수정 완료 알림
-        alert("수정이 완료되었습니다");
+        alert("수정되었습니다");
       }
     } catch (error) {
       console.error("게시글 수정 실패:", error);
@@ -157,7 +157,7 @@ function CommunityDetail() {
 
   const handleDeletePost = async () => {
     // 삭제 확인 대화 상자
-    const isConfirmed = window.confirm("정말 삭제할까요?");
+    const isConfirmed = window.confirm("게시글을 삭제할까요?");
 
     // 사용자가 삭제를 확인하면 삭제 진행
     if (isConfirmed) {
@@ -172,7 +172,7 @@ function CommunityDetail() {
 
         // response.ok로 삭제 성공 여부 확인
         if (response.ok) {
-          alert("게시글 삭제 성공");
+          alert("삭제되었습니다");
           // 삭제 후 목록 갱신 (리스트 페이지로 이동)
           navigate("/communities");
         } else {
@@ -340,6 +340,7 @@ function CommunityDetail() {
               communityId={communityId}
               user={user}
               onCommentChange={() => {}}
+              isLoggedIn={isLoggedIn}
             />
         </div>
       </DefaultLayout>

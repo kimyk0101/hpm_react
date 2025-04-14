@@ -62,11 +62,6 @@ const CommentSection = ({ communityId, user, onCommentChange }) => {
   const handleSubmit = async () => {
     if (!content.trim()) return;
 
-    if (!user) {
-      alert("로그인 후 댓글을 작성할 수 있습니다.");
-      return;
-    }
-
     const comment = {
       content,
       users_id: user.id,

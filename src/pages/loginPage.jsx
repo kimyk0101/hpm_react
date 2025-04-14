@@ -99,7 +99,6 @@ const Login = () => {
                     }
                   />
                 </div>
-                <p className="login-forgot">Forgot password?</p>
                 {errorMsg && <p className="login-error">{errorMsg}</p>}
                 <button
                   className="login-button"

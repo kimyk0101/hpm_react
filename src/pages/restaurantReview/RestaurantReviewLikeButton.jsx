@@ -44,7 +44,7 @@ const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
     e.stopPropagation();
 
     if (!currentUserId) {
-      alert("로그인이 필요합니다.");
+      alert("로그인 후 사용 가능합니다");
       return;
     }
 

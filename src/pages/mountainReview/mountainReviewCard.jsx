@@ -184,7 +184,7 @@ const MountainReviewCard = ({ post, currentUser }) => {
         );
       }
 
-      alert("게시물이 수정되었습니다!");
+      alert("수정되었습니다");
       setIsEditing(false);
       fetchPhotos(); // 수정 후 사진 다시 로딩
 
@@ -208,24 +208,28 @@ const MountainReviewCard = ({ post, currentUser }) => {
     }
   };
 
-  //  게시물 삭제
+  // 게시물 삭제
   const handleDelete = async () => {
-    const confirmed = window.confirm("정말 삭제하시겠습니까?");
-    if (!confirmed) return;
+    const isConfirmed = window.confirm("게시글을 삭제할까요?");
 
-    try {
-      await fetch(`http://localhost:8088/api/mountain-reviews/${post.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ usersId: user.id }),
-      });
+    if (isConfirmed) {
+      try {
+        await fetch(`http://localhost:8088/api/mountain-reviews/${post.id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ usersId: user.id }),
+        });
 
-      alert("게시물이 삭제되었습니다.");
-      window.location.reload();
-    } catch (error) {
-      console.error("게시물 삭제 중 오류 발생:", error);
+        alert("삭제되었습니다");
+        window.location.reload();
+      } catch (error) {
+        console.error("게시물 삭제 중 오류 발생:", error);
+      }
+    } else {
+      // 사용자가 취소를 클릭한 경우
+      console.log("삭제가 취소되었습니다.");
     }
   };
 
@@ -263,6 +267,17 @@ const MountainReviewCard = ({ post, currentUser }) => {
     setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
   };
 
+  // 자동 높이 조정
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "150px";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [editPost.content]);
+
   return (
     <div className="mReview-card-wrapper">
       <div className="mReview-post-card">
@@ -296,10 +311,12 @@ const MountainReviewCard = ({ post, currentUser }) => {
 
         {isEditing ? (
           <form className="mReview-edit-form" onSubmit={handleEditSubmit}>
+            <label>산 이름:</label>
             <input
               type="text"
               placeholder="산 이름 검색"
               value={searchMountain}
+              className="mReview-input"
               onChange={(e) => {
                 const keyword = e.target.value;
                 setSearchMountain(keyword);
@@ -310,11 +327,13 @@ const MountainReviewCard = ({ post, currentUser }) => {
                 );
               }}
             />
-            <ul>
+            <ul className="mReview-mountain-list">
               {filteredMountains.map((m) => (
                 <li
                   key={m.id}
-                  className={selectedMountain?.id === m.id ? "selected" : ""}
+                  className={`mReview-mountain-item ${
+                    selectedMountain?.id === m.id ? "selected" : ""
+                  }`}
                   onClick={() => {
                     setSelectedMountain(m);
                     setSearchMountain(m.name);
@@ -326,12 +345,14 @@ const MountainReviewCard = ({ post, currentUser }) => {
               ))}
             </ul>
 
+            <label>등산 코스:</label>
             {selectedMountain && (
               <>
                 <input
                   type="text"
                   placeholder="코스 검색"
                   value={searchCourse}
+                  className="mReview-input"
                   onChange={(e) => {
                     const keyword = e.target.value;
                     setSearchCourse(keyword);
@@ -344,11 +365,13 @@ const MountainReviewCard = ({ post, currentUser }) => {
                     );
                   }}
                 />
-                <ul>
+                <ul className="mReview-course-list">
                   {filteredCourses.map((c) => (
                     <li
                       key={c.id}
-                      className={selectedCourse?.id === c.id ? "selected" : ""}
+                      className={`mReview-course-item ${
+                        selectedCourse?.id === c.id ? "selected" : ""
+                      }`}
                       onClick={() => {
                         setSelectedCourse(c);
                         setSearchCourse(c.courseName);
@@ -362,6 +385,7 @@ const MountainReviewCard = ({ post, currentUser }) => {
               </>
             )}
 
+            <label>사진 등록:</label>
             <PhotoUploader
               ref={photoUploaderRef}
               initialPhotos={photos}
@@ -370,14 +394,17 @@ const MountainReviewCard = ({ post, currentUser }) => {
               className="mReview-photo-column-layout"
             />
 
+            <label>게시글 내용:</label>
             <textarea
               value={editPost.content}
+              ref={textareaRef}
               onChange={handleEditChange}
               rows={5}
               required
+              className="mReview-textarea"
             />
 
-            <div>
+            <div className="mReview-buttons">
               <button type="submit" className="mReview-submit-button">
                 저장
               </button>
@@ -411,7 +438,16 @@ const MountainReviewCard = ({ post, currentUser }) => {
                   </div>
                 ) : (
                   <div className="mReview-photo-slide mReview-photo-empty">
-                    <span className="mReview-photo-placeholder">사진 없음</span>
+                    <img
+                      className="mReview-photo-placeholder"
+                      src="/images/noPhoto.png"
+                      alt="사진 없음"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }} 
+                    />
                   </div>
                 )}
 

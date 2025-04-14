@@ -7,6 +7,7 @@ import Header from "../../Layouts/Header/Header";
 import DefaultLayout from "../../Layouts/DefaultLayout";
 import RestaurantReviewCard from "./RestaurantReviewCard";
 import "../../styles/pages/restaurantReview.css";
+import StickyButton from "../../Components/Map/StickyButton";
 
 const RestaurantReviewList = () => {
   const API_URL = "http://localhost:8088/api/restaurant-reviews";
@@ -88,23 +89,11 @@ const RestaurantReviewList = () => {
   // 작성하기 버튼 클릭 시
   const goToPostCreate = () => {
     if (!isLoggedIn) {
-      alert("로그인이 필요합니다!");
-      navigate("/login");
+      alert("로그인 후 사용 가능합니다");
       return;
     }
     navigate("/restaurant-reviews/new");
   };
-
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 2000);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // 검색어로 필터링된 게시글
   const filteredPosts = posts.filter((post) =>
@@ -135,18 +124,10 @@ const RestaurantReviewList = () => {
           />
         </ContentContainer>
       </header>
-      <br/>
+      <br />
 
       <DefaultLayout>
         <div className="rReview-feed-page">
-          <button
-            onClick={goToPostCreate}
-            className="create-rReview-post-button-fixed"
-            data-text="작성하기"
-          >
-            <span>작성하기</span>
-          </button>
-
           {/* 검색창 */}
           <div className="rReview-search-form">
             <div className="rReview-search-wrapper">
@@ -193,18 +174,20 @@ const RestaurantReviewList = () => {
               ))
             )}
           </div>
-
-          {/* 상단 이동 버튼 */}
-          {showScrollTop && (
-            <button
-              className="rReview-scroll-top-button"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              <MdArrowUpward />
-            </button>
-          )}
         </div>
       </DefaultLayout>
+      <StickyButton
+        className="no-style"
+        showHome={true}
+        showBack={true}
+        showWrite={true}
+        showMap={false}
+        showList={false}
+        showScrollTop={true}
+        homePath="/"
+        backPath="/previous"
+        onWriteClick={goToPostCreate}
+      />
     </>
   );
 };

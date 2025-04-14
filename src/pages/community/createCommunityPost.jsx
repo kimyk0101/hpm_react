@@ -61,11 +61,6 @@ const CreateCommunityPost = () => {
   const handlePostSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isLoggedIn) {
-      alert("로그인이 필요합니다!");
-      return;
-    }
-
     const postData = {
       id: newPost.id || null,
       title: newPost.title,
@@ -102,8 +97,7 @@ const CreateCommunityPost = () => {
           });
         }
 
-        console.log("✅ 게시글 작성 성공:", data);
-        alert("게시물이 성공적으로 등록되었습니다!");
+        alert("게시글이 등록되었습니다");
         navigate("/communities");
       } else {
         const errorText = await response.text();
