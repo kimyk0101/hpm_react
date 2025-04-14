@@ -1,6 +1,6 @@
 .rReview-feed-page {
   position: relative;
-  padding: 10px 0 100px;
+  padding: 60px 0 100px;
 }
 
 .no-posts-container {
@@ -44,6 +44,7 @@
 }
 
 .rReview-search-form {
+  /* margin-top: 50px; */
   width: 100%;
   margin-bottom: 30px;
 }

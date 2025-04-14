@@ -2,6 +2,8 @@
 .communityPage {
   max-width: 1100px; /* 예시: 최대 넓이를 1000px로 제한 */
   margin: 0 auto; /* 가운데 정렬 */
+  margin-top: 19px;
+  padding-top: 1px;
 }
 
 .no-posts-container {

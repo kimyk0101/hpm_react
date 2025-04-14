@@ -142,9 +142,7 @@ const MountainReviewList = () => {
           />
         </ContentContainer>
       </header>
-      <br />
-      <br />
-      <br />
+      <br/>
 
      
 

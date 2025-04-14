@@ -121,6 +121,8 @@ const SearchPage = () => {
           />
         </ContentContainer>
       </header>
+
+
       <DefaultLayout
         headerProps={{
           showBack: true,
