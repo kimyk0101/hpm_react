@@ -5,8 +5,6 @@ import Header from "../../Layouts/Header/Header";
 import DefaultLayout from "../../Layouts/DefaultLayout";
 import "../../styles/pages/createRestaurantReview.css";
 import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
-import mtEmpty from "../../../public/icons/mt-Empty.png";
-import mtFilled from "../../../public/icons/mt-Filled.png";
 
 const CreateRestaurantReview = () => {
   const navigate = useNavigate();
@@ -243,9 +241,13 @@ const CreateRestaurantReview = () => {
                 {[1, 2, 3, 4, 5].map((index) => (
                   <img
                     key={index}
-                    src={index <= newPost.rate ? mtFilled : mtEmpty} // 채워진 별/빈 별 아이콘 표시
+                    src={
+                      index <= newPost.rate
+                        ? "/icons/mt-Filled.png"
+                        : "/icons/mt-Empty.png"
+                    }
                     alt={`mountain-${index}`}
-                    onClick={() => handleClick(index)} // 아이콘 클릭 시 별점 설정
+                    onClick={() => handleClick(index)}
                     className="r-post-rate-img"
                   />
                 ))}

@@ -59,7 +59,7 @@ const CommunityPreview = () => {
           <div
             key={post.id}
             className="preview-card"
-            onClick={() => navigate(`/community/${post.id}`)}
+            onClick={() => navigate(`/communities/${post.id}`)}
           >
             <h4 className="preview-title">{post.title.slice(0, 6)}...</h4>
             <p className="preview-content">{post.content.slice(0, 10)}...</p>
@@ -80,7 +80,7 @@ const CommunityPreview = () => {
           <li
             key={post.id}
             className="commu-post-item"
-            onClick={() => navigate(`/community/${post.id}`)}
+            onClick={() => navigate(`/communities/${post.id}`)}
           >
             <div className="commu-post-inline">
               <span className="commu-post-title">{post.title}</span>
