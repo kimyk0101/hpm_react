@@ -81,6 +81,7 @@ const MountainRecommend = () => {
     const handleFilterButtonClick = () => {
         const filteredData = filterMountains();
         navigate('/mountain-result', { state: { filteredData } });
+        window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
     };
 
     return (

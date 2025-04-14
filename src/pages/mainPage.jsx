@@ -65,7 +65,12 @@ const MainHome = () => {
             }}
           >
             <h2 style={{ margin: 0 }}>추천 산행 코스</h2>
-            <Link to="/mountain-recommend">
+            <Link
+              to="/mountain-recommend"
+              onClick={() => { // onClick 이벤트 핸들러 추가
+                window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
+              }}
+            >
               <button className="recommend-button">
                 산을 추천해 드릴께요 !
               </button>

@@ -1,3 +1,25 @@
+/*
+* 기능명 : Club
+* 파일명 : allClubs.jsx, allClubs.css, clubComments.jsx, clubComments.css, chatSendbird.jsx
+* 작성자 : 서민정
+* 설명 : 
+
+        allClubs : 3개의 산에 대한 모임 화면
+    - 클릭시, 해당 산의 공지사항 조회 및 조회수 상승 기능
+    - 마우스 hover시 눈에 잘 띄도록 UI 구성
+
+        clubComments : 공지사항 화면 및 채팅방 입장 전단계의 화면
+    - 공지사항 등록/수정/삭제 기능 제공
+    - 본인이 작성한 게시글만 수정/삭제 가능하도록 기능 설정
+
+        chatSendbird.jsx : 샌드버드 채팅에 연결되는 화면
+    - SPRINGBOOT에서 작성한 샌드버드 API에 연결되는 기능
+    - 로그인한 유저의 닉네임으로 USER 아이디가 생성되고, 해당 아이디로 실시간 채팅 가능        
+
+* 작성일 : 2025-03-25 ~ 04-14
+*/
+
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/pages/allClubs.css";
