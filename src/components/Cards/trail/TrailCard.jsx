@@ -11,13 +11,14 @@ const TrailCard = ({ mountainId, mountainName }) => {
     time: "",
     level: "",
   });
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     // 대표 이미지 불러오기
     const fetchImage = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8088/api/mountains/${mountainId}/image`
+          `${BASE_URL}/api/mountains/${mountainId}/image`
         );
         if (!response.ok) throw new Error("이미지 응답 오류");
         const data = await response.json();
@@ -31,7 +32,7 @@ const TrailCard = ({ mountainId, mountainName }) => {
     const fetchCourse = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8088/api/mountains/${mountainId}/courses`
+          `${BASE_URL}/api/mountains/${mountainId}/courses`
         );
         if (!response.ok) throw new Error("코스 응답 오류");
         const data = await response.json();

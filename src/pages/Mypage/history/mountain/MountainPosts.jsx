@@ -8,11 +8,13 @@ const MountainPosts = () => {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8088/api/mountain-reviews/my/${user.id}`,
+          `${BASE_URL}/api/mountain-reviews/my/${user.id}`,
           {
             method: "GET",
             credentials: "include",
@@ -43,7 +45,9 @@ const MountainPosts = () => {
           >
             <div className="review-content">
               <p className="review-text">{post.content}</p>
-              <span className="review-date">{post.update_date?.slice(0, 10)}</span>
+              <span className="review-date">
+                {post.update_date?.slice(0, 10)}
+              </span>
             </div>
 
             {post.imageUrl && (

@@ -5,6 +5,7 @@ import CommentItem from "./CommentItem";
 const CommentSection = ({ mReviewId, user, onCommentChange }) => {
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // 댓글 데이터를 트리 구조로 변환하는 함수
   const nestComments = (comments) => {
@@ -33,7 +34,7 @@ const CommentSection = ({ mReviewId, user, onCommentChange }) => {
   const fetchComments = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8088/api/mountain-reviews/${mReviewId}/comments`
+        `${BASE_URL}/api/mountain-reviews/${mReviewId}/comments`
       );
       const data = await res.json();
 
@@ -71,7 +72,7 @@ const CommentSection = ({ mReviewId, user, onCommentChange }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:8088/api/mountain-reviews/${mReviewId}/comments`,
+        `${BASE_URL}/api/mountain-reviews/${mReviewId}/comments`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

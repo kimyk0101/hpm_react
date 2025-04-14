@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import DefaultLayout from "../Layouts/DefaultLayout";
-import Header from "../Layouts/Header/Header";
-import ContentContainer from "../Layouts/ContentContainer";
-import DefaultSlider from "../Components/Slider/DefaultSlider";
-import TrailCard from "../Components/Cards/Trail/TrailCard";
-import CommunitySection from "../Components/Cards/Community/CommunitySection";
-import ReviewSection from "../Components/Section/ReviewSection";
-import MtReviewCard from "../Components/Cards/Review/Mountain/MtReviewCard";
-import trailData from "../data/trailData";
-import mtReviewData from "../data/mtReviewData";
-import MainHeaderImage from "./Main/MainHeaderImage";
-import ViewAllButton from "../Layouts/Common/ViewAllButton";
+import DefaultLayout from "../layouts/DefaultLayout";
+import Header from "../layouts/Header/Header";
+import ContentContainer from "../layouts/ContentContainer";
+import DefaultSlider from "../components/slider/DefaultSlider";
+import TrailCard from "../components/Cards/trail/TrailCard";
+import CommunitySection from "../components/Cards/community/CommunitySection";
+import ReviewSection from "../components/section/ReviewSection";
+import MainHeaderImage from "./main/MainHeaderImage";
+import ViewAllButton from "../layouts/Common/ViewAllButton";
 import { Link } from "react-router-dom";
+import "../styles/layouts/defaultLayout.css";
 import "../styles/pages/mainPage.css";
 import "../styles/components/stickyButton.css";
 import "../styles/pages/mtRecommend.css";
@@ -19,13 +17,23 @@ import "../styles/pages/mtRecommend.css";
 const MainHome = () => {
   const [mountains, setMountains] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchMountains = async () => {
       try {
-        const response = await fetch("http://localhost:8088/api/mountains");
-        const data = await response.json();
-        setMountains(data);
+        const response = await fetch(`${BASE_URL}/api/mountains`);
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          console.log("✅ 산 목록 데이터:", data);
+          setMountains(data);
+        } else {
+          const html = await response.text();
+          console.error("❌ JSON이 아님! HTML 응답:", html);
+        }
+
         setIsLoading(false);
       } catch (error) {
         console.error("산 데이터 불러오기 실패:", error);
@@ -89,7 +97,7 @@ const MainHome = () => {
                   />
                 ))}
           </DefaultSlider>
-          <ViewAllButton to="/mountain/list" />
+          <ViewAllButton to="/trailDetail" />
         </div>
 
         <div className="commu-section-full-bg home-section">
@@ -118,14 +126,7 @@ const MainHome = () => {
           <ReviewSection />
         </div>
         <div className="sticky-button">
-          <Link
-            to="/mountain/list_map"
-            aria-label="산 목록 지도 보기"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = "/mountain/list_map"; // 새로고침 강제
-            }}
-          >
+          <Link to="/mountain/list_map" aria-label="산 목록 지도 보기">
             <img
               src="https://i.ibb.co/NdMHTgt2/icons8-100.png"
               alt="산 아이콘"

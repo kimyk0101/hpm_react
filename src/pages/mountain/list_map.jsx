@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import StickyButton from "../../Components/Map/StickyButton";
+import StickyButton from "../../components/map/StickyButton"; // StickyButton 컴포넌트 임포트
 import "../../styles/pages/map.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,11 @@ function MountainMap() {
   const [mountains, setMountains] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const KAKAO_MAP_KEY = import.meta.env.VITE_KAKAO_MAPS_API_KEY;
+
   useEffect(() => {
-    fetch("http://localhost:8088/api/mountains")
+    fetch(`${BASE_URL}/api/mountains`)
       .then((response) => response.json())
       .then((data) => {
         setMountains(data);
@@ -22,9 +25,7 @@ function MountainMap() {
       });
 
     const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
-      import.meta.env.VITE_KAKAO_MAPS_API_KEY
-    }&libraries=clusterer&autoload=false`; // 클러스터러 라이브러리 추가
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_MAP_KEY}&libraries=clusterer&autoload=false`; // 클러스터러 라이브러리 추가
     document.head.appendChild(script);
 
     const onLoadKakaoAPI = () => {
@@ -221,7 +222,7 @@ function MountainMap() {
                 const mountainName = markerInfo.title;
                 try {
                   const response = await fetch(
-                    `http://localhost:8088/api/mountains/name/${mountainName}`
+                    `${BASE_URL}/api/mountains/name/${mountainName}`
                   );
                   const mountainId = await response.text();
                   if (mountainId) {

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import DefaultLayout from "../../../Layouts/DefaultLayout";
+import DefaultLayout from "../../../layouts/DefaultLayout";
 import "../../../styles/pages/editProfile.css";
 
 const EditProfile = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const [formData, setFormData] = useState({
     nickname: "",
@@ -35,13 +36,13 @@ const EditProfile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const cleanedValue =
-    name === "phone_number" ? value.replace(/[^0-9]/g, "") : value;
+      name === "phone_number" ? value.replace(/[^0-9]/g, "") : value;
 
-  setFormData((prev) => ({
-    ...prev,
-    [name]: cleanedValue,
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      [name]: cleanedValue,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +73,7 @@ const EditProfile = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:8088/api/users/${user.id}`, {
+      const res = await fetch(`${BASE_URL}/api/users/${user.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

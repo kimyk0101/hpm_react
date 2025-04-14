@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import StickyButton from "../../Components/Map/StickyButton";
+import StickyButton from "../../components/map/StickyButton";
 import "../../styles/pages/mountain.css";
 
 function MountainList() {
@@ -12,19 +12,21 @@ function MountainList() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   // API 호출 최적화 (병렬 처리 + 에러 핸들링)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data: mountainsData } = await axios.get(
-          "http://localhost:8088/api/mountains"
+          `${BASE_URL}/api/mountains`
         );
 
         const mountainsWithImages = await Promise.all(
           mountainsData.map(async (mountain) => {
             try {
               const { data: imageData } = await axios.get(
-                `http://localhost:8088/api/mountains/${mountain.id}/image`
+                `${BASE_URL}/api/mountains/${mountain.id}/image`
               );
               return {
                 ...mountain,

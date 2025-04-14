@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ConfirmModal from "../../Components/Modal/ConfirmModal";
-import PasswordModal from "../../Components/Modal/PasswordModal";
+import ConfirmModal from "../../components/modal/ConfirmModal";
+import PasswordModal from "../../components/modal/PasswordModal";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -16,10 +16,11 @@ const MypageDelete = () => {
     setShowConfirm(false);
     setShowPasswordModal(true);
   };
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handlePasswordSubmit = async (password) => {
     try {
-      const res = await fetch("http://localhost:8088/api/users/login", {
+      const res = await fetch(`${BASE_URL}/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -28,13 +29,10 @@ const MypageDelete = () => {
 
       if (!res.ok) throw new Error("비밀번호가 일치하지 않습니다.");
 
-      const deleteRes = await fetch(
-        `http://localhost:8088/api/users/${user.id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const deleteRes = await fetch(`${BASE_URL}/api/users/${user.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       if (!deleteRes.ok) throw new Error("회원 탈퇴 실패");
 

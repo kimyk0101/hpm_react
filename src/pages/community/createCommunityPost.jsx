@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ContentContainer from "../../Layouts/ContentContainer";
-import Header from "../../Layouts/Header/Header";
-import DefaultLayout from "../../Layouts/DefaultLayout";
-import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../layouts/Header/Header";
+import DefaultLayout from "../../layouts/DefaultLayout";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import "../../styles/pages/createCommunityPost.css";
 
 const CreateCommunityPost = () => {
-  const API_URL = "http://localhost:8088/api/communities"; // API URL
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_URL = `${BASE_URL}/api/communities`; // API URL
   const navigate = useNavigate();
   const [user, setUser] = useState([]); //  login 부분
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
@@ -17,7 +18,7 @@ const CreateCommunityPost = () => {
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8088/api/users/session", {
+      const response = await fetch(`${BASE_URL}/api/users/session`, {
         method: "GET",
         credentials: "include", // 쿠키를 포함하여 요청
       });
@@ -91,7 +92,7 @@ const CreateCommunityPost = () => {
           const fileImages = images.filter((img) => img instanceof File);
           fileImages.forEach((img) => formData.append("photos", img));
 
-          await fetch("http://localhost:8088/api/communities/photos/upload", {
+          await fetch(`${BASE_URL}/api/communities/photos/upload`, {
             method: "POST",
             body: formData,
           });

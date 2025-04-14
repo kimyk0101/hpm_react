@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import DefaultLayout from "../../Layouts/DefaultLayout";
+import DefaultLayout from "../../layouts/DefaultLayout";
 import SearchInput from "./SearchInput";
 import RecentSearches from "./RecentSearches";
 import PopularSearches from "./PopularSearches";
 import CommunityResults from "./Results/CommunityResults";
 import MountainResults from "./Results/MountainResults";
-import ContentContainer from "../../Layouts/ContentContainer";
-import Header from "../../Layouts/Header/Header";;
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../layouts/Header/Header";
 import "../../styles/pages/searchPage.css";
 
 const SearchPage = () => {
@@ -25,6 +25,8 @@ const SearchPage = () => {
   });
   // 최근 검색어 목록
   const [recentSearches, setRecentSearches] = useState([]);
+
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   //페이지가 처음 로드될 때 localStorage에서 최근 검색어 불러오기
   useEffect(() => {
@@ -47,10 +49,8 @@ const SearchPage = () => {
 
     try {
       const [mountainRes, communityRes] = await Promise.all([
-        fetch(
-          `http://localhost:8088/api/mountains/search?keyword=${searchQuery}`
-        ),
-        fetch(`http://localhost:8088/api/communities/search?q=${searchQuery}`),
+        fetch(`${BASE_URL}/api/mountains/search?keyword=${searchQuery}`),
+        fetch(`${BASE_URL}/api/communities/search?q=${searchQuery}`),
       ]);
 
       if (!mountainRes.ok || !communityRes.ok)

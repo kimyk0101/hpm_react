@@ -6,13 +6,14 @@ const CommunityPosts = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     // TODO: API 연동 예정
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8088/api/communities/my/${user.id}`,
+          `${BASE_URL}/api/communities/my/${user.id}`,
           {
             method: "GET",
             credentials: "include",
@@ -44,9 +45,10 @@ const CommunityPosts = () => {
           >
             <div className="review-content">
               <p className="review-text">{post.content}</p>
-              <span className="review-date">{post.update_date?.slice(0, 10)}</span>
+              <span className="review-date">
+                {post.update_date?.slice(0, 10)}
+              </span>
             </div>
-
           </li>
         ))}
       </ul>

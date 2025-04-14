@@ -9,6 +9,8 @@ const weatherDescKo = {
   // 생략
 };
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const useWeather = (lat, lon) => {
   const [weather, setWeather] = useState(null);
   const [weatherForecast, setWeatherForecast] = useState([]);
@@ -119,12 +121,12 @@ function MountainDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8088/api/mountains/${id}`)
+      .get(`${BASE_URL}/api/mountains/${id}`)
       .then((res) => setMountain(res.data))
       .catch((err) => console.error("산 정보 오류:", err));
 
     axios
-      .get(`http://localhost:8088/api/mountains/${id}/courses`)
+      .get(`${BASE_URL}/api/mountains/${id}/courses`)
       .then((res) => setCourses(res.data))
       .catch((err) => console.error("코스 정보 오류:", err));
   }, [id]);

@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactSelect from "react-dropdown-select"; // ReactSelect 임포트
-import { FaEye, FaEyeSlash } from "react-icons/fa"; 
-import ContentContainer from "../Layouts/ContentContainer";
-import Header from "../Layouts/Header/Header";
-import DefaultLayout from "../Layouts/DefaultLayout";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import ContentContainer from "../layouts/ContentContainer";
+import Header from "../layouts/Header/Header";
+import DefaultLayout from "../layouts/DefaultLayout";
 import "../styles/pages/joinPage.css";
 
 const JoinPage = () => {
-  const API_USER_URL = `http://localhost:8088/api/users`;
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_USER_URL = `${BASE_URL}/api/users`;
 
   const [allUserData, setAllUserData] = useState([]);
   const [isUserIdAvailable, setIsUserIdAvailable] = useState(null);
@@ -50,7 +51,7 @@ const JoinPage = () => {
 
   //  닉네임 중복 확인
   const checkUserNicknameAvailability = async (nickname) => {
-    const requestUrl = `http://localhost:8088/api/users/check-user-nickname?nickname=${nickname}`;
+    const requestUrl = `${BASE_URL}/api/users/check-user-nickname?nickname=${nickname}`;
     console.log("닉네임 중복 확인 요청 URL:", requestUrl);
 
     try {
@@ -72,7 +73,7 @@ const JoinPage = () => {
 
   //  아이디 중복 확인
   const checkUserIdAvailability = async () => {
-    const requestUrl = `http://localhost:8088/api/users/check-user-id?userId=${formData.userId}`;
+    const requestUrl = `${BASE_URL}/api/users/check-user-id?userId=${formData.userId}`;
     console.log("아이디 중복 확인 요청 URL:", requestUrl);
 
     try {

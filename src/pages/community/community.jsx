@@ -5,13 +5,14 @@ import {
   differenceInDays,
 } from "date-fns"; //  상대적 시간 계산 라이브러리
 import { useNavigate } from "react-router-dom";
-import ContentContainer from "../../Layouts/ContentContainer";
-import Header from "../../Layouts/Header/Header";
-import DefaultLayout from "../../Layouts/DefaultLayout";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../layouts/Header/Header";
+import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../styles/pages/community.css";
 
 const CommunityList = () => {
-  const API_URL = "http://localhost:8088/api/communities"; // API URL
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_URL = `${BASE_URL}/api/communities`; // API URL
 
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState([]); // login 부분
@@ -22,7 +23,7 @@ const CommunityList = () => {
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8088/api/users/session", {
+      const response = await fetch(`${BASE_URL}/api/users/session`, {
         method: "GET",
         credentials: "include", // 쿠키를 포함하여 요청
       });
@@ -99,7 +100,7 @@ const CommunityList = () => {
     try {
       // 조회수 증가 요청 보내기
       const response = await fetch(
-        `http://localhost:8088/api/communities/${postId}/increment-views`,
+        `${BASE_URL}/api/communities/${postId}/increment-views`,
         {
           method: "PUT", // PUT 요청으로 조회수 증가
         }

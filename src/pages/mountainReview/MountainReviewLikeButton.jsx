@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const MountainReviewLikeButton = ({ reviewId, currentUserId }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // 좋아요 여부 및 개수 불러오기
   useEffect(() => {
@@ -10,7 +11,7 @@ const MountainReviewLikeButton = ({ reviewId, currentUserId }) => {
     const fetchLikeCount = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8088/api/mountain-reviews/likes/count?reviewsId=${reviewId}`
+          `${BASE_URL}/api/mountain-reviews/likes/count?reviewsId=${reviewId}`
         );
         const data = await res.json();
         setLikeCount(data);
@@ -26,7 +27,7 @@ const MountainReviewLikeButton = ({ reviewId, currentUserId }) => {
       const fetchIsLiked = async () => {
         try {
           const res = await fetch(
-            `http://localhost:8088/api/mountain-reviews/likes/is-liked?usersId=${currentUserId}&reviewsId=${reviewId}`
+            `${BASE_URL}/api/mountain-reviews/likes/is-liked?usersId=${currentUserId}&reviewsId=${reviewId}`
           );
           const data = await res.json();
           setIsLiked(data);
@@ -49,19 +50,16 @@ const MountainReviewLikeButton = ({ reviewId, currentUserId }) => {
     }
 
     try {
-      const res = await fetch(
-        "http://localhost:8088/api/mountain-reviews/likes/toggle",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            users_id: currentUserId,
-            reviews_id: reviewId,
-          }),
-        }
-      );
+      const res = await fetch(`${BASE_URL}/api/mountain-reviews/likes/toggle`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          users_id: currentUserId,
+          reviews_id: reviewId,
+        }),
+      });
 
       if (!res.ok) {
         throw new Error("좋아요 토글 실패");
@@ -77,10 +75,7 @@ const MountainReviewLikeButton = ({ reviewId, currentUserId }) => {
   };
 
   return (
-    <span
-      onClick={handleToggleLike}
-      style={{ cursor: "pointer" }}
-    >
+    <span onClick={handleToggleLike} style={{ cursor: "pointer" }}>
       {isLiked ? "💚" : "🤍"} {likeCount}
     </span>
   );

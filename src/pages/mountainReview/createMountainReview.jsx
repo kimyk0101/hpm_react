@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ContentContainer from "../../Layouts/ContentContainer";
-import Header from "../../Layouts/Header/Header";
-import DefaultLayout from "../../Layouts/DefaultLayout";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../layouts/Header/Header";
+import DefaultLayout from "../../layouts/DefaultLayout";
 import "../../styles/pages/createMountainReview.css";
-import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 
 const CreateMountainReview = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태 유지
   const [user, setUser] = useState([]); // 사용자 정보
-  const API_URL = "http://localhost:8088/api/mountain-reviews";
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_URL = `${BASE_URL}/api/mountain-reviews`;
   const [images, setImages] = useState([]);
   const photoUploaderRef = useRef();
 
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8088/api/users/session", {
+      const response = await fetch(`${BASE_URL}/api/users/session`, {
         method: "GET",
         credentials: "include",
       });
@@ -53,7 +54,7 @@ const CreateMountainReview = () => {
   useEffect(() => {
     const fetchMountains = async () => {
       try {
-        const response = await fetch("http://localhost:8088/api/mountains");
+        const response = await fetch(`${BASE_URL}/api/mountains`);
         if (!response.ok) {
           throw new Error("네트워크 응답이 정상적이지 않습니다.");
         }
@@ -81,7 +82,7 @@ const CreateMountainReview = () => {
       const fetchCourses = async () => {
         try {
           const response = await fetch(
-            `http://localhost:8088/api/mountains/${selectedMountain.id}/courses`
+            `${BASE_URL}/api/mountains/${selectedMountain.id}/courses`
           );
           if (!response.ok) {
             throw new Error("네트워크 응답이 정상적이지 않습니다.");
@@ -168,13 +169,10 @@ const CreateMountainReview = () => {
           const fileImages = images.filter((img) => img instanceof File);
           fileImages.forEach((img) => formData.append("photos", img));
 
-          await fetch(
-            `http://localhost:8088/api/mountain-reviews/photos/upload`,
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
+          await fetch(`${BASE_URL}/api/mountain-reviews/photos/upload`, {
+            method: "POST",
+            body: formData,
+          });
         }
 
         alert("게시글이 등록되었습니다");

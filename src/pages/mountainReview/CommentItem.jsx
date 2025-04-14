@@ -13,6 +13,8 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
 
   const textareaRef = useRef(null); // ref로 textarea를 다룬다.
 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   // 자동 높이 조정
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -59,7 +61,7 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
 
   // 댓글 내용의 길이에 따라 잘라서 보여주기
   const getTruncatedContent = (content) => {
-    const maxLength = 55; 
+    const maxLength = 55;
     if (content.length > maxLength && isContentTruncated) {
       return content.substring(0, maxLength) + "..."; // 내용 자르고 '...' 추가
     }
@@ -82,18 +84,15 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
     if (!editContent.trim()) return;
 
     try {
-      await fetch(
-        `http://localhost:8088/api/mountain-reviews/comments/${comment.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: editContent,
-          }),
-        }
-      );
+      await fetch(`${BASE_URL}/api/mountain-reviews/comments/${comment.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: editContent,
+        }),
+      });
 
       alert("수정되었습니다.");
       setIsEditing(false);
@@ -108,14 +107,11 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
     if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
 
     try {
-      await fetch(
-        `http://localhost:8088/api/mountain-reviews/comments/${comment.id}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usersId: user.id }), // 본인 확인
-        }
-      );
+      await fetch(`${BASE_URL}/api/mountain-reviews/comments/${comment.id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usersId: user.id }), // 본인 확인
+      });
 
       alert("삭제되었습니다.");
       onCommentUpdate();
@@ -210,14 +206,14 @@ const CommentItem = ({ comment, user, onCommentUpdate, mReviewId }) => {
 
       {/* 더보기 버튼 */}
       <div className="review-comment-more-text-box">
-      {comment.content.length > 55 && !isEditing && (
-        <button
-          onClick={handleToggleContent}
-          className="review-comment-more-text-button"
-        >
-          {isContentTruncated ? "더보기" : "간략히 보기"}
-        </button>
-      )}
+        {comment.content.length > 55 && !isEditing && (
+          <button
+            onClick={handleToggleContent}
+            className="review-comment-more-text-button"
+          >
+            {isContentTruncated ? "더보기" : "간략히 보기"}
+          </button>
+        )}
       </div>
 
       <div className="review-comment-actions">

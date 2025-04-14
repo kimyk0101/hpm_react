@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import ContentContainer from "../../Layouts/ContentContainer";
+import ContentContainer from "../../layouts/ContentContainer";
 import { MdArrowUpward } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
-import Header from "../../Layouts/Header/Header";
-import DefaultLayout from "../../Layouts/DefaultLayout";
+import Header from "../../layouts/Header/Header";
+import DefaultLayout from "../../layouts/DefaultLayout";
 import RestaurantReviewCard from "./RestaurantReviewCard";
 import "../../styles/pages/restaurantReview.css";
 import StickyButton from "../../Components/Map/StickyButton";
 
 const RestaurantReviewList = () => {
-  const API_URL = "http://localhost:8088/api/restaurant-reviews";
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_URL = `${BASE_URL}/api/restaurant-reviews`;
 
   // 산 전체목록에서 특정산 이동시 검색어 별도관리를 위한 코드 ( 잠시 주석처리 )
   const location = useLocation(); // 라우터 location 정보 가져오기
@@ -27,7 +28,7 @@ const RestaurantReviewList = () => {
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8088/api/users/session", {
+      const response = await fetch(`${BASE_URL}/api/users/session`, {
         method: "GET",
         credentials: "include", // 쿠키를 포함하여 요청
       });

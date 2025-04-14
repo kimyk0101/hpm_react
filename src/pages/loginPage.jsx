@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import ContentContainer from "../Layouts/ContentContainer";
-import Header from "../Layouts/Header/Header";
-import DefaultLayout from "../Layouts/DefaultLayout";
+import ContentContainer from "../layouts/ContentContainer";
+import Header from "../layouts/Header/Header";
+import DefaultLayout from "../layouts/DefaultLayout";
 import "../styles/pages/loginPage.css";
 
-const API_URL = "http://localhost:8088/api/users/login";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = `${BASE_URL}/api/users/login`;
 
 const Login = () => {
   const [loginData, setLoginData] = useState({

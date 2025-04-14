@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
-import ContentContainer from "../../Layouts/ContentContainer.jsx";
-import Header from "../../Layouts/Header/Header.jsx";
-import DefaultLayout from "../../Layouts/DefaultLayout.jsx";
-import PhotoUploader from "../../Components/PhotoUploader/PhotoUploader.jsx";
+import ContentContainer from "../../layouts/ContentContainer";
+import Header from "../../layouts/Header/Header";
+import DefaultLayout from "../../layouts/DefaultLayout";
+import PhotoUploader from "../../components/photoUploader/PhotoUploader";
 import "../../styles/pages/communityDetail.css";
 import CommentSection from "./CommentSection.jsx";
 
@@ -12,10 +12,11 @@ function CommunityDetail() {
   const { id } = useParams();
   const communityId = parseInt(id, 10); // String -> Long 타입으로 변환
 
-  const API_COMMUNITY_URL = `http://localhost:8088/api/communities/${communityId}`;
-  const API_PHOTO_URL = `http://localhost:8088/api/communities/photos/by-community/${communityId}`;
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_COMMUNITY_URL = `${BASE_URL}/api/communities/${communityId}`;
+  const API_PHOTO_URL = `${BASE_URL}/api/communities/photos/by-community/${communityId}`;
   const API_PHOTO_DELETE = (photoId) =>
-    `http://localhost:8088/api/communities/photos/by-photo/${photoId}`;
+    `${BASE_URL}/api/communities/photos/by-photo/${photoId}`;
 
   const [post, setPost] = useState(null);
   const [photos, setPhotos] = useState([]); // 이미지 상태
@@ -29,7 +30,7 @@ function CommunityDetail() {
   // 로그인 상태 확인 함수
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8088/api/users/session", {
+      const response = await fetch(`${BASE_URL}/api/users/session`, {
         method: "GET",
         credentials: "include", // 쿠키를 포함하여 요청
       });
@@ -138,7 +139,7 @@ function CommunityDetail() {
           formData.append("communitiesId", communityId);
           newImages.forEach((img) => formData.append("photos", img));
 
-          await fetch("http://localhost:8088/api/communities/photos/upload", {
+          await fetch(`${BASE_URL}/api/communities/photos/upload`, {
             method: "POST",
             body: formData,
           });
@@ -336,12 +337,11 @@ function CommunityDetail() {
           )}
         </div>
         <div className="c-detail-comments">
-            <CommentSection
-              communityId={communityId}
-              user={user}
-              onCommentChange={() => {}}
-              isLoggedIn={isLoggedIn}
-            />
+          <CommentSection
+            communityId={communityId}
+            user={user}
+            onCommentChange={() => {}}
+          />
         </div>
       </DefaultLayout>
     </div>

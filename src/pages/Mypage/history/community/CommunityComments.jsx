@@ -7,12 +7,13 @@ const CommunityComments = () => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true); // 로딩 표시
   const [error, setError] = useState(null); // 에러 처리
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8088/api/communities/comments/my/${user.id}`,
+          `${BASE_URL}/api/communities/comments/my/${user.id}`,
           {
             method: "GET",
             headers: {
@@ -50,13 +51,14 @@ const CommunityComments = () => {
       ) : (
         <ul>
           {comments.map((comment) => (
-            <li className="review-item" 
-            key={comment.id}>
+            <li className="review-item" key={comment.id}>
               <Link to={`/communities/${comment.communities_id}`}>
-              <div className="review-content">
-              <p className="review-text">{comment.content}</p>
-              <span className="review-date">{comment.update_date?.slice(0, 10)}</span>
-            </div>
+                <div className="review-content">
+                  <p className="review-text">{comment.content}</p>
+                  <span className="review-date">
+                    {comment.update_date?.slice(0, 10)}
+                  </span>
+                </div>
               </Link>
             </li>
           ))}

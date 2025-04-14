@@ -6,13 +6,14 @@ const RestaurantPosts = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     // TODO: API 연동 예정
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8088/api/restaurant-reviews/my/${user.id}`,
+          `${BASE_URL}/api/restaurant-reviews/my/${user.id}`,
           {
             method: "GET",
             credentials: "include",
@@ -42,9 +43,11 @@ const RestaurantPosts = () => {
             onClick={() => navigate(`/restaurant-reviews/`)}
             style={{ cursor: "pointer" }}
           >
-           <div className="review-content">
+            <div className="review-content">
               <p className="review-text">{post.content}</p>
-              <span className="review-date">{post.update_date?.slice(0, 10)}</span>
+              <span className="review-date">
+                {post.update_date?.slice(0, 10)}
+              </span>
             </div>
 
             {post.imageUrl && (

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // 좋아요 여부 및 개수 불러오기
   useEffect(() => {
@@ -10,7 +11,7 @@ const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
     const fetchLikeCount = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8088/api/restaurant-reviews/likes/count?restaurantsId=${reviewId}`
+          `${BASE_URL}/api/restaurant-reviews/likes/count?restaurantsId=${reviewId}`
         );
         const data = await res.json();
         setLikeCount(data);
@@ -26,7 +27,7 @@ const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
       const fetchIsLiked = async () => {
         try {
           const res = await fetch(
-            `http://localhost:8088/api/restaurant-reviews/likes/is-liked?usersId=${currentUserId}&restaurantsId=${reviewId}`
+            `${BASE_URL}/api/restaurant-reviews/likes/is-liked?usersId=${currentUserId}&restaurantsId=${reviewId}`
           );
           const data = await res.json();
           setIsLiked(data);
@@ -50,7 +51,7 @@ const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
 
     try {
       const res = await fetch(
-        "http://localhost:8088/api/restaurant-reviews/likes/toggle",
+        `${BASE_URL}/api/restaurant-reviews/likes/toggle`,
         {
           method: "POST",
           headers: {
@@ -77,10 +78,7 @@ const RestaurantReviewLikeButton = ({ reviewId, currentUserId }) => {
   };
 
   return (
-    <span
-      onClick={handleToggleLike}
-      style={{ cursor: "pointer" }}
-    >
+    <span onClick={handleToggleLike} style={{ cursor: "pointer" }}>
       {isLiked ? "💚" : "🤍"} {likeCount}
     </span>
   );
