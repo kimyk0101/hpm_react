@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import "../../styles/pages/mountainResult.css";
 import ContentContainer from "../../Layouts/ContentContainer";
 import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
+
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
 const MAX_VISIBILITY = 3;
@@ -68,7 +70,8 @@ const MountainResult = () => {
                     />
                 </ContentContainer>
             </header>
-            <br/><br/>
+
+            <DefaultLayout>
 
             <div className="mountain-result-container">
                 <h3>당신에게 추천드리는 산은 ...</h3>
@@ -95,6 +98,7 @@ const MountainResult = () => {
                     <p className="no-data-message">없습니다. 다시 선택해주세요 !</p>
                 )}
             </div>
+            </DefaultLayout>
         </>
     );
 };

@@ -3,12 +3,13 @@
   display: flex;
   gap: 2rem;
   padding: 2rem;
-  margin: 100px auto 0;
-  background-color: #f0f7f4;
+  margin: 20px auto 0;
+  /* background-color: #f0f7f4; */
   font-family: 'Segoe UI', sans-serif;
   max-width: 1200px;
   color: #333;
   
+  padding-top: 60px;
 }
 
 /* ===== 사이드바 (MypageHeader + MypageFooter) ===== */
