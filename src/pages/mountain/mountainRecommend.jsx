@@ -1,3 +1,21 @@
+/*
+* 기능명 : MountainRecommend
+* 파일명 : mountainRecommend.jsx, mountainRecommend.css, mountainResult.jsx, mountainResult.css
+* 작성자 : 서민정
+* 설명 : 
+
+        mountainRecommend : 조건에 맞는 산 추천을 위해 조건 선택하는 화면
+    - 전체 산 목록들 중에서 선택한 지역/난이도/소요시간의 범위에 있는 산들이 나올 수 있는 기능 제공
+    - 지역/난이도/소요시간 선택 시 눈에 잘 띄도록 테두리 설정
+
+        mountainResult : 조건에 맞는 산들의 전체 정보를 보여주는 화면
+    - 카드형식으로 넘어가면서 추천하는 산의 정보를 볼 수 있도록 기능 설정
+    - 다음 카드로 넘어가는 것이 잘 보일 수 있도록 UI 구성
+
+* 작성일 : 2025-03-25 ~ 04-14
+*/
+
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/pages/mountainRecommend.css";
