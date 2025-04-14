@@ -4,6 +4,7 @@ import "../../styles/pages/mountainRecommend.css";
 
 import ContentContainer from "../../Layouts/ContentContainer";
 import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
 
 const MountainRecommend = () => {
     const [recommend, setRecommend] = useState([]);
@@ -100,9 +101,10 @@ const MountainRecommend = () => {
                     />
                 </ContentContainer>
             </header>
-            <br/><br/><br/>
+            
 
-            <div className="mountain-recommend-container">
+            <DefaultLayout>
+                <div className="mountain-recommend-container">
                 <h1>산을 추천해드릴께요 !</h1><br/>
                 {error && <p className="error-message">{error}</p>}
 
@@ -148,7 +150,8 @@ const MountainRecommend = () => {
                         </button>
                     </div>
                 </div>
-            </div>
+                </div>
+            </DefaultLayout>
         </>
     );
 };
