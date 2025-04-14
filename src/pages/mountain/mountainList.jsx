@@ -112,8 +112,22 @@ function MountainList() {
                 {/* 카드 내용 */}
                 <div className="card-content">
                   <h3>{mountain.name}</h3>
-                  <p>📍 {mountain.location}</p>
-                  <p>⛰ {mountain.height}m</p>
+                  <p>
+                    <img
+                      src="/icons/icon_adress.png"
+                      alt="주소 아이콘"
+                      className="info-icon"
+                    />
+                    {mountain.location}
+                  </p>
+                  <p>
+                    <img
+                      src="/icons/icon_mountain.png"
+                      alt="산 아이콘"
+                      className="info-icon"
+                    />
+                    {mountain.height}m
+                  </p>
                   <div className="button-group">
                     {/* 상세 보기 버튼 */}
                     <motion.button

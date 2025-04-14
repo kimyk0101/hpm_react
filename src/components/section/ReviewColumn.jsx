@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const ReviewColumn = ({ title, description, link }) => {
+const ReviewColumn = ({ title, description, link, image }) => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -10,6 +10,7 @@ const ReviewColumn = ({ title, description, link }) => {
 
   return (
     <div className="review-column">
+      {image && <img src={image} alt="icon" className="review-icon" />}
       <h3>{title}</h3>
       <p>{description}</p>
       <button className="review-button" onClick={handleButtonClick}>

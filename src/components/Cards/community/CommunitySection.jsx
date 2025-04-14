@@ -14,7 +14,11 @@ const CommunitySection = () => {
   return (
     <section className="community-section-container">
       <div className="community-left">
-        <CommunityPreview />
+        <img
+          src="/images/CommunityImage.png"
+          alt="커뮤니티 아이콘"
+          className="community-image"
+        />
       </div>
 
       <div className="community-right">
