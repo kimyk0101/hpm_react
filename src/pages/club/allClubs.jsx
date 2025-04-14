@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/pages/allClubs.css";
 import ContentContainer from "../../Layouts/ContentContainer";
 import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
 
 const AllClubs = () => {
     const API_URL = "http://localhost:8088/api/clubs";
@@ -96,9 +97,10 @@ const AllClubs = () => {
             </header>
 
             <br />
-            <ContentContainer>
+            <DefaultLayout>
+                <ContentContainer>
                 <div className="clubs-page">
-                    <br /><br />
+                    <br />
                     <div className="page-header">
                         <h2>모임 목록</h2>
                     </div>
@@ -125,7 +127,8 @@ const AllClubs = () => {
                         <p>클럽 목록을 불러오는 중이거나, 클럽이 없습니다.</p>
                     )}
                 </div>
-            </ContentContainer>
+                </ContentContainer>
+            </DefaultLayout>
         </>
     );
 };

@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Modal from "react-modal";
 import ContentContainer from "../../Layouts/ContentContainer";
 import Header from "../../Layouts/Header/Header";
+import DefaultLayout from "../../Layouts/DefaultLayout";
 
 const ClubComments = () => {
     const { id } = useParams();
@@ -228,8 +229,9 @@ const ClubComments = () => {
                     />
                 </ContentContainer>
             </header>
-            <br/><br/>
-            <div className="club-comments-container">
+            <br/>
+            <DefaultLayout>
+                <div className="club-comments-container">
                 <div className="club-comments-page">
                     <div className="button-container">
                         <button onClick={handleChatEnter} className="chat-button">
@@ -405,7 +407,8 @@ const ClubComments = () => {
                         </Modal>
                     )}
                 </div>
-            </div>
+                </div>
+            </DefaultLayout>
         </>
     );
 };
