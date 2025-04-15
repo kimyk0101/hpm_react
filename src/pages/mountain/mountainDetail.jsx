@@ -1,6 +1,6 @@
 // MountainDetail.jsx
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/pages/mountainDetail.css";
 import { motion } from "framer-motion";
@@ -101,6 +101,7 @@ const useWeather = (lat, lon) => {
 
 function MountainDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [mountain, setMountain] = useState(null);
   const [courses, setCourses] = useState([]);
   const mapRef = useRef(null);
@@ -185,6 +186,9 @@ function MountainDetail() {
 
   return (
     <div className="mountain-detail">
+      <button className="back-button" onClick={() => navigate(-1)}>
+        ← 뒤로가기
+      </button>
       <h1>{mountain.name}</h1>
       <div className="meta-info">
         <span>
@@ -202,7 +206,7 @@ function MountainDetail() {
 
       <motion.button
         className="search-button"
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.95 }}
         onClick={() =>
           window.open(
@@ -213,6 +217,27 @@ function MountainDetail() {
       >
         주변 맛집 검색하기
       </motion.button>
+
+      <motion.div
+        className="info-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <span>
+          <div class="transport-text">
+            <strong>대중교통 안내</strong>
+
+            <br />
+            {mountain.transportation_info}
+          </div>
+          <img
+            src="/icons/icon_trans.png"
+            alt="버스 아이콘"
+            class="transport-icon bus-drive"
+          />
+        </span>
+      </motion.div>
 
       {(weather || sunTimes) && (
         <div className="weather-sun-container">
@@ -238,9 +263,9 @@ function MountainDetail() {
               transition={{ duration: 0.5 }}
             >
               <h2>일출 및 일몰</h2>
+              <p className="meta-info">기준 날짜: {formattedDate}</p>
               <p>🌄 일출: {sunTimes.sunrise.toLocaleTimeString()}</p>
               <p>🌅 일몰: {sunTimes.sunset.toLocaleTimeString()}</p>
-              <p className="meta-info">기준 날짜: {formattedDate}</p>
             </motion.div>
           )}
         </div>
@@ -276,28 +301,6 @@ function MountainDetail() {
           </div>
         </motion.div>
       )}
-
-      <img
-        src="/icons/icon_trans.png"
-        alt="버스 아이콘"
-        class="transport-icon bus-drive"
-      />
-
-      <motion.div
-        className="info-section"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <span>
-          <div class="transport-text">
-            <strong>대중교통 안내</strong>
-
-            <br />
-            {mountain.transportation_info}
-          </div>
-        </span>
-      </motion.div>
 
       <motion.div
         className="courses-section"

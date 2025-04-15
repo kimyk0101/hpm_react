@@ -72,10 +72,11 @@ const MainHome = () => {
               marginBottom: "20px",
             }}
           >
-            <h2 style={{ margin: 0 }}>추천 산행 코스</h2>
+            <h2 style={{ margin: 0, fontSize: "30px" }}>추천 산행 코스</h2>
             <Link
               to="/mountain-recommend"
-              onClick={() => { // onClick 이벤트 핸들러 추가
+              onClick={() => {
+                // onClick 이벤트 핸들러 추가
                 window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
               }}
             >

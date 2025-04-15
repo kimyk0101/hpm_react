@@ -117,6 +117,60 @@
   box-shadow: 0 4px 6px var(--shadow-light);
 }
 
+/* 맛집 검색 버튼 */
+.search-section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.search-button {
+  background-color: #5A764F;
+  width: 860px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 30px;
+}
+
+.search-button:hover {
+  background-color: #4b6442;
+}
+
+
+/* 대중교통 안내 섹션 */
+.info-section {
+  padding: 20px;
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px var(--shadow-light);
+  margin-top: 30px;
+}
+
+@keyframes drive {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 60px);
+    opacity: 0;
+  }
+}
+
+
+.bus-drive {
+  animation: drive 8s linear infinite;
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  position: relative;
+}
+
 /* 날씨 섹션 */
 .weather-section {
   margin-top: 30px;
@@ -203,56 +257,6 @@
   margin-bottom: 6px;
 }
 
-/* 상세 정보 섹션 */
-.info-section {
-  padding: 20px;
-  background-color: var(--card-bg-color);
-  border-radius: 10px;
-  box-shadow: 0px 2px 4px var(--shadow-light);
-  margin-top: 50px;
-}
-
-.transport-box {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* 아이콘과 텍스트 사이 간격 */
-  padding: 10px 15px;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-}
-
-.transport-icon {
-  width: 60px;
-  height: 60px;
-}
-
-/* .transport-text {
-  display: flex;
-  flex-direction: column;
-} */
-
-@keyframes drive {
-  0% {
-    /* left: -100px; */
-    left: 0px;
-  }
-  100% {
-    /* left: 100%; */
-    left: calc(100% - 60px);
-  }
-}
-
-.bus-drive {
-  animation: drive 6s linear infinite;
-  position: absolute;
-  display: inline-block;
-  margin-bottom: -20px;
-  bottom: 400px; /* 흰색 박스 위로 아이콘을 이동시키는 값, 필요에 따라 조정 */
-  left: 20px; /* 필요에 따라 가로 위치 조정 */
-  z-index: 10;
-}
-
-
 
 /* 코스 목록 섹션 */
 .courses-section h2 {
@@ -304,28 +308,7 @@
   box-shadow: 0 1px 3px var(--shadow-dark);
 }
 
-/* 검색 버튼 */
-.search-section {
-  margin-top: 30px;
-  text-align: center;
-}
 
-.search-button {
-  background-color: #5A764F;
-  width: 860px;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 30px;
-}
-
-.search-button:hover {
-  background-color: #4b6442;
-}
 
 /* 로딩 텍스트 */
 .loading {
