@@ -13,7 +13,7 @@
  * 수정자: 김승룡
  * 수정내용: 산 상세 목록에서 맛집 후기 버튼 클릭 시, 해당 산 이름이 자동으로 검색창에 반영되어 필터링되도록 기능 추가
  * 수정일: 2025-04-11
- * 
+ *
  *  * 관련 파일 구조:
  * └─ MountainReview
  *    ├─ MountainReview.jsx                // 등산 후기 메인 페이지 (리스트)
@@ -35,7 +35,7 @@ import Header from "../../layouts/Header/Header";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import MountainReviewCard from "./mountainReviewCard";
 import "../../styles/pages/mountainReview.css";
-import StickyButton from "../../Components/Map/StickyButton";
+import StickyButton from "../../components/map/StickyButton";
 
 const MountainReviewList = () => {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
