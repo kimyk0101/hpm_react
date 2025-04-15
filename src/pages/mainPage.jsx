@@ -98,7 +98,7 @@ const MainHome = () => {
                   />
                 ))}
           </DefaultSlider>
-          <ViewAllButton to="/trailDetail" />
+          <ViewAllButton to="/mountain/list" />
         </div>
 
         <div className="commu-section-full-bg home-section">
