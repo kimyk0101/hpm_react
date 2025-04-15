@@ -1,9 +1,8 @@
 import SendbirdApp from "@sendbird/uikit-react/App";
 import "@sendbird/uikit-react/dist/index.css";
 import { useAuth } from "../../contexts/AuthContext";
-import SendBird from 'sendbird';
-import { useState, useEffect } from 'react';
-
+import SendBird from "sendbird";
+import { useState, useEffect } from "react";
 
 const APP_ID = import.meta.env.VITE_APP_SENDBIRD_APP_ID;
 
@@ -13,6 +12,8 @@ const CHANNEL_URLS = [
   "sendbird_open_channel_23487_76e1ca068ef2af42ad58e1289e1a1c1c6c85a402", // 한라산
 ];
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const ChatSendbird = () => {
   const { user } = useAuth();
   const [sendbirdInstance, setSendbirdInstance] = useState(null);
@@ -20,10 +21,10 @@ const ChatSendbird = () => {
 
   const createSendbirdUser = async (userId, nickname) => {
     try {
-      const res = await fetch("/api/sendbird/create-user", {
+      const res = await fetch(`${BASE_URL}/api/sendbird/create-user`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, nickname })
+        body: JSON.stringify({ userId, nickname }),
       });
       if (!res.ok) {
         console.warn("이미 존재하는 유저일 수 있음:", await res.text());
@@ -80,7 +81,6 @@ const ChatSendbird = () => {
   }, [user]);
 
   return (
-    
     <div style={{ width: "100%", height: "100vh" }}>
       {sendbirdInstance && activeChannelUrl && (
         <SendbirdApp
