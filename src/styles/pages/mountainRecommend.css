@@ -1,13 +1,10 @@
 .mountain-recommend-container {
-    font-family: Arial, sans-serif;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     /* background-color: #f9f9f9; */
     max-width: 1200px;
-    margin: 0 auto;
-
     margin-top: 20px;
     border-radius: 50px;
     padding-top: 50px;
@@ -15,6 +12,7 @@
 
 .mountain-recommend-container h1 {
     text-align: center;
+    margin-top: 50px;
     margin-bottom: 30px;
     font-size: 2.5em;
     font-weight: bold;
@@ -98,14 +96,14 @@
 
 .filter-result-button {
     position: absolute;
-    bottom: 155px;
-    right: 133px;
+    bottom: 158px;
+    right: 138px;
     padding: 10px 20px;
     background-color: rgb(40, 167, 69);
     color: white;
     border: 5px solid #8EE50A;
     cursor: pointer;
-    border-radius: 25px;
+    border-radius: 20px;
     font-size: 1em;
     font-weight: bold;
     transition: transform 0.3s ease; /* 크기 변경 애니메이션 효과 */

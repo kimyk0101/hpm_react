@@ -3,9 +3,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     margin-top: 20px;
     padding-top: 50px;
+}
+
+.mountain-result-container h3 {
+    margin-top: 40px;
+    font-size: 30px;
 }
 
 .carousel {
@@ -14,6 +18,7 @@
     height: 30rem;
     perspective: 500px;
     transform-style: preserve-3d;
+    margin-top: 30px;
 }
 
 .card-container {
