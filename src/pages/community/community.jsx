@@ -1,3 +1,34 @@
+/*
+ * 파일명: CommunityList.jsx
+ * 작성자: 김연경
+ * 작성일: 2025-04-01 ~ 04-05
+ *
+ * 설명:
+ * - 커뮤니티(자유게시판) 리스트 페이지
+ * - 게시글 리스트는 테이블 형태로 렌더링되며, 제목, 작성자, 날짜, 조회수, 댓글 수 정보 표시
+ * - 후기 게시판과 달리 산 관련 정보 없이 자유롭게 글 작성 가능
+ * - CRUD 기능 및 게시글 상세 페이지 존재
+ * - 로그인 상태 확인 후, '작성하기' 버튼 클릭 시 글쓰기 페이지로 이동
+ * - 조회수는 상세 페이지 이동 시 자동 증가되도록 구현
+ * - 댓글/답글 기능이 포함되어 있으며, 해당 게시글 작성자의 경우 '작성자' 표시가 추가됨
+ * - 페이지네이션 기능 구현
+ *
+ * 수정자: 김경민
+ * 수정내용: 이미지 업로드 기능 추가 (게시글 작성 및 수정 시 이미지 첨부 가능하도록 구현)
+ * 수정일: 2025-04-05
+ * 
+ * 관련 파일 구조:
+ * └─ Community
+ *    ├─ Community.jsx                    // 자유게시판 리스트 페이지 
+ *    ├─ CreateCommunityPost.jsx          // 게시글 작성 페이지
+ *    ├─ CommunityDetail.jsx              // 게시글 상세 페이지
+ *    ├─ CommentSection.jsx               // 댓글/답글 영역 통합
+ *    ├─ CommentInput.jsx                 // 댓글 입력창
+ *    ├─ CommentItem.jsx                  // 댓글 아이템
+ *    ├─ ReplyInput.jsx                   // 답글 입력창
+ *    └─ ReplyItem.jsx                    // 답글 아이템
+ */
+
 import React, { useState, useEffect } from "react";
 import {
   differenceInMinutes,

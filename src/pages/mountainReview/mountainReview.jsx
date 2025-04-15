@@ -1,6 +1,34 @@
+/*
+ * 파일명: MountainReviewList.jsx
+ * 작성자: 김연경
+ * 작성일: 2025-04-07 ~ 04-10
+ *
+ * 설명:
+ * - 등산 후기 게시글 리스트 페이지
+ * - 게시글 리스트는 카드 형태로 렌더링되며, 각각의 카드에는 이미지, 좋아요, 댓글, 답글 기능 포함
+ * - 산 이름 검색을 통한 게시글 필터링 기능 제공
+ * - 사용자 로그인 상태 확인 후, 작성 버튼 클릭 시 글쓰기 페이지로 이동
+ * - 게시글의 CRUD 기능 및 댓글 변경 시 리스트 갱신
+ *
+ * 수정자: 김승룡
+ * 수정내용: 산 상세 목록에서 맛집 후기 버튼 클릭 시, 해당 산 이름이 자동으로 검색창에 반영되어 필터링되도록 기능 추가
+ * 수정일: 2025-04-11
+ * 
+ *  * 관련 파일 구조:
+ * └─ MountainReview
+ *    ├─ MountainReview.jsx                // 등산 후기 메인 페이지 (리스트)
+ *    ├─ CreateMountainReview.jsx          // 게시글 작성 페이지
+ *    ├─ MountainReviewCard.jsx            // 게시글 카드 컴포넌트
+ *    ├─ MountainReviewLikeButton.jsx      // 좋아요 버튼 컴포넌트
+ *    ├─ CommentSection.jsx                  // 댓글/답글 영역 통합
+ *    ├─ CommentInput.jsx                    // 댓글 입력창
+ *    ├─ CommentItem.jsx                     // 댓글 아이템
+ *    ├─ ReplyInput.jsx                      // 답글 입력창
+ *    └─ ReplyItem.jsx                       // 답글 아이템
+ */
+
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { MdArrowUpward } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import ContentContainer from "../../layouts/ContentContainer";
 import Header from "../../layouts/Header/Header";

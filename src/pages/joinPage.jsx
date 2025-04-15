@@ -1,3 +1,29 @@
+/*
+ * 파일명: JoinPage.jsx
+ * 작성자: 김경민
+ * 작성일: 2025-03-25
+ *
+ * 설명:
+ * - 사용자 회원가입 페이지
+ * - 닉네임, 아이디, 비밀번호, 비밀번호 확인을 입력받는 기본 폼 제공
+ * - 입력 완료 후 서버에 회원가입 요청 전송
+ * - 회원가입 성공 시 로그인 페이지로 이동
+ *
+ * 수정자: 김연경
+ * 수정내용:
+ * - 아이디 및 닉네임 중복 체크 기능 추가 (API 연동 포함)
+ * - 비밀번호 유효성 검사 및 조건에 따른 에러 메시지 출력
+ * - 툴팁을 이용한 입력 가이드 제공
+ * - 비밀번호 보기 toggle 기능 구현 (아이콘 클릭 시 가시성 변경)
+ * - CapsLock 입력 시 사용자에게 알림 표시
+ * - 전반적인 UX 개선 및 입력 유효성 검사 디테일 보완
+ * 수정일: 2025-03-25 ~ 03-27
+ *
+ * 관련 파일 구조:
+ * ├─ Login.jsx                   // 로그인 페이지
+ * └─ AuthContext.jsx             // 로그인 상태, 유저 정보등을 공유하는 전역 상태 관리 컴포넌트
+ */
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactSelect from "react-dropdown-select"; // ReactSelect 임포트
