@@ -23,7 +23,7 @@
 
 ---
 
-## 🛠사용 기술
+## 사용 기술
 
 | 구분 | 기술 |
 |------|------|
@@ -83,8 +83,8 @@
 - `communities`, `community_comments`, `community_photos`
 - `clubs`, `club_comments`
 
-> [전체 DB 구조 보기](./hpm_react/최종프로젝트 최종DB.sql)  
-> [등산 코스 텍스트 파일](./hpm_spring/mountain_courses.txt)
+> [📄 전체 DB 구조 보기](./최종프로젝트_최종DB.sql)  
+> [📄 등산 코스 텍스트 파일](./mountain_courses.txt)
 
 ---
 
