@@ -88,12 +88,6 @@
 
 ---
 
-## 대표 이미지
-
-![대표이미지](./public/result-image/MainHeaderImage.jpg)
-
----
-
 ## 배포
 
 - Dockerfile + Nginx 기반 2단계 Multi-stage 빌드
